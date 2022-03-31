@@ -1,30 +1,42 @@
-﻿namespace Logic.Models
+﻿using DAL.DTO;
+
+namespace Logic.Models
 {
     public class Werknemer
     { 
         public int WerknemerID { get; set; }
         public int NummerPasje { get; set; }
         public string Naam { get; set; }
-        public double AantalUren { get; set; }
+        public int TelefoonNummer { get; set; }
 
         public Werknemer()
         {
 
         }
 
-        public Werknemer(int werknemerID, int nummerPasje, string naam)
+        public Werknemer(WerknemerDTO dto)
+        {
+            WerknemerID = dto.WerknemerID;
+            NummerPasje = dto.NummerPasje;
+            TelefoonNummer = dto.TelefoonNummer;
+            Naam = dto.Naam;
+        }
+
+
+
+        public Werknemer(int werknemerID, int nummerPasje, string naam, int telefoonNummer)
         {
             WerknemerID = werknemerID;
             NummerPasje = nummerPasje;
             Naam = naam;
-            AantalUren = 0;
+            TelefoonNummer = telefoonNummer;
         }
 
-        public Werknemer(int nummerPasje, string naam)
+        public Werknemer(int nummerPasje, string naam, int telefoonNummer)
         {
             NummerPasje = nummerPasje;
             Naam = naam;
-            AantalUren = 0;
+            TelefoonNummer = TelefoonNummer;
         }
     }
 }

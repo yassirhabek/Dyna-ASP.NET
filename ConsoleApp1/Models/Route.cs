@@ -4,6 +4,7 @@ namespace Logic.Models
 {
     public class Route
     {
+        public int RouteID { get; set; }
         public int RouteNummer { get; set; }
         public DateTime Datum { get; set; }
         public Werknemer Chauffeur { get; set; }
@@ -16,6 +17,32 @@ namespace Logic.Models
         public Route()
         {
 
+        }
+        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden)
+        {
+            RouteID = routeID;
+            RouteNummer = routeNummer;
+            Datum = datum;
+            Chauffeur = chauffeur;
+            BijRijder = bijRijder;
+            StartTijd = startTijd;
+            EindTijd = eindTijd;
+            Bijzonderheden = bijzonderheden;
+
+            AantalUur = this.totaalAantalUur(startTijd, eindTijd);
+        }
+
+        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd)
+        {
+            RouteID = routeID;
+            RouteNummer = routeNummer;
+            Datum = datum;
+            Chauffeur = chauffeur;
+            BijRijder = bijRijder;
+            StartTijd = startTijd;
+            EindTijd = eindTijd;
+
+            AantalUur = this.totaalAantalUur(startTijd, eindTijd);
         }
 
         public Route(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden)

@@ -13,15 +13,14 @@ namespace DAL.DAL
     {
         public void AddNewWerknemer(WerknemerDTO werknemerNieuw)
         {
-            string query = "INSERT INTO werknemers(NummerPasje, Naam, aantal_uur) VALUES(@numpas, @naam, @anu)";
+            string query = "INSERT INTO werknemers(NummerPasje, Naam) VALUES(@numpas, @naam)";
 
-            if (this.openConnection())
+            if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.WerknemerID;
                 cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = werknemerNieuw.Naam;
-                cmd.Parameters.Add("@anu", MySqlDbType.Float).Value = werknemerNieuw.AantalUren;
 
                 try
                 {
@@ -31,7 +30,7 @@ namespace DAL.DAL
                 {
                     throw new Exception(ex.ToString());
                 }
-                this.closeConnection();
+                closeConnection();
             }
             else
                 throw new DataException();
@@ -41,7 +40,7 @@ namespace DAL.DAL
         {
             string query = "UPDATE werknemers SET Naam = @naam, NummerPasje = @numpas WHERE Naam = @snaam";
 
-            if (this.openConnection())
+            if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
@@ -57,7 +56,7 @@ namespace DAL.DAL
                 {
                     throw new Exception(ex.ToString());
                 }
-                this.closeConnection();
+                closeConnection();
             }
             else
                 throw new DataException();
@@ -67,7 +66,7 @@ namespace DAL.DAL
         {
             string query = "DELETE FROM werknemers WHERE Naam = @naam";
 
-            if (this.openConnection())
+            if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
@@ -86,10 +85,10 @@ namespace DAL.DAL
                 throw new DataException();
         }
 
-        public object GetAllWerknemers()
+        public List<WerknemerDTO> GetAllWerknemers()
         {
             var output = new List<WerknemerDTO>();
-            if (this.openConnection())
+            if (openConnection())
             {
                 try
                 {
@@ -105,7 +104,7 @@ namespace DAL.DAL
                             WerknemerID = Convert.ToInt32(rdr[0]),
                             NummerPasje = Convert.ToInt32(rdr[1]),
                             Naam = Convert.ToString(rdr[2]),
-                            AantalUren = Convert.ToDouble(rdr[3])
+                            TelefoonNummer = Convert.ToInt32(rdr[3])
                         });
                     }
                     rdr.Close();
@@ -114,7 +113,7 @@ namespace DAL.DAL
                 {
                     throw new Exception(ex.ToString());
                 }
-                this.closeConnection();
+                closeConnection();
                 return output;
             }
             else

@@ -11,6 +11,6 @@ namespace DAL.DTO
         public int WerknemerID;
         public int NummerPasje;
         public string Naam;
-        public double AantalUren;
+        public int TelefoonNummer;
     }
 }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.DTO
 {
-    public class RouteDTO
+    public struct RouteDTO
     {
+        public int RouteID;
         public int RouteNummer;
         public DateTime Datum;
         public WerknemerDTO Chauffeur;

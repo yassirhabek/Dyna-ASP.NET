@@ -1,9 +1,8 @@
 ﻿using DAL.DAL;
 using DAL.DTO;
 using Logic.Models;
-using System.Linq;
 
-namespace ASP.NET.Containers
+namespace Logic.Containers
 {
     public class WerknemerContainer
     {
@@ -11,7 +10,7 @@ namespace ASP.NET.Containers
 
         public WerknemerContainer()
         {
-            Werknemers = this.GetWerknemers();
+            Werknemers = GetWerknemers();
         }
 
         public List<Werknemer> GetWerknemers()
@@ -20,9 +19,9 @@ namespace ASP.NET.Containers
             List<Werknemer> werknemers = new List<Werknemer>();
             try
             {
-                foreach (var searchedWerknemer in (List<WerknemerDTO>)werknemerDAL.GetAllWerknemers())
+                foreach (var searchedWerknemer in werknemerDAL.GetAllWerknemers())
                 {
-                    Werknemer werknemer = new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.NummerPasje, searchedWerknemer.Naam);
+                    Werknemer werknemer = new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.NummerPasje, searchedWerknemer.Naam, searchedWerknemer.TelefoonNummer);
                     werknemers.Add(werknemer);
                 }
             }
@@ -31,6 +30,22 @@ namespace ASP.NET.Containers
                 throw;
             }
             return werknemers;
+        }
+
+        public void AddWerknemer(Werknemer werknemer)
+        {
+            WerknemerDAL werknemerDAL = new WerknemerDAL();
+            werknemerDAL.AddNewWerknemer(WerknemerToDTO(werknemer));
+        }
+
+        private WerknemerDTO WerknemerToDTO(Werknemer werknemer)
+        {
+            WerknemerDTO werknemerDTO = new WerknemerDTO();
+            werknemerDTO.WerknemerID = werknemer.WerknemerID;
+            werknemerDTO.Naam = werknemer.Naam;
+            werknemerDTO.NummerPasje = werknemer.NummerPasje;
+            werknemerDTO.TelefoonNummer = werknemer.TelefoonNummer;
+            return werknemerDTO;
         }
     }
 }
