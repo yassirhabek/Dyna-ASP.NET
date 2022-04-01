@@ -6,14 +6,18 @@
     <input type="text" id="werknummer" name="werknummer"><br>
 </form>
 *@
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Naam</span>
-  </div><br>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="input-naam">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">WerknemerNummer</span>
-  </div>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="input-werknemernum"><br>
-  <button class="btn-outline-dark" id="button">Registreren</button>
+<div class="forms-div">
+    <div class="input-group" style="width: 342px;margin-left: 23px;margin-top: 37px;">
+        <span class="input-group-text">Naam</span>
+        <input id="input-naam" class="form-control" type="text" />
+    </div>
+    <div class="input-group" style="width: 388px;margin-left: 23px;margin-top: 12px;">
+        <span class="input-group-text">Werknemer Nummer</span>
+        <input id="input-werknemernum" class="form-control" type="text" style="width: 19.766px;" />
+    </div>
+    <div class="input-group" style="padding: 0px;width: 388px;margin-left: 23px;margin-top: 12px;">
+        <span class="input-group-text">Telefoonnummer</span>
+        <input id="input-telefoonnum" class="form-control" type="text" />
+    </div>
 </div>
+<button id="button" class="btn btn-primary" type="button" style="margin-top: 12px;margin-left: 23px;color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>

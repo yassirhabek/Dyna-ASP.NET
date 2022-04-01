@@ -5,9 +5,8 @@ $("#button").click(() => {
 
     Naam = $("#input-naam").val();
     WerknemerNum = $('#input-werknemernum').val();
+    TelefoonNum = $('#input-telefoonnum').val();
 
-    alert(Naam + WerknemerNum);
-
-    $.post(target + "/Test/WerknemerToevoegen", { naam: Naam, werknemerNum: WerknemerNum });
+    $.post(target + "/Test/WerknemerToevoegen", { naam: Naam, werknemerNum: WerknemerNum, telefoonNum = TelefoonNum });
     })
-        .fail(() => { alert("Werknemer Niet Toegevoegd.") });
+    .fail(() => { alert("Werknemer Niet Toegevoegd.") });
