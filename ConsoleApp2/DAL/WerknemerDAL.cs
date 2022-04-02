@@ -13,7 +13,7 @@ namespace DAL.DAL
     {
         public void AddNewWerknemer(WerknemerDTO werknemerNieuw)
         {
-            string query = "INSERT INTO werknemers(NummerPasje, Naam) VALUES(@numpas, @naam)";
+            string query = "INSERT INTO werknemers(NummerPasje, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum)";
 
             if (openConnection())
             {
@@ -21,6 +21,7 @@ namespace DAL.DAL
 
                 cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.WerknemerID;
                 cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = werknemerNieuw.Naam;
+                cmd.Parameters.Add("@telefooonnum", MySqlDbType.Int64).Value = werknemerNieuw.TelefoonNummer;
 
                 try
                 {

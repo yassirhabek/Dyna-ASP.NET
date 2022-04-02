@@ -36,9 +36,9 @@ namespace ASP.Controllers
         }
 
         [HttpPost]
-        public string WerknemerToevoegen(string naam, int werknemerNum) 
+        public string WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
         {
-            Werknemer werknemer = new Werknemer(werknemerNum, naam, 123321);
+            Werknemer werknemer = new Werknemer(werknemerNum, naam, telefoonNum);
             WerknemerContainer werknemerContainer = new WerknemerContainer();
 
             werknemerContainer.AddWerknemer(werknemer);

@@ -36,7 +36,7 @@ namespace Logic.Models
         {
             NummerPasje = nummerPasje;
             Naam = naam;
-            TelefoonNummer = TelefoonNummer;
+            TelefoonNummer = telefoonNummer;
         }
     }
 }
