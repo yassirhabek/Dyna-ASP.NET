@@ -19,12 +19,22 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Werknemer" asp-action="WerknemerToevoegenView">Werknemer</a>
-                        </li>
+
+                <div class="mynav_dropdown">
+
+                    <button class="mynav_dropbtn">
+
+                        Werknemer
+
+                        <i class="fa fa-caret-down"></i>
+
+                    </button>
+
+                    <div class="mynav_dropdown-content">
+                         <a asp-area="" asp-controller="Werknemer" asp-action="WerknemerToevoegenView">Werknemer Toevoegen</a>
+                         <a asp-area="" asp-controller="Werknemer" asp-action="WerknemerAanpassenView">Werknemer Aanpassen</a>
+                         <a asp-area="" asp-controller="Werknemer" asp-action="WerknemerVerwijderenView">Werknemer Verwijderen</a>
+                    </div>
                     </ul>
                 </div>
             </div>

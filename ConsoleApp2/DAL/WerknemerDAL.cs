@@ -19,9 +19,9 @@ namespace DAL.DAL
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
-                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.WerknemerID;
+                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.NummerPasje;
                 cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = werknemerNieuw.Naam;
-                cmd.Parameters.Add("@telefooonnum", MySqlDbType.Int64).Value = werknemerNieuw.TelefoonNummer;
+                cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int64).Value = werknemerNieuw.TelefoonNummer;
 
                 try
                 {
@@ -63,15 +63,15 @@ namespace DAL.DAL
                 throw new DataException();
         }
 
-        public void DeleteWerknemer(string naam)
+        public void DeleteWerknemer(WerknemerDTO werknemer)
         {
-            string query = "DELETE FROM werknemers WHERE Naam = @naam";
+            string query = "DELETE FROM werknemers WHERE WerknemerID = @werknemerID";
 
             if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
-                cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = naam;
+                cmd.Parameters.Add("@werknemerID", MySqlDbType.Text).Value = werknemer.WerknemerID;
 
                 try
                 {

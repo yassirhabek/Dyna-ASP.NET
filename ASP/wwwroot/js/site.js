@@ -1,6 +1,11 @@
 ﻿//const { Alert } = require("../lib/bootstrap/dist/js/bootstrap");
 
+
 $("#button").click(() => {
+    WerknemerToevoegen();
+})
+
+function WerknemerToevoegen() {
     let target = window.location.protocol + "//" + window.location.host;
 
     Naam = $("#input-naam").val();
@@ -10,6 +15,6 @@ $("#button").click(() => {
     alert(Naam + ", " + WerknemerNum + ", " + TelefoonNum)
 
     $.post(target + "/Werknemer/WerknemerToevoegen", { naam: Naam, werknemerNum: WerknemerNum, telefoonNum: TelefoonNum });
-})
+}
     //.done(() => { alert("toegevoegd") })
     //.fail(() => { alert("Werknemer Niet Toegevoegd.") });

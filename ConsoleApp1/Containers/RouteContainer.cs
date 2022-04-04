@@ -64,14 +64,12 @@ namespace Logic.Containers
         public void UpdateRoute(Route updateRoute, Route oldRoute)
         {
             RouteDAL routeDAL = new RouteDAL();
-
             routeDAL.UpdateRoute(RouteToDTO(updateRoute), RouteToDTO(oldRoute));
         }
 
         public void DeleteRoute(Route deleteRoute)
         {
             RouteDAL routeDAL = new RouteDAL();
-
             routeDAL.DeleteRoute(RouteToDTO(deleteRoute));
         }
 
