@@ -41,17 +41,17 @@ namespace ASP.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult WerknemerVerwijderenView()
+        {
+            return View();
+        }
+
         [HttpPost]
         public void WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer();
             werknemerContainer.AddWerknemer(naam, werknemerNum, telefoonNum);
-        }
-
-        [HttpGet]
-        public IActionResult WerknemerVerwijderenView()
-        {
-            return View();
         }
 
         [HttpPost]
