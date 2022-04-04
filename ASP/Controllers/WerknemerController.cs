@@ -36,13 +36,24 @@ namespace ASP.Controllers
         }
 
         [HttpPost]
-        public string WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
+        public void WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
         {
-            Werknemer werknemer = new Werknemer(werknemerNum, naam, telefoonNum);
             WerknemerContainer werknemerContainer = new WerknemerContainer();
-
-            werknemerContainer.AddWerknemer(werknemer);
-            return "goed";
+            werknemerContainer.AddWerknemer(naam, werknemerNum, telefoonNum);
         }
+
+        [HttpGet]
+        public IActionResult WerknemerVerwijderenView()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public void WerknemerVerwijderen(int werknemerID)
+        {
+            WerknemerContainer werknemerContainer = new WerknemerContainer();
+            werknemerContainer.DeleteWerknemer(werknemerID);
+        }
+
     }
 }

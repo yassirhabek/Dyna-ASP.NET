@@ -32,10 +32,25 @@ namespace Logic.Containers
             return werknemers;
         }
 
-        public void AddWerknemer(Werknemer werknemer)
+        public void AddWerknemer(string naam, int werknemerNum, int telefoonNum)
         {
+            Werknemer werknemer = new Werknemer(werknemerNum, naam, telefoonNum);
             WerknemerDAL werknemerDAL = new WerknemerDAL();
             werknemerDAL.AddNewWerknemer(WerknemerToDTO(werknemer));
+        }
+
+        public void UpdateWerknemer(string naam, int werknemerNum, int telefoonNum, string oldWerknemerID)
+        {
+            Werknemer newWerknemer = new Werknemer(werknemerNum, naam, telefoonNum);
+            WerknemerDAL werknemerDAL = new WerknemerDAL();
+            werknemerDAL.ChangeWerknemerData(WerknemerToDTO(newWerknemer), oldWerknemerID);
+        }
+
+        public void DeleteWerknemer(int werknemerID)
+        {
+            Werknemer werknemer = Werknemers.FirstOrDefault(w => w.WerknemerID == werknemerID);
+            WerknemerDAL werknemerDAL = new WerknemerDAL();
+            werknemerDAL.DeleteWerknemer(WerknemerToDTO(werknemer));
         }
 
         private WerknemerDTO WerknemerToDTO(Werknemer werknemer)
