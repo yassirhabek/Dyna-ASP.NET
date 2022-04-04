@@ -35,14 +35,26 @@ namespace ASP.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult WerknemerAanpassenView()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public string WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
+        public void WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
         {
             Werknemer werknemer = new Werknemer(werknemerNum, naam, telefoonNum);
             WerknemerContainer werknemerContainer = new WerknemerContainer();
 
             werknemerContainer.AddWerknemer(werknemer);
-            return "goed";
+        }
+
+        [HttpPost]
+        public void WerknemerAanpassen(string naam, int werknemerNum, int telefoonNum)
+        {
+            Werknemer newWerknemer = new Werknemer(werknemerNum, naam, telefoonNum);
+            
         }
     }
 }
