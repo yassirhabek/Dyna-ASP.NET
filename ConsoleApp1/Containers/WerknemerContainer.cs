@@ -1,11 +1,10 @@
 ﻿using DAL.DAL;
 using Interfaces.DTO;
-using Interfaces.Interface;
 using Logic.Models;
 
 namespace Logic.Containers
 {
-    public class WerknemerContainer : IWerknemerContainer
+    public class WerknemerContainer
     {
         public List<Werknemer> Werknemers = new List<Werknemer>();
 

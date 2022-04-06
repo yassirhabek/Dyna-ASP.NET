@@ -1,11 +1,10 @@
 ﻿using DAL.DAL;
 using Interfaces.DTO;
-using Interfaces.Interface;
 using Logic.Models;
 
 namespace Logic.Containers
 {
-    public class RouteContainer : IRouteContainer
+    public class RouteContainer
     {
         public List<Route> Routes = new List<Route>();
 

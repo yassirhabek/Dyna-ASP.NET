@@ -1,9 +1,8 @@
 ﻿using Interfaces.DTO;
-using Interfaces.Interface;
 
 namespace Logic.Models
 {
-    public class Werknemer : IWerknemer
+    public class Werknemer 
     {
         public int WerknemerID { get; set; }
         public int NummerPasje { get; set; }

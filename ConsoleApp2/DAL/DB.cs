@@ -10,7 +10,7 @@ namespace DAL.DAL
     public class DB
     {
         protected MySqlConnection connection;
-        private readonly string connString = "user id=root;host=localhost;database=test";
+        private readonly string connString = "Server = studmysql01.fhict.local; Uid=dbi485050;Database=dbi485050;Pwd=Vredeoord123";
 
         public DB()
         {
