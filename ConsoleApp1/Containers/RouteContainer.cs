@@ -1,21 +1,23 @@
 ﻿using DAL.DAL;
-using DAL.DTO;
+using Interfaces.DTO;
+using Interfaces.Interface;
 using Logic.Models;
 
 namespace Logic.Containers
 {
-    public class RouteContainer
+    public class RouteContainer : IRouteContainer
     {
         public List<Route> Routes = new List<Route>();
 
         public RouteContainer()
         {
             Routes = GetRoute();
-        } 
+        }
+
         public void AddRoute(Route newRoute)
         {
             RouteDAL routeDAL = new RouteDAL();
-            routeDAL.AddRoute(RouteToDTO(newRoute));
+            routeDAL.AddRoute(newRoute.RouteToDTO());
         }
 
         public List<Route> GetRoute()
@@ -64,38 +66,13 @@ namespace Logic.Containers
         public void UpdateRoute(Route updateRoute, Route oldRoute)
         {
             RouteDAL routeDAL = new RouteDAL();
-            routeDAL.UpdateRoute(RouteToDTO(updateRoute), RouteToDTO(oldRoute));
+            routeDAL.UpdateRoute(updateRoute.RouteToDTO(), oldRoute.RouteToDTO());
         }
 
         public void DeleteRoute(Route deleteRoute)
         {
             RouteDAL routeDAL = new RouteDAL();
-            routeDAL.DeleteRoute(RouteToDTO(deleteRoute));
-        }
-
-        private RouteDTO RouteToDTO(Route route)
-        {
-            RouteDTO routeDTO = new RouteDTO();
-            routeDTO.RouteID = route.RouteID;
-            routeDTO.RouteNummer = route.RouteNummer;
-            routeDTO.Datum = route.Datum;
-            routeDTO.Chauffeur = WerknemerToDTO(route.Chauffeur);
-            routeDTO.BijRijder = WerknemerToDTO(route.BijRijder);
-            routeDTO.StartTijd = route.StartTijd;
-            routeDTO.EindTijd = route.EindTijd;
-            routeDTO.Bijzonderheden = route.Bijzonderheden;
-            return routeDTO;
-
-        }
-
-        private WerknemerDTO WerknemerToDTO(Werknemer werknemer)
-        {
-            WerknemerDTO werknemerDTO = new WerknemerDTO();
-            werknemerDTO.WerknemerID = werknemer.WerknemerID;
-            werknemerDTO.Naam = werknemer.Naam;
-            werknemerDTO.NummerPasje = werknemer.NummerPasje;
-            werknemerDTO.TelefoonNummer = werknemer.TelefoonNummer;
-            return werknemerDTO;
+            routeDAL.DeleteRoute(deleteRoute.RouteToDTO());
         }
     }
 }

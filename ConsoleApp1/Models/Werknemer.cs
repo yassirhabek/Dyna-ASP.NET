@@ -1,9 +1,10 @@
-﻿using DAL.DTO;
+﻿using Interfaces.DTO;
+using Interfaces.Interface;
 
 namespace Logic.Models
 {
-    public class Werknemer
-    { 
+    public class Werknemer : IWerknemer
+    {
         public int WerknemerID { get; set; }
         public int NummerPasje { get; set; }
         public string Naam { get; set; }
@@ -37,6 +38,15 @@ namespace Logic.Models
             NummerPasje = nummerPasje;
             Naam = naam;
             TelefoonNummer = telefoonNummer;
+        }
+        public WerknemerDTO WerknemerToDTO()
+        {
+            WerknemerDTO werknemerDTO = new WerknemerDTO();
+            werknemerDTO.WerknemerID = WerknemerID;
+            werknemerDTO.Naam = Naam;
+            werknemerDTO.NummerPasje = NummerPasje;
+            werknemerDTO.TelefoonNummer = TelefoonNummer;
+            return werknemerDTO;
         }
     }
 }

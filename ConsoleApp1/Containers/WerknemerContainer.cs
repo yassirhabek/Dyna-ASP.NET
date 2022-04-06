@@ -1,16 +1,32 @@
 ﻿using DAL.DAL;
-using DAL.DTO;
+using Interfaces.DTO;
+using Interfaces.Interface;
 using Logic.Models;
 
 namespace Logic.Containers
 {
-    public class WerknemerContainer
+    public class WerknemerContainer : IWerknemerContainer
     {
         public List<Werknemer> Werknemers = new List<Werknemer>();
 
         public WerknemerContainer()
         {
             Werknemers = GetWerknemers();
+        }
+
+        public Werknemer GetWerknemer(int ID)
+        {
+            WerknemerDAL werknemerDAL = new WerknemerDAL();
+            try
+            {
+                WerknemerDTO searchedWerknemer = werknemerDAL.GetWerknemer(ID);
+                return new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.NummerPasje, searchedWerknemer.Naam, searchedWerknemer.TelefoonNummer);
+            }
+            catch (Exception)
+            {
+                return null;
+                throw;
+            }
         }
 
         public List<Werknemer> GetWerknemers()
@@ -36,31 +52,21 @@ namespace Logic.Containers
         {
             Werknemer werknemer = new Werknemer(werknemerNum, naam, telefoonNum);
             WerknemerDAL werknemerDAL = new WerknemerDAL();
-            werknemerDAL.AddNewWerknemer(WerknemerToDTO(werknemer));
+            werknemerDAL.AddNewWerknemer(werknemer.WerknemerToDTO());
         }
 
-        public void UpdateWerknemer(string naam, int werknemerNum, int telefoonNum, string oldWerknemerID)
+        public void UpdateWerknemer(string naam, int werknemerNum, int telefoonNum, int oldWerknemerID)
         {
             Werknemer newWerknemer = new Werknemer(werknemerNum, naam, telefoonNum);
             WerknemerDAL werknemerDAL = new WerknemerDAL();
-            werknemerDAL.ChangeWerknemerData(WerknemerToDTO(newWerknemer), oldWerknemerID);
+            werknemerDAL.ChangeWerknemerData(newWerknemer.WerknemerToDTO(), oldWerknemerID);
         }
 
         public void DeleteWerknemer(int werknemerID)
         {
             Werknemer werknemer = Werknemers.FirstOrDefault(w => w.WerknemerID == werknemerID);
             WerknemerDAL werknemerDAL = new WerknemerDAL();
-            werknemerDAL.DeleteWerknemer(WerknemerToDTO(werknemer));
-        }
-
-        private WerknemerDTO WerknemerToDTO(Werknemer werknemer)
-        {
-            WerknemerDTO werknemerDTO = new WerknemerDTO();
-            werknemerDTO.WerknemerID = werknemer.WerknemerID;
-            werknemerDTO.Naam = werknemer.Naam;
-            werknemerDTO.NummerPasje = werknemer.NummerPasje;
-            werknemerDTO.TelefoonNummer = werknemer.TelefoonNummer;
-            return werknemerDTO;
+            werknemerDAL.DeleteWerknemer(werknemer.WerknemerToDTO());
         }
     }
 }

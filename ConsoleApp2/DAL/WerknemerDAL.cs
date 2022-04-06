@@ -1,4 +1,4 @@
-﻿using DAL.DTO;
+﻿using Interfaces.DTO;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -37,17 +37,18 @@ namespace DAL.DAL
                 throw new DataException();
         }
 
-        public void ChangeWerknemerData(WerknemerDTO changedWerknemer, string newName)
+        public void ChangeWerknemerData(WerknemerDTO changedWerknemer, int oldWerknemerID)
         {
-            string query = "UPDATE werknemers SET Naam = @naam, NummerPasje = @numpas WHERE Naam = @snaam";
+            string query = "UPDATE werknemers SET Naam = @naam, NummerPasje = @numpas, Telefoonnummer = @telefoonnum WHERE WerknemerID = @oldwerknemerid";
 
             if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = changedWerknemer.Naam;
-                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = changedWerknemer.WerknemerID;
-                cmd.Parameters.Add("@snaam", MySqlDbType.Text).Value = newName;
+                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = changedWerknemer.NummerPasje; 
+                cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int32).Value = changedWerknemer.TelefoonNummer;
+                cmd.Parameters.Add("@oldwerknemerid", MySqlDbType.Int64).Value = oldWerknemerID;
 
                 try
                 {
@@ -120,6 +121,44 @@ namespace DAL.DAL
             else
                 throw new DataException();
         }
-        
+
+        public WerknemerDTO GetWerknemer(int ID)
+        {
+            if (openConnection())
+            {
+                try
+                {
+                    WerknemerDTO output = new WerknemerDTO();
+                    string query = "SELECT * FROM werknemers WHERE WerknemerID = @werknemerID LIMIT 1;";
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                    cmd.Parameters.Add("@werknemerID", MySqlDbType.Int32).Value = ID;
+
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+
+                    if (rdr.Read())
+                    {
+                        output = new WerknemerDTO()
+                        {
+                            WerknemerID = Convert.ToInt32(rdr[0]),
+                            NummerPasje = Convert.ToInt32(rdr[1]),
+                            Naam = Convert.ToString(rdr[2]),
+                            TelefoonNummer = Convert.ToInt32(rdr[3])
+                        };
+                    }
+                   rdr.Close();
+                   closeConnection();
+                   return output;
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception(ex.ToString());
+                }
+                
+            }
+            else
+                throw new DataException();
+        }
     }
 }

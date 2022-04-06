@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Interfaces.DTO;
+using Interfaces.Interface;
+using System;
 
 namespace Logic.Models
 {
-    public class Route
+    public class Route : IRoute
     {
+        private IRoute _iRoute;
         public int RouteID { get; set; }
         public int RouteNummer { get; set; }
         public DateTime Datum { get; set; }
@@ -18,7 +21,7 @@ namespace Logic.Models
         {
 
         }
-        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden)
+        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden, IRoute iRoute)
         {
             RouteID = routeID;
             RouteNummer = routeNummer;
@@ -28,11 +31,12 @@ namespace Logic.Models
             StartTijd = startTijd;
             EindTijd = eindTijd;
             Bijzonderheden = bijzonderheden;
+            _iRoute = iRoute;
 
             AantalUur = this.totaalAantalUur(startTijd, eindTijd);
         }
 
-        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd)
+        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, IRoute iRoute)
         {
             RouteID = routeID;
             RouteNummer = routeNummer;
@@ -41,11 +45,12 @@ namespace Logic.Models
             BijRijder = bijRijder;
             StartTijd = startTijd;
             EindTijd = eindTijd;
+            _iRoute = iRoute;
 
             AantalUur = this.totaalAantalUur(startTijd, eindTijd);
         }
 
-        public Route(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden)
+        public Route(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden, IRoute iRoute)
         {
             RouteNummer = routeNummer;
             Datum = datum;
@@ -54,11 +59,12 @@ namespace Logic.Models
             StartTijd = startTijd;
             EindTijd = eindTijd;
             Bijzonderheden = bijzonderheden;
+            _iRoute = iRoute;
 
             AantalUur = this.totaalAantalUur(startTijd, eindTijd);
         }
 
-        public Route(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd)
+        public Route(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, IRoute iRoute)
         {
             RouteNummer = routeNummer;
             Datum = datum;
@@ -66,6 +72,7 @@ namespace Logic.Models
             BijRijder = bijRijder;
             StartTijd = startTijd;
             EindTijd = eindTijd;
+            _iRoute = iRoute;
 
             AantalUur = this.totaalAantalUur(startTijd, eindTijd);
         }
@@ -77,6 +84,20 @@ namespace Logic.Models
 
             TimeSpan aantalUur = eindTijd - startTijd - halfUur;
             return aantalUur;
+        }
+
+        public RouteDTO RouteToDTO()
+        {
+            RouteDTO routeDTO = new RouteDTO();
+            routeDTO.RouteID = RouteID;
+            routeDTO.RouteNummer = RouteNummer;
+            routeDTO.Datum = Datum;
+            routeDTO.Chauffeur = Chauffeur.WerknemerToDTO();
+            routeDTO.BijRijder = BijRijder.WerknemerToDTO();
+            routeDTO.StartTijd = StartTijd;
+            routeDTO.EindTijd = EindTijd;
+            routeDTO.Bijzonderheden = Bijzonderheden;
+            return routeDTO;
         }
     }
 }

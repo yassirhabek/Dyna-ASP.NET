@@ -55,11 +55,31 @@ namespace ASP.Controllers
         }
 
         [HttpPost]
-        public void WerknemerVerwijderen(int werknemerID)
+        public void WerknemerAanpassen(string newNaam, int newWerknemerNum, int newTelefoonNum, int oldWerknemerID)
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer();
-            werknemerContainer.DeleteWerknemer(werknemerID);
+            werknemerContainer.UpdateWerknemer(newNaam, newWerknemerNum, newTelefoonNum, oldWerknemerID);
         }
 
+        [HttpPost]
+        public void WerknemerVerwijderen(int id)
+        {
+            WerknemerContainer werknemerContainer = new WerknemerContainer();
+            werknemerContainer.DeleteWerknemer(id);
+        }
+
+        [HttpPost]
+        public ActionResult<Werknemer> LoadWerknemer(int id)
+        {
+            WerknemerContainer werknemerContainer = new WerknemerContainer();
+            var output = werknemerContainer.GetWerknemer(id);
+
+            if (output == null)
+            {
+                return Conflict("Geen werknemer gevonden");
+            }
+
+            return Ok(output);
+        }
     }
 }
