@@ -3,7 +3,7 @@ using System;
 
 namespace Logic.Models
 {
-    public class Route 
+    public class Route
     {
         public int RouteID { get; set; }
         public int RouteNummer { get; set; }

@@ -32,7 +32,6 @@
        let target = window.location.protocol + "//" + window.location.host;
        $.post(target + "/Werknemer/LoadWerknemer/" + selected)
         .done(data => {
-
             $("#changed-naam").val(data.naam);
             $("#changed-werknemernum").val(data.nummerPasje);
             $("#changed-telefoonnummer").val(data.telefoonNummer);
