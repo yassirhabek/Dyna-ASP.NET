@@ -1,40 +1,58 @@
 ﻿@{
     ViewData["Title"] = "Route Toevoegen";
 }
-    <div class="form-group mb-3" style="width: 273px;margin-top: 48px;margin-bottom: 0px;margin-left: 54px;">
-        <p style="margin-bottom: 3px;">Route Nummer</p>
-        <div class="input-group"><input class="form-control InputBorder" placeholder="Route Nummer" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
-    </div>
-    <div style="margin-left: 54px;margin-top: 24px;">
-        <p style="margin-bottom: 5px;">Chauffeur</p><select style="margin-right: 0px;">
-            <optgroup label="This is a group">
-                <option value="12" selected>This is item 1</option>
-                <option value="13">This is item 2</option>
-                <option value="14">This is item 3</option>
+@model List<ASP.Models.WerknemerViewModel>
+
+<div class="form-group mb-3" style="width: 273px;margin-top: 48px;margin-bottom: 0px;margin-left: 54px;">
+    <p style="margin-bottom: 3px;">Route Nummer</p>
+    <div class="input-group"><input class="form-control InputBorder" placeholder="Route Nummer" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
+</div>
+<div style="margin-left: 54px;margin-top: 24px;">
+    <p style="margin-bottom: 5px;">Chauffeur</p>
+       <select id="drop-aanpassen" style="margin-right: 0px;">
+        <optgroup label="Werknemers" selected=>
+            @foreach (WerknemerViewModel werknemer in Model)
+            {
+                <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+            }
+        </optgroup>
+    </select>
+
+</div>
+<div style="margin-left: 54px;margin-top: 18px;">
+    <p style="margin-bottom: 5px;">Bijrijder</p>        
+    <select id="drop-aanpassen" style="margin-right: 0px;">
+        <optgroup label="Werknemers">
+            @foreach (WerknemerViewModel werknemer in Model)
+            {
+                <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+            }
+        </optgroup>
+    </select>
+</div>
+<div class="form-group mb-3" style="width: 273px;margin-top: 17px;margin-bottom: 0px;margin-left: 54px;">
+    <p style="margin-bottom: 3px;">Starttijd</p>
+    <div class="input-group"><input class="form-control InputBorder" placeholder="Starttijd" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
+</div>
+<div class="form-group mb-3" style="width: 273px;margin-top: 17px;margin-bottom: 0px;margin-left: 54px;">
+    <p style="margin-bottom: 3px;">Eindtijd</p>
+    <div class="input-group"><input class="form-control InputBorder" placeholder="Eindtijd" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
+</div>
+<div style="width: 297px;height: 69px;margin: -48px 0px 0px 378px;margin-left: 378px;margin-top: -287px;">
+    <p style="margin-bottom: 4px;">Bijzonderheden</p><textarea></textarea>
+</div>
+<div style="margin-left: 378px;width: 245px;margin-top: -168px;">
+    <p style="margin-bottom: 6px;">Datum</p><input type="date" placeholder="dd-mm-yyyy" value=""
+    min="1997-01-01" max="2030-12-31"/>
+</div>
+<button class="btn btn-primary" type="button" style="background: rgb(42,42,42);margin-right: 0px;margin-left: 378px;margin-top: 145px;">Toevoegen</button>
+
+
+    @{/*<select style="margin-right: 0px;">
+            <optgroup label="Chauffeur">
+            @foreach(Werknemer werknemer in werknemerContainer.Werknemers)
+            {
+                <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+            }
             </optgroup>
-        </select>
-    </div>
-    <div style="margin-left: 54px;margin-top: 18px;">
-        <p style="margin-bottom: 5px;">Bijrijder</p><select style="margin-right: 0px;">
-            <optgroup label="This is a group">
-                <option value="12" selected>This is item 1</option>
-                <option value="13">This is item 2</option>
-                <option value="14">This is item 3</option>
-            </optgroup>
-        </select>
-    </div>
-    <div class="form-group mb-3" style="width: 273px;margin-top: 17px;margin-bottom: 0px;margin-left: 54px;">
-        <p style="margin-bottom: 3px;">Starttijd</p>
-        <div class="input-group"><input class="form-control InputBorder" placeholder="Starttijd" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
-    </div>
-    <div class="form-group mb-3" style="width: 273px;margin-top: 17px;margin-bottom: 0px;margin-left: 54px;">
-        <p style="margin-bottom: 3px;">Eindtijd</p>
-        <div class="input-group"><input class="form-control InputBorder" placeholder="Eindtijd" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
-    </div>
-    <div style="width: 297px;height: 69px;margin: -48px 0px 0px 378px;margin-left: 378px;margin-top: -287px;">
-        <p style="margin-bottom: 4px;">Bijzonderheden</p><textarea></textarea>
-    </div>
-    <div style="margin-left: 378px;width: 245px;margin-top: -168px;">
-        <p style="margin-bottom: 6px;">Datum</p><input type="date" />
-    </div>
-    <button class="btn btn-primary" type="button" style="background: rgb(42,42,42);margin-right: 0px;margin-left: 378px;margin-top: 145px;">Toevoegen</button>
+        </select>*/}

@@ -1,35 +1,30 @@
 ﻿using DAL.DAL;
 using Interfaces.DTO;
+using Interfaces.Interface;
 using Logic.Models;
 
 namespace Logic.Containers
 {
     public class RouteContainer
     {
-        public List<Route> Routes = new List<Route>();
+        private IRouteContainer _iRouteContainer;
+        private IRoute _iRoute;
 
-        public RouteContainer()
+        public RouteContainer(IRouteContainer iRouteContainer)
         {
-            Routes = GetRoute();
+            _iRouteContainer = iRouteContainer;
+            _iRoute = (IRoute)iRouteContainer;
         }
 
-        public void AddRoute(Route newRoute)
+        public List<Route> GetRoute(IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer)
         {
-            RouteDAL routeDAL = new RouteDAL();
-            routeDAL.AddRoute(newRoute.RouteToDTO());
-        }
-
-        public List<Route> GetRoute()
-        {
-            WerknemerDAL werknemerDAL = new WerknemerDAL();
-            RouteDAL routeDAL = new RouteDAL();
             List<Route> routes = new List<Route>();
             try
             {
-                foreach (RouteDTO routeList in routeDAL.GetAllRoute(werknemerDAL.GetAllWerknemers()))
+                foreach (RouteDTO routeList in _iRouteContainer.GetAllRoute(iWerknemerContainer.GetAllWerknemers()))
                 {
-                    Route route = new Route(routeList.RouteID, routeList.RouteNummer, routeList.Datum, new Werknemer(routeList.Chauffeur),
-                        new Werknemer(routeList.BijRijder), routeList.StartTijd, routeList.EindTijd);
+                    Route route = new Route(routeList.RouteID, routeList.RouteNummer, routeList.Datum, new Werknemer(routeList.Chauffeur, iWerknemer),
+                        new Werknemer(routeList.BijRijder, iWerknemer), routeList.StartTijd, routeList.EindTijd, _iRoute);
                     routes.Add(route);
                 }
             }
@@ -40,18 +35,16 @@ namespace Logic.Containers
             return routes;
         }
 
-        public List<Route> GetRouteFromDate(string date)
+        public List<Route> GetRouteFromDate(string date, IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer)
         {
-            WerknemerDAL werknemerDAL = new WerknemerDAL();
-            RouteDAL routeDAL = new RouteDAL();
             List<Route> routesFromDate = new List<Route>();
 
             try
             {
-                foreach (RouteDTO routeList in routeDAL.GetRouteFromDate(date, werknemerDAL.GetAllWerknemers()))
+                foreach (RouteDTO routeList in _iRouteContainer.GetRouteFromDate(date, iWerknemerContainer.GetAllWerknemers()))
                 {
-                    Route route = new Route(routeList.RouteID, routeList.RouteNummer, routeList.Datum, new Werknemer(routeList.Chauffeur),
-                        new Werknemer(routeList.BijRijder), routeList.StartTijd, routeList.EindTijd);
+                    Route route = new Route(routeList.RouteID, routeList.RouteNummer, routeList.Datum, new Werknemer(routeList.Chauffeur, iWerknemer),
+                        new Werknemer(routeList.BijRijder, iWerknemer), routeList.StartTijd, routeList.EindTijd, _iRoute);
                     routesFromDate.Add(route);
                 }
             }
@@ -60,18 +53,6 @@ namespace Logic.Containers
                 throw;
             }
             return routesFromDate;
-        }
-
-        public void UpdateRoute(Route updateRoute, Route oldRoute)
-        {
-            RouteDAL routeDAL = new RouteDAL();
-            routeDAL.UpdateRoute(updateRoute.RouteToDTO(), oldRoute.RouteToDTO());
-        }
-
-        public void DeleteRoute(Route deleteRoute)
-        {
-            RouteDAL routeDAL = new RouteDAL();
-            routeDAL.DeleteRoute(deleteRoute.RouteToDTO());
         }
     }
 }

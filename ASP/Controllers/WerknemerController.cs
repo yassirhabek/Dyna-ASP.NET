@@ -1,4 +1,6 @@
-﻿using Logic.Containers;
+﻿using ASP.Models;
+using DAL.DAL;
+using Logic.Containers;
 using Logic.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,27 +8,29 @@ namespace ASP.Controllers
 {
     public class WerknemerController : Controller
     {
-        public string Index()
+        private readonly ILogger<WerknemerController> _logger;
+
+        public WerknemerController(ILogger<WerknemerController> logger)
         {
-            return "123321";
-        }
-        
-        public string Message()
-        {
-            return "this is a message";
+            _logger = logger;
         }
 
-        public IActionResult Page()
+        private List<WerknemerViewModel> GetWerknemers()
         {
-            ViewData["pageMessage"] = "this is a message";
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Page(string msg)
-        {
-            ViewData["pageMessage"] = string.IsNullOrEmpty(msg) ? "no message provided" : msg;
-            return View();
+            WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
+            List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
+            foreach (var werknemer in werknemerContainer.GetWerknemers())
+            {
+                WerknemerViewModel werknemerViewModel = new WerknemerViewModel
+                {
+                    WerknemerID = werknemer.WerknemerID,
+                    Naam = werknemer.Naam,
+                    NummerPasje = werknemer.NummerPasje,
+                    TelefoonNummer = werknemer.TelefoonNummer
+                };
+                werknemerViewModels.Add(werknemerViewModel);
+            }
+            return werknemerViewModels;
         }
 
         [HttpGet]
@@ -38,7 +42,7 @@ namespace ASP.Controllers
         [HttpGet]
         public IActionResult WerknemerAanpassenView()
         {
-            return View();
+            return View(GetWerknemers());
         }
 
         [HttpGet]
@@ -50,28 +54,29 @@ namespace ASP.Controllers
         [HttpPost]
         public void WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
         {
-            WerknemerContainer werknemerContainer = new WerknemerContainer();
-            werknemerContainer.AddWerknemer(naam, werknemerNum, telefoonNum);
+            Werknemer werknemer = new Werknemer(naam, werknemerNum, telefoonNum, new WerknemerDAL());
+            werknemer.AddWerknemer();
         }
 
         [HttpPost]
         public void WerknemerAanpassen(string newNaam, int newWerknemerNum, int newTelefoonNum, int oldWerknemerID)
         {
-            WerknemerContainer werknemerContainer = new WerknemerContainer();
-            werknemerContainer.UpdateWerknemer(newNaam, newWerknemerNum, newTelefoonNum, oldWerknemerID);
+            Werknemer werknemer = new Werknemer(newNaam, newWerknemerNum, newTelefoonNum, new WerknemerDAL());
+            werknemer.UpdateWerknemer(oldWerknemerID);
         }
 
         [HttpPost]
         public void WerknemerVerwijderen(int id)
         {
-            WerknemerContainer werknemerContainer = new WerknemerContainer();
-            werknemerContainer.DeleteWerknemer(id);
+            Werknemer werknemer = new Werknemer(new WerknemerDAL());
+            werknemer.WerknemerID = id;
+            werknemer.DeleteWerknemer();
         }
 
         [HttpPost]
         public ActionResult<Werknemer> LoadWerknemer(int id)
         {
-            WerknemerContainer werknemerContainer = new WerknemerContainer();
+            WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
             var output = werknemerContainer.GetWerknemer(id);
 
             if (output == null)

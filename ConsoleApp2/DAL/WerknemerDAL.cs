@@ -1,4 +1,5 @@
 ﻿using Interfaces.DTO;
+using Interfaces.Interface;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DAL.DAL
 {
-    public class WerknemerDAL : DB
+    public class WerknemerDAL : DB, IWerknemer, IWerknemerContainer
     {
         public void AddNewWerknemer(WerknemerDTO werknemerNieuw)
         {
@@ -46,7 +47,7 @@ namespace DAL.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = changedWerknemer.Naam;
-                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = changedWerknemer.NummerPasje; 
+                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = changedWerknemer.NummerPasje;
                 cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int32).Value = changedWerknemer.TelefoonNummer;
                 cmd.Parameters.Add("@oldwerknemerid", MySqlDbType.Int64).Value = oldWerknemerID;
 
@@ -147,15 +148,15 @@ namespace DAL.DAL
                             TelefoonNummer = Convert.ToInt32(rdr[3])
                         };
                     }
-                   rdr.Close();
-                   closeConnection();
-                   return output;
+                    rdr.Close();
+                    closeConnection();
+                    return output;
                 }
                 catch (MySqlException ex)
                 {
                     throw new Exception(ex.ToString());
                 }
-                
+
             }
             else
                 throw new DataException();

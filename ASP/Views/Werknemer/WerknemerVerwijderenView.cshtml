@@ -1,15 +1,13 @@
-﻿@using Logic.Containers;
-@using Logic.Models;
-@{
+﻿@{
     ViewData["Title"] = "Werknemer Verwijderen";
-    WerknemerContainer werknemerContainer = new WerknemerContainer();
 }
+@model List<ASP.Models.WerknemerViewModel>
 
 <div style="margin: 0px;height: 316px;margin-top: 51px;margin-left: 50px;">
     <p style="width: 794px;margin-bottom: 0px;margin-left: 34px;">Kies een Werknemer.</p>
     <select id="drop-verwijderen" style="margin-top: 16px;margin-left: 32px;width: 164px;height: 36px;">
         <optgroup label="Werknemers">
-            @foreach (Werknemer werknemer in werknemerContainer.Werknemers)
+            @foreach (WerknemerViewModel werknemer in Model)
             {
                 <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
             }

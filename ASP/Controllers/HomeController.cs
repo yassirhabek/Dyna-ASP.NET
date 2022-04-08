@@ -1,4 +1,6 @@
 ﻿using ASP.Models;
+using DAL.DAL;
+using Logic.Containers;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -12,21 +14,32 @@ namespace ASP.Controllers
         {
             _logger = logger;
         }
+        private List<RouteViewModel> GetRoutes()
+        {
+            RouteContainer routeContainer = new RouteContainer(new RouteDAL());
+            List<RouteViewModel> routeViewModels = new List<RouteViewModel>();
+            foreach (var routes in routeContainer.GetRoute(new WerknemerDAL(), new WerknemerDAL()))
+            {
+                RouteViewModel routeViewModel = new RouteViewModel
+                {
+                    RouteID = routes.RouteID,
+                    RouteNummer = routes.RouteNummer,
+                    Datum = routes.Datum,
+                    Chauffeur = routes.Chauffeur,
+                    BijRijder = routes.BijRijder,
+                    StartTijd = routes.StartTijd,
+                    EindTijd = routes.EindTijd,
+                    AantalUur = routes.AantalUur,
+                    Bijzonderheden = routes.Bijzonderheden
+                };
+                routeViewModels.Add(routeViewModel);
+            }
+            return routeViewModels;
+        }
 
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

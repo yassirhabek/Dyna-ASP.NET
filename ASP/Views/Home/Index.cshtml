@@ -1,8 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="align-content-center">
+        <div class="Column">
+            <h5 class="card-title">@column.ColumnViewModel.ColumnName</h5>
+            <div class="card-body">
+                @foreach (var ticket in @column.TicketViewModels)
+                {
+                    <div id="Ticket">
+                        <div class="card-body">
+                            <h5 class="card-title">@ticket.TicketName</h5>
+                            <p class="card-text">@ticket.Content</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿using Interfaces.DTO;
+using Interfaces.Interface;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DAL.DAL
 {
-    public class RouteDAL : DB
+    public class RouteDAL : DB, IRoute, IRouteContainer
     {
         public void AddRoute(RouteDTO newRoute)
         {
