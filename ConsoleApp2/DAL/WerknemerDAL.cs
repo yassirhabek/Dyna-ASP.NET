@@ -123,7 +123,7 @@ namespace DAL.DAL
                 throw new DataException();
         }
 
-        public WerknemerDTO GetWerknemer(int ID)
+        public WerknemerDTO GetSingleWerknemer(int ID)
         {
             if (openConnection())
             {

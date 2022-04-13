@@ -16,11 +16,11 @@ namespace Logic.Containers
             _iWerknemer = (IWerknemer)iWerknemerContainer;
         }
 
-        public Werknemer GetWerknemer(int ID)
+        public Werknemer GetSingleWerknemer(int ID)
         {
             try
             {
-                WerknemerDTO searchedWerknemer = _iWerknemerContainer.GetWerknemer(ID);
+                WerknemerDTO searchedWerknemer = _iWerknemerContainer.GetSingleWerknemer(ID);
                 return new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.Naam, searchedWerknemer.NummerPasje, searchedWerknemer.TelefoonNummer, _iWerknemer);
             }
             catch (Exception)

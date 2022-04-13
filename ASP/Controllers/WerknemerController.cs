@@ -48,36 +48,43 @@ namespace ASP.Controllers
         [HttpGet]
         public IActionResult WerknemerVerwijderenView()
         {
+            return View(GetWerknemers());
+        }
+
+        [HttpPost]
+        public ActionResult WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
+        {
+            if (ModelState.IsValid)
+            {
+                Werknemer werknemer = new Werknemer(naam, werknemerNum, telefoonNum, new WerknemerDAL());
+                werknemer.AddWerknemer();
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [HttpPost]
-        public void WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
-        {
-            Werknemer werknemer = new Werknemer(naam, werknemerNum, telefoonNum, new WerknemerDAL());
-            werknemer.AddWerknemer();
-        }
-
-        [HttpPost]
-        public void WerknemerAanpassen(string newNaam, int newWerknemerNum, int newTelefoonNum, int oldWerknemerID)
+        public ActionResult WerknemerAanpassen(string newNaam, int newWerknemerNum, int newTelefoonNum, int oldWerknemerID)
         {
             Werknemer werknemer = new Werknemer(newNaam, newWerknemerNum, newTelefoonNum, new WerknemerDAL());
             werknemer.UpdateWerknemer(oldWerknemerID);
+            return Ok("Werknemer aangepast");
         }
 
         [HttpPost]
-        public void WerknemerVerwijderen(int id)
+        public ActionResult WerknemerVerwijderen(int id)
         {
             Werknemer werknemer = new Werknemer(new WerknemerDAL());
             werknemer.WerknemerID = id;
             werknemer.DeleteWerknemer();
+            return Ok("Werknemer verwijderd");
         }
 
         [HttpPost]
         public ActionResult<Werknemer> LoadWerknemer(int id)
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
-            var output = werknemerContainer.GetWerknemer(id);
+            Werknemer output = werknemerContainer.GetSingleWerknemer(id);
 
             if (output == null)
             {

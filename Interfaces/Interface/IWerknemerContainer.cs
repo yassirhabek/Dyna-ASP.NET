@@ -5,6 +5,6 @@ namespace Interfaces.Interface
     public interface IWerknemerContainer
     {
         List<WerknemerDTO> GetAllWerknemers();
-        WerknemerDTO GetWerknemer(int ID);
+        WerknemerDTO GetSingleWerknemer(int ID);
     }
 }

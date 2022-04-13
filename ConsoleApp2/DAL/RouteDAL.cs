@@ -23,8 +23,8 @@ namespace DAL.DAL
 
                 cmd.Parameters.Add("@route", MySqlDbType.Int32).Value = newRoute.RouteNummer;
                 cmd.Parameters.Add("@date", MySqlDbType.Date).Value = newRoute.Datum;
-                cmd.Parameters.Add("@chauf", MySqlDbType.Text).Value = newRoute.Chauffeur.Naam;
-                cmd.Parameters.Add("@bijr", MySqlDbType.Text).Value = newRoute.BijRijder.Naam;
+                cmd.Parameters.Add("@chauf", MySqlDbType.Int32).Value = newRoute.Chauffeur.WerknemerID;
+                cmd.Parameters.Add("@bijr", MySqlDbType.Int32).Value = newRoute.BijRijder.WerknemerID;
                 cmd.Parameters.Add("@stijd", MySqlDbType.Time).Value = newRoute.StartTijd;
                 cmd.Parameters.Add("@etijd", MySqlDbType.Time).Value = newRoute.EindTijd;
                 cmd.Parameters.Add("@aanu", MySqlDbType.Time).Value = newRoute.AantalUur;
@@ -49,14 +49,12 @@ namespace DAL.DAL
         {
             List<RouteDTO> output = new List<RouteDTO>();
 
-            string searchDate = date.Remove(10);
-
             if (openConnection())
             {
                 string query = "SELECT * FROM route WHERE Datum=@datum";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
-                cmd.Parameters.Add("@datum", MySqlDbType.Text).Value = searchDate;
+                cmd.Parameters.Add("@datum", MySqlDbType.Text).Value = date;
 
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -127,10 +125,8 @@ namespace DAL.DAL
             else
                 throw new DataException();
         }
-        public void UpdateRoute(RouteDTO updateRoute, RouteDTO oldRoute)
+        public void UpdateRoute(RouteDTO updateRoute, int oldRouteID)
         {
-            string oldDateFormat = oldRoute.Datum.ToString().Remove(10);
-            string newDateFormat = updateRoute.Datum.ToString().Remove(10);
 
             string query = "UPDATE route SET RouteNummer= @newroutenum, Datum= @datum, Chauffeur= @chauff, Bijrijder= @bijr," +
                 "Starttijd= @startt, Eindtijd= @eindt, AantalUur= @aantaluur, Bijzonderheden =@bijz, DatumToegevoegd= @datumtoeg WHERE routeID = @routeID";
@@ -140,7 +136,7 @@ namespace DAL.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 cmd.Parameters.Add("@newroutenum", MySqlDbType.Int32).Value = updateRoute.RouteNummer;
-                cmd.Parameters.Add("@datum", MySqlDbType.Text).Value = newDateFormat;
+                cmd.Parameters.Add("@datum", MySqlDbType.Text).Value = updateRoute.Datum;
                 cmd.Parameters.Add("@chauff", MySqlDbType.Text).Value = updateRoute.Chauffeur.Naam;
                 cmd.Parameters.Add("@bijr", MySqlDbType.Text).Value = updateRoute.BijRijder.Naam;
                 cmd.Parameters.Add("@startt", MySqlDbType.Time).Value = updateRoute.StartTijd;
@@ -148,7 +144,7 @@ namespace DAL.DAL
                 cmd.Parameters.Add("@aantaluur", MySqlDbType.Time).Value = updateRoute.AantalUur;
                 cmd.Parameters.Add("@bijz", MySqlDbType.Text).Value = updateRoute.Bijzonderheden;
                 cmd.Parameters.Add("@datumtoeg", MySqlDbType.DateTime).Value = DateTime.Now;
-                cmd.Parameters.Add("@routeid", MySqlDbType.Int32).Value = oldRoute.RouteID;
+                cmd.Parameters.Add("@routeid", MySqlDbType.Int32).Value = oldRouteID;
 
                 try
                 {

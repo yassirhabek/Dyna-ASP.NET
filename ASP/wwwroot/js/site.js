@@ -2,16 +2,20 @@
 //const { data } = require("jquery");
 
 
-$("#buttontoevoegen").click(() => {
-    WerknemerToevoegen();
+$("#buttonwerknemertoevoegen").click(() => {
+
 })
 
-$("#buttonaanpassen").click(() => {
+$("#buttonwerknemeraanpassen").click(() => {
     WerknemerAanpassen();
 })
 
-$('#buttonverwijderen').click(() => {
+$('#buttonwerknemerverwijderen').click(() => {
     WerknemerVerwijderen();
+})
+
+$('#buttonroutetoevoegen').click(() => {
+
 })
 
 function WerknemerToevoegen() {
@@ -21,9 +25,9 @@ function WerknemerToevoegen() {
     WerknemerNum = $('#input-werknemernum').val();
     TelefoonNum = $('#input-telefoonnum').val();
 
-    alert(Naam + ", " + WerknemerNum + ", " + TelefoonNum)
-
-    $.post(target + "/Werknemer/WerknemerToevoegen", { naam: Naam, werknemerNum: WerknemerNum, telefoonNum: TelefoonNum });
+    $.post(target + "/Werknemer/WerknemerToevoegen", { naam: Naam, werknemerNum: WerknemerNum, telefoonNum: TelefoonNum })
+        .done(data => { alert(data), window.location.href = target })
+        .fail(data => { alert(data.responseText) })
 }
 
 function WerknemerAanpassen() {
@@ -34,9 +38,9 @@ function WerknemerAanpassen() {
     WerknemerNum = $("#changed-werknemernum").val();
     TelefoonNum = $("#changed-telefoonnummer").val();
 
-    alert(Naam + ", " + WerknemerNum + ", " + TelefoonNum)
-
-    $.post(target + "/Werknemer/WerknemerAanpassen", { newNaam: Naam, newWerknemerNum: WerknemerNum, newTelefoonNum: TelefoonNum, oldWerknemerID: WerknemerID });
+    $.post(target + "/Werknemer/WerknemerAanpassen", { newNaam: Naam, newWerknemerNum: WerknemerNum, newTelefoonNum: TelefoonNum, oldWerknemerID: WerknemerID })
+        .done(data => { alert(data), window.location.href = target })
+        .fail(data => { alert(data.responseText) })
 }
 
 function WerknemerVerwijderen() {
@@ -44,8 +48,22 @@ function WerknemerVerwijderen() {
 
     WerknemerID = $("#drop-verwijderen").val();
 
-    alert(WerknemerID)
-
-    $.post(target + "/Werknemer/WerknemerVerwijderen/" + WerknemerID, null);
+    $.post(target + "/Werknemer/WerknemerVerwijderen/" + WerknemerID, null)
+        .done(data => { alert(data), window.location.href = target })
+        .fail(data => { alert(data.responseText) })
 }
 
+function RouteToevoegen() {
+    let target = window.location.protocol + "//" + window.location.host;
+
+    RouteNummer = $("#input-routenummer").val();
+    Datum = $("#input-datum").val();
+    Chauffeur = $("#drop-chauffeur").val();
+    Bijrijder = $("#drop-bijrijder").val();
+    Starttijd = $("#input-starttijd").val();
+    Eindtijd = $("#input-eindtijd").val();
+
+    $.post(target + "/Route/RouteToevoegen", { routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
+        .done(data => { alert(data), window.location.href = target })
+        .fail(data => { alert(data.responseText) })
+}

@@ -5,9 +5,9 @@ using System;
 
 namespace Logic.Models
 {
-    public class Route
+    public class RouteRit
     {
-        private IRoute _iRoute;
+        private readonly IRoute _iRoute;
         public int RouteID { get; set; }
         public int RouteNummer { get; set; }
         public DateTime Datum { get; set; }
@@ -18,11 +18,11 @@ namespace Logic.Models
         public TimeSpan AantalUur { get; set; }
         public string Bijzonderheden { get; set; }
 
-        public Route()
+        public RouteRit()
         {
 
         }
-        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden, IRoute iRoute)
+        public RouteRit(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden, IRoute iRoute)
         {
             RouteID = routeID;
             RouteNummer = routeNummer;
@@ -37,7 +37,7 @@ namespace Logic.Models
             AantalUur = this.totaalAantalUur(startTijd, eindTijd);
         }
 
-        public Route(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, IRoute iRoute)
+        public RouteRit(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, IRoute iRoute)
         {
             RouteID = routeID;
             RouteNummer = routeNummer;
@@ -46,12 +46,13 @@ namespace Logic.Models
             BijRijder = bijRijder;
             StartTijd = startTijd;
             EindTijd = eindTijd;
+            Bijzonderheden = "geen";
             _iRoute = iRoute;
 
             AantalUur = totaalAantalUur(startTijd, eindTijd);
         }
 
-        public Route(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden, IRoute iRoute)
+        public RouteRit(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, string bijzonderheden, IRoute iRoute)
         {
             RouteNummer = routeNummer;
             Datum = datum;
@@ -65,7 +66,7 @@ namespace Logic.Models
             AantalUur = totaalAantalUur(startTijd, eindTijd);
         }
 
-        public Route(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, IRoute iRoute)
+        public RouteRit(int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, IRoute iRoute)
         {
             RouteNummer = routeNummer;
             Datum = datum;
@@ -73,24 +74,25 @@ namespace Logic.Models
             BijRijder = bijRijder;
             StartTijd = startTijd;
             EindTijd = eindTijd;
+            Bijzonderheden = "geen";
             _iRoute = iRoute; 
 
             AantalUur = totaalAantalUur(startTijd, eindTijd);
         }
 
-        public void AddRoute(Route newRoute)
+        public void AddRoute()
         {
-            _iRoute.AddRoute(newRoute.RouteToDTO());
+            _iRoute.AddRoute(RouteToDTO());
         }
 
-        public void UpdateRoute(Route updateRoute, Route oldRoute)
+        public void UpdateRoute(int oldRouteID)
         {
-            _iRoute.UpdateRoute(updateRoute.RouteToDTO(), oldRoute.RouteToDTO());
+            _iRoute.UpdateRoute(RouteToDTO(), oldRouteID);
         }
 
-        public void DeleteRoute(Route deleteRoute)
+        public void DeleteRoute()
         {
-            _iRoute.DeleteRoute(deleteRoute.RouteToDTO());
+            _iRoute.DeleteRoute(RouteToDTO());
         }
         private TimeSpan totaalAantalUur(TimeSpan startTijd, TimeSpan eindTijd)
         {
@@ -111,6 +113,7 @@ namespace Logic.Models
             routeDTO.BijRijder = BijRijder.WerknemerToDTO();
             routeDTO.StartTijd = StartTijd;
             routeDTO.EindTijd = EindTijd;
+            routeDTO.AantalUur = AantalUur;
             routeDTO.Bijzonderheden = Bijzonderheden;
             return routeDTO;
         }

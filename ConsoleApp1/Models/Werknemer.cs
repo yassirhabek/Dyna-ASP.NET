@@ -43,17 +43,17 @@ namespace Logic.Models
         }
         public void AddWerknemer()
         {
-            _iWerknemer.AddNewWerknemer(this.WerknemerToDTO());
+            _iWerknemer.AddNewWerknemer(WerknemerToDTO());
         }
 
         public void UpdateWerknemer(int oldWerknemerID)
         {
-            _iWerknemer.ChangeWerknemerData(this.WerknemerToDTO(), oldWerknemerID);
+            _iWerknemer.ChangeWerknemerData(WerknemerToDTO(), oldWerknemerID);
         }
 
         public void DeleteWerknemer()
         {
-            _iWerknemer.DeleteWerknemer(this.WerknemerToDTO());
+            _iWerknemer.DeleteWerknemer(WerknemerToDTO());
         }
 
         public WerknemerDTO WerknemerToDTO()

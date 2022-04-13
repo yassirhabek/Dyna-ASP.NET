@@ -1,19 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Werknemer Toevoegen";
 }
+@model ASP.Models.WerknemerViewModel
 
 <div class="forms-div">
+    <form method="post" asp-controller="Werknemer" asp-action="WerknemerToevoegen">
     <div class="input-group" style="width: 342px;margin-left: 23px;margin-top: 37px;">
-        <span class="input-group-text">Naam</span>
-        <input id="input-naam" class="form-control" type="text" />
+        <label asp-for="Naam" class="input-group-text">Naam</label>
+        <input asp-for="Naam" id="input-naam" class="form-control" type="text" />
     </div>
     <div class="input-group" style="width: 388px;margin-left: 23px;margin-top: 12px;">
-        <span class="input-group-text">Werknemer Nummer</span>
-        <input id="input-werknemernum" class="form-control" type="text" style="width: 19.766px;" />
+        <label asp-for="NummerPasje" class="input-group-text">Werknemer Nummer</label>
+        <input asp-for="NummerPasje" id="input-werknemernum" class="form-control" type="text" style="width: 19.766px;" />
     </div>
     <div class="input-group" style="padding: 0px;width: 388px;margin-left: 23px;margin-top: 12px;">
-        <span class="input-group-text">Telefoonnummer</span>
-        <input id="input-telefoonnum" class="form-control" type="text" />
+        <label asp-for="TelefoonNummer" class="input-group-text">Telefoonnummer</label>
+        <input asp-for="TelefoonNummer" id="input-telefoonnum" class="form-control" type="text" />
     </div>
+    <button class="btn btn-primary" type="submit" style="margin-top: 12px;margin-left: 23px;color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>
+    </form>
 </div>
-<button id="buttontoevoegen" class="btn btn-primary" type="button" style="margin-top: 12px;margin-left: 23px;color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>
+

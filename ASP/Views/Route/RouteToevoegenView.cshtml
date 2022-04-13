@@ -1,58 +1,72 @@
 ﻿@{
     ViewData["Title"] = "Route Toevoegen";
+    IEnumerable<WerknemerViewModel> werknemers = ViewData["Werknemers"] as IEnumerable<WerknemerViewModel>;
 }
-@model List<ASP.Models.WerknemerViewModel>
+@model ASP.Models.RouteViewModel
 
-<div class="form-group mb-3" style="width: 273px;margin-top: 48px;margin-bottom: 0px;margin-left: 54px;">
-    <p style="margin-bottom: 3px;">Route Nummer</p>
-    <div class="input-group"><input class="form-control InputBorder" placeholder="Route Nummer" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
-</div>
-<div style="margin-left: 54px;margin-top: 24px;">
-    <p style="margin-bottom: 5px;">Chauffeur</p>
-       <select id="drop-aanpassen" style="margin-right: 0px;">
-        <optgroup label="Werknemers" selected=>
-            @foreach (WerknemerViewModel werknemer in Model)
-            {
-                <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
-            }
-        </optgroup>
-    </select>
+<div class="row justify-content-center">
+    <form class="col-sm-12 col-md-8" method="post" asp-controller="Route" asp-action="RouteToevoegen">
+        
+        <!-- Routenummer input -->
+        <div class="mb-3">
+            <label asp-for="RouteNummer" class="form-label">Routenummer</label>
+            <input asp-for="RouteNummer" type="text" class="form-control" id="input-routenummer" placeholder="Routenummer" />
+        </div>
 
-</div>
-<div style="margin-left: 54px;margin-top: 18px;">
-    <p style="margin-bottom: 5px;">Bijrijder</p>        
-    <select id="drop-aanpassen" style="margin-right: 0px;">
-        <optgroup label="Werknemers">
-            @foreach (WerknemerViewModel werknemer in Model)
-            {
-                <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
-            }
-        </optgroup>
-    </select>
-</div>
-<div class="form-group mb-3" style="width: 273px;margin-top: 17px;margin-bottom: 0px;margin-left: 54px;">
-    <p style="margin-bottom: 3px;">Starttijd</p>
-    <div class="input-group"><input class="form-control InputBorder" placeholder="Starttijd" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
-</div>
-<div class="form-group mb-3" style="width: 273px;margin-top: 17px;margin-bottom: 0px;margin-left: 54px;">
-    <p style="margin-bottom: 3px;">Eindtijd</p>
-    <div class="input-group"><input class="form-control InputBorder" placeholder="Eindtijd" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/" /></div>
-</div>
-<div style="width: 297px;height: 69px;margin: -48px 0px 0px 378px;margin-left: 378px;margin-top: -287px;">
-    <p style="margin-bottom: 4px;">Bijzonderheden</p><textarea></textarea>
-</div>
-<div style="margin-left: 378px;width: 245px;margin-top: -168px;">
-    <p style="margin-bottom: 6px;">Datum</p><input type="date" placeholder="dd-mm-yyyy" value=""
-    min="1997-01-01" max="2030-12-31"/>
-</div>
-<button class="btn btn-primary" type="button" style="background: rgb(42,42,42);margin-right: 0px;margin-left: 378px;margin-top: 145px;">Toevoegen</button>
+        <!-- Date Select -->
+        <div class="mb-3">
+                <label asp-for="Datum" class="form-label">Datum</label>
+                <input asp-for="Datum" type="date" placeholder="dd-mm-yyyy" id="input-datum" />   
+        </div>
 
+        <!-- Chauffeur select -->
+        <div class="mb-3 row">
+            <div class="col">
+                <label for="drop-chauffeur">Chauffeur</label>
+                <select asp-for="Chauffeur" class="form-select" id="drop-chauffeur">
+                    <optgroup label="Werknemers">
+                        @foreach (WerknemerViewModel werknemer in werknemers)
+                        {
+                            <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
 
-    @{/*<select style="margin-right: 0px;">
-            <optgroup label="Chauffeur">
-            @foreach(Werknemer werknemer in werknemerContainer.Werknemers)
-            {
-                <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
-            }
-            </optgroup>
-        </select>*/}
+            <div class="col">
+                <label for="drop-bijrijder">Bijrijder</label>
+                <select asp-for="BijRijder" class="form-select" id="drop-bijrijder">
+                    <optgroup label="Werknemers">
+                        @foreach (WerknemerViewModel werknemer in werknemers)
+                        {
+                            <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+
+        <!-- Starttijd & Eindtijd -->
+        <div class="mb-3 row">
+            <div class="col">
+                <label asp-for="StartTijd" class="form-label">Starttijd</label>
+                <input asp-for="StartTijd" type="text" class="form-control" id="startTijd" placeholder="Starttijd" />
+            </div>
+
+            <div class="col">
+                <label asp-for="EindTijd" class="form-label">Eindtijd</label>
+                <input asp-for="EindTijd" type="text" class="form-control" id="eindTijd" placeholder="Eindtijd" />
+            </div>
+        </div>
+
+        <!-- Bijzonderheden -->
+        <div class="mb-3">
+            <label asp-for="Bijzonderheden" class="form-label">Bijzonderheden</label>
+            <input asp-for="Bijzonderheden" type="text" class="form-control" id="bijzonderheden" placeholder="Bijzonderheden" />
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary" id="buttonroutetoevoegen" style="color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>
+        </div>
+    </form>
+</div>

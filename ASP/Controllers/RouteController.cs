@@ -1,6 +1,7 @@
 ﻿using ASP.Models;
 using DAL.DAL;
 using Logic.Containers;
+using Logic.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.Controllers
@@ -57,14 +58,40 @@ namespace ASP.Controllers
         [HttpGet]
         public IActionResult RouteToevoegenView()
         {
-            return View(GetWerknemers());
+            ViewData["Routes"] = GetRoutes();
+            ViewData["Werknemers"] = GetWerknemers();
+            return View();
         }
 
         [HttpPost]
-        public ActionResult RouteToevoegen()
+        public ActionResult RouteToevoegen(int routeNummer, string datum, Werknemer chauffeur, Werknemer bijrijder, string startTijd, string eindTijd)
         {
+            if (ModelState.IsValid)
+            {
+                DateTime pardedDatum;
+                TimeSpan parsedStartTijd;
+                TimeSpan parsedEindTijd;
 
-            return Ok();
+                WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
+                //Werknemer chauffeur = werknemerContainer.GetWerknemers().FirstOrDefault(w => w.WerknemerID == chauffeurID);
+                //Werknemer bijrijder = werknemerContainer.GetWerknemers().FirstOrDefault(w => w.WerknemerID == bijrijderID);
+
+
+                DateTime.TryParse(datum, out pardedDatum);
+                TimeSpan.TryParse(startTijd, out parsedStartTijd);
+                TimeSpan.TryParse(eindTijd, out parsedEindTijd);
+
+                RouteRit newRoute = new RouteRit(routeNummer, pardedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, new RouteDAL());
+                newRoute.AddRoute();
+                return RedirectToAction("Index", "Home");
+            }
+            return View(RouteToevoegenView());
+        }
+
+        [HttpGet]
+        public IActionResult RouteVerwijderenView()
+        {
+            return View(GetRoutes());
         }
     }
 }
