@@ -5,7 +5,7 @@
 @model ASP.Models.RouteViewModel
 
 <div class="row justify-content-center">
-    <form class="col-sm-12 col-md-8" method="post" asp-controller="Route" asp-action="RouteToevoegen">
+    <form class="col-sm-12 col-md-8">
         
         <!-- Routenummer input -->
         <div class="mb-3">
@@ -50,12 +50,12 @@
         <div class="mb-3 row">
             <div class="col">
                 <label asp-for="StartTijd" class="form-label">Starttijd</label>
-                <input asp-for="StartTijd" type="text" class="form-control" id="startTijd" placeholder="Starttijd" />
+                <input asp-for="StartTijd" type="text" class="form-control" id="input-starttijd" placeholder="Starttijd" />
             </div>
 
             <div class="col">
                 <label asp-for="EindTijd" class="form-label">Eindtijd</label>
-                <input asp-for="EindTijd" type="text" class="form-control" id="eindTijd" placeholder="Eindtijd" />
+                <input asp-for="EindTijd" type="text" class="form-control" id="input-eindtijd" placeholder="Eindtijd" />
             </div>
         </div>
 
@@ -68,5 +68,5 @@
         <div class="mb-3">
             <button type="submit" class="btn btn-primary" id="buttonroutetoevoegen" style="color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>
         </div>
-    </form>
+    </form> 
 </div>

@@ -55,6 +55,30 @@ namespace ASP.Controllers
             return routeViewModels;
         }
 
+        [HttpPost]
+        public ActionResult GetRoutesFromDate(string date)
+        {
+            RouteContainer routeContainer = new RouteContainer(new RouteDAL());
+            List<RouteViewModel> routeViewModels = new List<RouteViewModel>();
+            foreach (var routes in routeContainer.GetRoutesFromDate(date, new WerknemerDAL(), new WerknemerDAL()))
+            {
+                RouteViewModel routeViewModel = new RouteViewModel
+                {
+                    RouteID = routes.RouteID,
+                    RouteNummer = routes.RouteNummer,
+                    Datum = routes.Datum,
+                    Chauffeur = routes.Chauffeur,
+                    BijRijder = routes.BijRijder,
+                    StartTijd = routes.StartTijd,
+                    EindTijd = routes.EindTijd,
+                    AantalUur = routes.AantalUur,
+                    Bijzonderheden = routes.Bijzonderheden
+                };
+                routeViewModels.Add(routeViewModel);
+            }
+            return Ok(routeViewModels);
+        }
+
         [HttpGet]
         public IActionResult RouteToevoegenView()
         {
@@ -64,34 +88,33 @@ namespace ASP.Controllers
         }
 
         [HttpPost]
-        public ActionResult RouteToevoegen(int routeNummer, string datum, Werknemer chauffeur, Werknemer bijrijder, string startTijd, string eindTijd)
+        public ActionResult RouteToevoegen(int routeNummer, string rawDatum, int chauffeurID, int bijrijderID, string rawStartTijd, string rawEindTijd)
         {
-            if (ModelState.IsValid)
-            {
-                DateTime pardedDatum;
-                TimeSpan parsedStartTijd;
-                TimeSpan parsedEindTijd;
+            DateTime parsedDatum;
+            TimeSpan parsedStartTijd;
+            TimeSpan parsedEindTijd;
 
-                WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
-                //Werknemer chauffeur = werknemerContainer.GetWerknemers().FirstOrDefault(w => w.WerknemerID == chauffeurID);
-                //Werknemer bijrijder = werknemerContainer.GetWerknemers().FirstOrDefault(w => w.WerknemerID == bijrijderID);
+            WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
+            Werknemer chauffeur = werknemerContainer.GetWerknemers().FirstOrDefault(w => w.WerknemerID == chauffeurID);
+            Werknemer bijrijder = werknemerContainer.GetWerknemers().FirstOrDefault(w => w.WerknemerID == bijrijderID);
 
 
-                DateTime.TryParse(datum, out pardedDatum);
-                TimeSpan.TryParse(startTijd, out parsedStartTijd);
-                TimeSpan.TryParse(eindTijd, out parsedEindTijd);
+            DateTime.TryParse(rawDatum, out parsedDatum);
+            TimeSpan.TryParse(rawStartTijd, out parsedStartTijd);
+            TimeSpan.TryParse(rawEindTijd, out parsedEindTijd);
 
-                RouteRit newRoute = new RouteRit(routeNummer, pardedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, new RouteDAL());
-                newRoute.AddRoute();
-                return RedirectToAction("Index", "Home");
-            }
-            return View(RouteToevoegenView());
+            RouteRit newRoute = new RouteRit(routeNummer, parsedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, new RouteDAL());
+            newRoute.AddRoute();
+            return Ok("Werknemer Toevoegen");
+            //return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public IActionResult RouteVerwijderenView()
         {
-            return View(GetRoutes());
+            return View();
         }
+
+
     }
 }

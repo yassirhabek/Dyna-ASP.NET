@@ -15,7 +15,7 @@ $('#buttonwerknemerverwijderen').click(() => {
 })
 
 $('#buttonroutetoevoegen').click(() => {
-
+    RouteToevoegen();
 })
 
 function WerknemerToevoegen() {

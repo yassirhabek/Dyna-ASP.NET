@@ -25,7 +25,6 @@ namespace Logic.Containers
             }
             catch (Exception)
             {
-                return null;
                 throw;
             }
         }

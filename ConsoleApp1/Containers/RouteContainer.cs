@@ -35,9 +35,11 @@ namespace Logic.Containers
             return routes;
         }
 
-        public List<RouteRit> GetRouteFromDate(string date, IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer)
+        public List<RouteRit> GetRoutesFromDate(string rawDate, IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer)
         {
             List<RouteRit> routesFromDate = new List<RouteRit>();
+            DateTime date;
+            DateTime.TryParse(rawDate, out date);
 
             try
             {

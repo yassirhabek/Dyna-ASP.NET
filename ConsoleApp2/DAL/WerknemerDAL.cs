@@ -12,7 +12,7 @@ namespace DAL.DAL
 {
     public class WerknemerDAL : DB, IWerknemer, IWerknemerContainer
     {
-        public void AddNewWerknemer(WerknemerDTO werknemerNieuw)
+        public int AddNewWerknemer(WerknemerDTO werknemerNieuw)
         {
             string query = "INSERT INTO werknemers(NummerPasje, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum)";
 
@@ -29,16 +29,21 @@ namespace DAL.DAL
                     cmd.ExecuteNonQuery();
                 }
                 catch (MySqlException ex)
-                {
+                {                    
+                    return 0;
                     throw new Exception(ex.ToString());
                 }
                 closeConnection();
+                return 1;
             }
             else
+            {
+                return 0;
                 throw new DataException();
+            }
         }
 
-        public void ChangeWerknemerData(WerknemerDTO changedWerknemer, int oldWerknemerID)
+        public int UpdateWerknemer(WerknemerDTO changedWerknemer, int oldWerknemerID)
         {
             string query = "UPDATE werknemers SET Naam = @naam, NummerPasje = @numpas, Telefoonnummer = @telefoonnum WHERE WerknemerID = @oldwerknemerid";
 
@@ -57,12 +62,18 @@ namespace DAL.DAL
                 }
                 catch (MySqlException ex)
                 {
+                    return 0;
                     throw new Exception(ex.ToString());
                 }
                 closeConnection();
+                return 1;
             }
             else
+            {
+                return 0;
                 throw new DataException();
+            }
+                
         }
 
         public void DeleteWerknemer(WerknemerDTO werknemer)

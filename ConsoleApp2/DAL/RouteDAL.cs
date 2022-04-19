@@ -45,7 +45,7 @@ namespace DAL.DAL
                 throw new DataException();
         }
 
-        public List<RouteDTO> GetRouteFromDate(string date, List<WerknemerDTO> lijstWerknemers)
+        public List<RouteDTO> GetRouteFromDate(DateTime date, List<WerknemerDTO> lijstWerknemers)
         {
             List<RouteDTO> output = new List<RouteDTO>();
 

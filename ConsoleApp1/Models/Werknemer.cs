@@ -41,14 +41,16 @@ namespace Logic.Models
             TelefoonNummer = telefoonNummer;
             _iWerknemer = iWerknemer;
         }
-        public void AddWerknemer()
+        public int AddWerknemer()
         {
             _iWerknemer.AddNewWerknemer(WerknemerToDTO());
+            return 1;
         }
 
-        public void UpdateWerknemer(int oldWerknemerID)
+        public int UpdateWerknemer(int oldWerknemerID)
         {
-            _iWerknemer.ChangeWerknemerData(WerknemerToDTO(), oldWerknemerID);
+            _iWerknemer.UpdateWerknemer(WerknemerToDTO(), oldWerknemerID);
+            return 1;
         }
 
         public void DeleteWerknemer()

@@ -1,15 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model List<ASP.Models.RouteViewModel>
+﻿@model List<ASP.Models.RouteViewModel>
 
     <div style="width: 209px;margin-top: 140px;margin-left: 66px;">
-        <p>Kies de datum.</p><input type="date" />
+        <p>Kies de datum.</p><input id="choose-change-date" type="date" />
     </div>
     <div style="width: 217px;height: 89px;margin-top: -65px;margin-bottom: 0px;margin-left: 456px;">
-        <p>Kies de Route.</p><select style="margin-top: -8px;margin-left: 1px;height: 30px;width: 182px;margin-bottom: 0px;">
+        <p>Kies de Route.</p><select id="option-date" style="margin-top: -8px;margin-left: 1px;height: 30px;width: 182px;margin-bottom: 0px;">
             <optgroup label="This is a group">
                 <option value="12" selected>This is item 1</option>
             </optgroup>
         </select>
     </div><button class="btn btn-primary" type="button" style="width: 120.5px;height: 41px;background: var(--bs-gray-800);margin-left: 65px;">Verwijderen</button>
+
+    @section Scripts {
+    <script type="text/javascript">
+        $('#choose-change-date').change(function(){
+            var Date = $('#choose-change-date').val();
+            
+            let target = window.location.protocol + "//" + window.location.host;
+            $.post(target + "/Route/GetRoutesFromDate", {date: Date} )
+                .done(data => {console.log(data) })
+                .fail(data => { alert(data.responseText) })
+        });
+    </script>
+    }
