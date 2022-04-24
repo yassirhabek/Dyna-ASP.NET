@@ -51,10 +51,10 @@ namespace DAL.DAL
 
             if (openConnection())
             {
-                string query = "SELECT * FROM route WHERE Datum=@datum";
+                string query = "SELECT * FROM route WHERE Datum= @datum;";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
-                cmd.Parameters.Add("@datum", MySqlDbType.Text).Value = date;
+                cmd.Parameters.Add("@datum", MySqlDbType.Date).Value = date;
 
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -64,10 +64,11 @@ namespace DAL.DAL
                     {
                         output.Add(new RouteDTO()
                         {
+                            RouteID = Convert.ToInt32(rdr[0]),
                             RouteNummer = Convert.ToInt32(rdr[1]),
                             Datum = Convert.ToDateTime(rdr[2]),
-                            Chauffeur = lijstWerknemers.FirstOrDefault(w => w.Naam == rdr[3].ToString()),
-                            BijRijder = lijstWerknemers.FirstOrDefault(w => w.Naam == rdr[4].ToString()),
+                            Chauffeur = lijstWerknemers.FirstOrDefault(w => w.WerknemerID == Convert.ToInt32(rdr[3])),
+                            BijRijder = lijstWerknemers.FirstOrDefault(w => w.WerknemerID == Convert.ToInt32(rdr[4])),
                             StartTijd = TimeSpan.Parse(Convert.ToString(rdr[5])),
                             EindTijd = TimeSpan.Parse(Convert.ToString(rdr[6])),
                             AantalUur = TimeSpan.Parse(Convert.ToString(rdr[7])),
@@ -103,10 +104,11 @@ namespace DAL.DAL
                     {
                         output.Add(new RouteDTO()
                         {
+                            RouteID = Convert.ToInt32(rdr[0]),
                             RouteNummer = Convert.ToInt32(rdr[1]),
                             Datum = Convert.ToDateTime(rdr[2]),
-                            Chauffeur = lijstWerknemers.FirstOrDefault(w => w.Naam == rdr[3].ToString()),
-                            BijRijder = lijstWerknemers.FirstOrDefault(w => w.Naam == rdr[4].ToString()),
+                            Chauffeur = lijstWerknemers.FirstOrDefault(w => w.WerknemerID == Convert.ToInt32(rdr[3])),
+                            BijRijder = lijstWerknemers.FirstOrDefault(w => w.WerknemerID == Convert.ToInt32(rdr[4])),
                             StartTijd = TimeSpan.Parse(Convert.ToString(rdr[5])),
                             EindTijd = TimeSpan.Parse(Convert.ToString(rdr[6])),
                             AantalUur = TimeSpan.Parse(Convert.ToString(rdr[7])),

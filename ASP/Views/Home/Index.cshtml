@@ -1,6 +1,57 @@
-﻿@{
+﻿@using Logic.Models
+@{
     ViewData["Title"] = "Home Page";
+    IEnumerable<WerknemerViewModel> werknemers = ViewData["Werknemers"] as IEnumerable<WerknemerViewModel>;
+    IEnumerable<RouteViewModel> routes = ViewData["Routes"] as IEnumerable<RouteViewModel>;
 }
+
+<div class="justify-content-center col-sm-12 col-md-8">
+    <div class="row">
+        <div class="col col-md-6 col-md-offset-2 custyle">
+            <table class="table table-striped custab">
+                <thead>
+                    <tr>
+                        <th>RouteNummer</th>
+                        <th>Datum</th>
+                        <th>Totaal Uur</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                @foreach(RouteViewModel route in routes)
+                {
+                    <tr>
+                    <td>@route.RouteNummer</td>
+                    <td>@route.Datum.Date</td>
+                    <td>@route.AantalUur</td>
+                    <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                    </tr>  
+                }
+            </table>
+        </div>
+        <div class="col col-md-6 col-md-offset-2 custyle">
+            <table class="table table-striped custab">
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>Werknemernummer</th>
+                        <th>Telefoonnummer</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                @foreach(WerknemerViewModel werknemer in werknemers)
+                {
+                    <tr>
+                    <td>@werknemer.Naam</td>
+                    <td>@werknemer.NummerPasje</td>
+                    <td>@werknemer.TelefoonNummer</td>
+                    <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                    </tr>  
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
 @*
 <div class="align-content-center">
         <div class="Column">

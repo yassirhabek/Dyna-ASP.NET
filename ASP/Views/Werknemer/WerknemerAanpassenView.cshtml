@@ -3,24 +3,33 @@
 }
 @model List<ASP.Models.WerknemerViewModel>
 
-<div style="margin: 0px;height: 316px;margin-top: 51px;margin-left: 50px;">
-    <p style="width: 794px;margin-bottom: 0px;margin-left: 34px;">Kies een Werknemer.</p><select id="drop-aanpassen" style="margin-top: 16px;margin-left: 32px;width: 164px;height: 36px;">
-        <optgroup label="Werknemers">
-            @foreach (WerknemerViewModel werknemer in Model)
-            {
-                <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
-            }
-        </optgroup>
-    </select>
-    <div class="form-group mb-3" style="width: 284px;margin-top: 74px;margin-left: 30px;"><small>Naam</small>
-        <div class="input-group" style="width: 284px;"><input id="changed-naam" class="form-control InputBorder" type="email" placeholder="Naam" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/width: 127px;" /></div>
-    </div>
-    <div class="form-group mb-3" style="width: 284px;margin-top: 18px;margin-left: 30px;"><small>Werknemer Nummer</small>
-        <div class="input-group" style="width: 284px;"><input id="changed-werknemernum" class="form-control InputBorder" type="email" placeholder="Werknemer Nummer" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/width: 127px;" /></div>
-    </div>
-    <div class="form-group mb-3" style="width: 284px;margin-top: 16px;margin-left: 30px;"><small>Telefoonnummer</small>
-        <div class="input-group" style="width: 284px;"><input id="changed-telefoonnummer" class="form-control InputBorder" type="email" placeholder="Telefoonnummer" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/width: 127px;" /></div>
-    </div><button id="buttonwerknemeraanpassen" class="btn btn-primary" type="button" style="margin-left: 30px;width: 103.5px;background: rgb(51,51,51);">Aanpassen</button>
+<div class="justify-content-center">
+    <form class="col-sm-12 col-md-8">
+        <div class="mb-3">
+            <p>Kies een Werknemer.</p>
+            <select id="drop-aanpassen" style="width: 200px">
+                <optgroup label="Werknemers">
+                    @foreach (WerknemerViewModel werknemer in Model)
+                    {
+                        <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+                    }
+                </optgroup>
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <small>Naam</small>
+            <div class="input-group"><input id="changed-naam" class="form-control InputBorder" placeholder="Naam" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/width: 127px;" /></div>
+        </div>
+        <div class="form-group mb-3">
+            <small>Werknemer Nummer</small>
+            <div class="input-group"><input id="changed-werknemernum" class="form-control InputBorder" placeholder="Werknemer Nummer" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/width: 127px;" /></div>
+        </div>
+        <div class="form-group mb-3">
+            <small>Telefoonnummer</small>
+            <div class="input-group"><input id="changed-telefoonnummer" class="form-control InputBorder" placeholder="Telefoonnummer" style="/*border: 0;*//*border-width: 0 0 1px 0;*//*border-color: black;*//*border-radius: 0;*/width: 127px;" /></div>
+        </div>
+        <button id="buttonwerknemeraanpassen" class="btn btn-primary" type="button" style="background: rgb(51,51,51);">Aanpassen</button>
+    </form>
 </div>
 
 @section Scripts {

@@ -14,6 +14,25 @@ namespace ASP.Controllers
         {
             _logger = logger;
         }
+
+        private List<WerknemerViewModel> GetWerknemers()
+        {
+            WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
+            List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
+            foreach (var werknemer in werknemerContainer.GetWerknemers())
+            {
+                WerknemerViewModel werknemerViewModel = new WerknemerViewModel
+                {
+                    WerknemerID = werknemer.WerknemerID,
+                    Naam = werknemer.Naam,
+                    NummerPasje = werknemer.NummerPasje,
+                    TelefoonNummer = werknemer.TelefoonNummer
+                };
+                werknemerViewModels.Add(werknemerViewModel);
+            }
+            return werknemerViewModels;
+        }
+
         private List<RouteViewModel> GetRoutes()
         {
             RouteContainer routeContainer = new RouteContainer(new RouteDAL());
@@ -39,6 +58,8 @@ namespace ASP.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Routes"] = GetRoutes();
+            ViewData["Werknemers"] = GetWerknemers();
             return View();
         }
     }

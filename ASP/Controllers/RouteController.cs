@@ -105,14 +105,23 @@ namespace ASP.Controllers
 
             RouteRit newRoute = new RouteRit(routeNummer, parsedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, new RouteDAL());
             newRoute.AddRoute();
-            return Ok("Werknemer Toevoegen");
-            //return RedirectToAction("Index", "Home");
+            return Ok("Route Toegevoegd");
         }
 
         [HttpGet]
         public IActionResult RouteVerwijderenView()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RouteVerwijderen(int id)
+        {
+            RouteContainer routeContainer = new RouteContainer(new RouteDAL());
+            RouteRit route = routeContainer.GetRoute(new WerknemerDAL(), new WerknemerDAL()).FirstOrDefault(r => r.RouteID == id);
+
+            route.DeleteRoute();
+            return Ok("Route Verwijderd");
         }
 
 

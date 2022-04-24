@@ -18,6 +18,10 @@ $('#buttonroutetoevoegen').click(() => {
     RouteToevoegen();
 })
 
+$('#buttonrouteverwijderen').click(() => {
+    RouteVerwijderen();
+})
+
 function WerknemerToevoegen() {
     let target = window.location.protocol + "//" + window.location.host;
 
@@ -64,6 +68,16 @@ function RouteToevoegen() {
     Eindtijd = $("#input-eindtijd").val();
 
     $.post(target + "/Route/RouteToevoegen", { routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
+        .done(data => { alert(data), window.location.href = target })
+        .fail(data => { alert(data.responseText) })
+}
+
+function RouteVerwijderen() {
+    let target = window.location.protocol + "//" + window.location.host;
+
+    RouteID = $('#option-date').val();
+
+    $.post(target + "/Route/RouteVerwijderen/" + RouteID, null)
         .done(data => { alert(data), window.location.href = target })
         .fail(data => { alert(data.responseText) })
 }
