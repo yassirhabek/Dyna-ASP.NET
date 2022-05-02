@@ -15,7 +15,7 @@
             </div>
 
             <div class="mb-3">
-            <button id="buttonrouteverwijderen" class="btn btn-primary" type="button" style="width: 120.5px;height: 41px;background: var(--bs-gray-800);">Verwijderen</button>
+            <button id="buttonrouteverwijderen" class="btn btn-primary" style="width: 120.5px;height: 41px;background: var(--bs-gray-800);">Verwijderen</button>
             </div>
 
         </form>
@@ -25,7 +25,8 @@
     <script type="text/javascript">
         $('#choose-change-date').change(function(){
             var Date = $('#choose-change-date').val();
-            
+            $('#option-date').empty();
+
             let target = window.location.protocol + "//" + window.location.host;
             $.post(target + "/Route/GetRoutesFromDate", {date: Date} )
                 .done(data => {

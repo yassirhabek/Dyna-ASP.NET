@@ -20,8 +20,7 @@ namespace Unit_Test.Stubs
 
         public int UpdateWerknemer(WerknemerDTO werknemerDTO, int oldWerknemerID)
         {
-            werknemerDTO.WerknemerID = oldWerknemerID;
-            return 1;
+            throw new NotImplementedException();
         }
 
         public void DeleteWerknemer(WerknemerDTO werknemer)

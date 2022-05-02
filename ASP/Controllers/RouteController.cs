@@ -24,7 +24,7 @@ namespace ASP.Controllers
                 {
                     WerknemerID = werknemer.WerknemerID,
                     Naam = werknemer.Naam,
-                    NummerPasje = werknemer.NummerPasje,
+                    NummerPasje = werknemer.WerknemerNummer,
                     TelefoonNummer = werknemer.TelefoonNummer
                 };
                 werknemerViewModels.Add(werknemerViewModel);
@@ -36,7 +36,7 @@ namespace ASP.Controllers
         {
             RouteContainer routeContainer = new RouteContainer(new RouteDAL());
             List<RouteViewModel> routeViewModels = new List<RouteViewModel>();
-            foreach (var routes in routeContainer.GetRoute(new WerknemerDAL(), new WerknemerDAL()))
+            foreach (var routes in routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL()))
             {
                 RouteViewModel routeViewModel = new RouteViewModel
                 {
@@ -109,6 +109,23 @@ namespace ASP.Controllers
         }
 
         [HttpGet]
+        public IActionResult RouteAanpassenView()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult RouteAanpassenForm(int id)
+        {
+            var viewData = new RouteViewModel()
+            {
+                RouteID = id
+            };
+
+            return View(viewData);
+        }
+
+        [HttpGet]
         public IActionResult RouteVerwijderenView()
         {
             return View();
@@ -118,7 +135,7 @@ namespace ASP.Controllers
         public ActionResult RouteVerwijderen(int id)
         {
             RouteContainer routeContainer = new RouteContainer(new RouteDAL());
-            RouteRit route = routeContainer.GetRoute(new WerknemerDAL(), new WerknemerDAL()).FirstOrDefault(r => r.RouteID == id);
+            RouteRit route = routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL()).FirstOrDefault(r => r.RouteID == id);
 
             route.DeleteRoute();
             return Ok("Route Verwijderd");

@@ -25,7 +25,7 @@ namespace ASP.Controllers
                 {
                     WerknemerID = werknemer.WerknemerID,
                     Naam = werknemer.Naam,
-                    NummerPasje = werknemer.NummerPasje,
+                    NummerPasje = werknemer.WerknemerNummer,
                     TelefoonNummer = werknemer.TelefoonNummer
                 };
                 werknemerViewModels.Add(werknemerViewModel);

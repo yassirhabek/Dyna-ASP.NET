@@ -21,7 +21,7 @@ namespace Logic.Containers
             try
             {
                 WerknemerDTO searchedWerknemer = _iWerknemerContainer.GetSingleWerknemer(ID);
-                return new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.Naam, searchedWerknemer.NummerPasje, searchedWerknemer.TelefoonNummer, _iWerknemer);
+                return new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.Naam, searchedWerknemer.WerknemerNummer, searchedWerknemer.TelefoonNummer, _iWerknemer);
             }
             catch (Exception)
             {
@@ -36,7 +36,7 @@ namespace Logic.Containers
             {
                 foreach (var searchedWerknemer in _iWerknemerContainer.GetAllWerknemers())
                 {
-                    Werknemer werknemer = new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.Naam, searchedWerknemer.NummerPasje, searchedWerknemer.TelefoonNummer, _iWerknemer);
+                    Werknemer werknemer = new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.Naam, searchedWerknemer.WerknemerNummer, searchedWerknemer.TelefoonNummer, _iWerknemer);
                     werknemers.Add(werknemer);
                 }
             }

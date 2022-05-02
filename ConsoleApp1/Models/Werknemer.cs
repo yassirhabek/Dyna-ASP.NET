@@ -7,7 +7,7 @@ namespace Logic.Models
     {
         private IWerknemer _iWerknemer;
         public int WerknemerID { get; set; }
-        public int NummerPasje { get; set; }
+        public int WerknemerNummer { get; set; }
         public string Naam { get; set; }
         public int TelefoonNummer { get; set; }
 
@@ -19,7 +19,7 @@ namespace Logic.Models
         public Werknemer(WerknemerDTO dto, IWerknemer iWerknemer)
         {
             WerknemerID = dto.WerknemerID;
-            NummerPasje = dto.NummerPasje;
+            WerknemerNummer = dto.WerknemerNummer;
             TelefoonNummer = dto.TelefoonNummer;
             Naam = dto.Naam;
             _iWerknemer = iWerknemer;
@@ -29,7 +29,7 @@ namespace Logic.Models
         {            
             WerknemerID = werknemerID;
             Naam = naam;
-            NummerPasje = nummerPasje;
+            WerknemerNummer = nummerPasje;
             TelefoonNummer = telefoonNummer;
             _iWerknemer = iWerknemer;
         }
@@ -37,10 +37,11 @@ namespace Logic.Models
         public Werknemer(string naam, int nummerPasje, int telefoonNummer, IWerknemer iWerknemer)
         {            
             Naam = naam;
-            NummerPasje = nummerPasje;
+            WerknemerNummer = nummerPasje;
             TelefoonNummer = telefoonNummer;
             _iWerknemer = iWerknemer;
         }
+
         public int AddWerknemer()
         {
             _iWerknemer.AddNewWerknemer(WerknemerToDTO());
@@ -63,7 +64,7 @@ namespace Logic.Models
             WerknemerDTO werknemerDTO = new WerknemerDTO();
             werknemerDTO.WerknemerID = WerknemerID;
             werknemerDTO.Naam = Naam;
-            werknemerDTO.NummerPasje = NummerPasje;
+            werknemerDTO.WerknemerNummer = WerknemerNummer;
             werknemerDTO.TelefoonNummer = TelefoonNummer;
             return werknemerDTO;
         }

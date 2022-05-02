@@ -9,7 +9,7 @@ namespace Interfaces.DTO
     public struct WerknemerDTO
     {
         public int WerknemerID;
-        public int NummerPasje;
+        public int WerknemerNummer;
         public string Naam;
         public int TelefoonNummer;
     }

@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Route Aanpassen";
+    IEnumerable<WerknemerViewModel> werknemers = ViewData["Werknemers"] as IEnumerable<WerknemerViewModel>;
+}
+
+@model ASP.Models.RouteViewModel
+<div class="row justify-content-center">
+    <form class="col-sm-12 col-md-8">
+        
+        <!-- Routenummer input -->
+        <div class="mb-3">
+            <label asp-for="RouteNummer" class="form-label">Routenummer</label>
+            <input asp-for="RouteNummer" type="text" class="form-control" id="input-routenummer" placeholder="Routenummer" />
+        </div>
+
+        <!-- Date Select -->
+        <div class="mb-3">
+                <label asp-for="Datum" class="form-label">Datum</label>
+                <input asp-for="Datum" type="date" placeholder="dd-mm-yyyy" id="input-datum" />   
+        </div>
+
+        <!-- Chauffeur select -->
+        <div class="mb-3 row">
+            <div class="col">
+                <label for="drop-chauffeur">Chauffeur</label>
+                <select asp-for="Chauffeur" class="form-select" id="drop-chauffeur">
+                    <optgroup label="Werknemers">
+                        @foreach (WerknemerViewModel werknemer in werknemers)
+                        {
+                            <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="drop-bijrijder">Bijrijder</label>
+                <select asp-for="BijRijder" class="form-select" id="drop-bijrijder">
+                    <optgroup label="Werknemers">
+                        @foreach (WerknemerViewModel werknemer in werknemers)
+                        {
+                            <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+
+        <!-- Starttijd & Eindtijd -->
+        <div class="mb-3 row">
+            <div class="col">
+                <label asp-for="StartTijd" class="form-label">Starttijd</label>
+                <input asp-for="StartTijd" type="time" class="form-control" id="input-starttijd" placeholder="Starttijd" />
+            </div>
+
+            <div class="col">
+                <label asp-for="EindTijd" class="form-label">Eindtijd</label>
+                <input asp-for="EindTijd" type="time" class="form-control" id="input-eindtijd" placeholder="Eindtijd" />
+            </div>
+        </div>
+
+        <!-- Bijzonderheden -->
+        <div class="mb-3">
+            <label asp-for="Bijzonderheden" class="form-label">Bijzonderheden</label>
+            <input asp-for="Bijzonderheden" type="text" class="form-control" id="bijzonderheden" placeholder="Bijzonderheden" />
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-primary" id="buttonroutetoevoegen" style="color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>
+        </div>
+    </form> 
+</div>

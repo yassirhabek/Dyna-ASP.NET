@@ -20,7 +20,7 @@ namespace DAL.DAL
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
-                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.NummerPasje;
+                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.WerknemerNummer;
                 cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = werknemerNieuw.Naam;
                 cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int64).Value = werknemerNieuw.TelefoonNummer;
 
@@ -52,7 +52,7 @@ namespace DAL.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = changedWerknemer.Naam;
-                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = changedWerknemer.NummerPasje;
+                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = changedWerknemer.WerknemerNummer;
                 cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int32).Value = changedWerknemer.TelefoonNummer;
                 cmd.Parameters.Add("@oldwerknemerid", MySqlDbType.Int64).Value = oldWerknemerID;
 
@@ -116,7 +116,7 @@ namespace DAL.DAL
                         output.Add(new WerknemerDTO()
                         {
                             WerknemerID = Convert.ToInt32(rdr[0]),
-                            NummerPasje = Convert.ToInt32(rdr[1]),
+                            WerknemerNummer = Convert.ToInt32(rdr[1]),
                             Naam = Convert.ToString(rdr[2]),
                             TelefoonNummer = Convert.ToInt32(rdr[3])
                         });
@@ -154,7 +154,7 @@ namespace DAL.DAL
                         output = new WerknemerDTO()
                         {
                             WerknemerID = Convert.ToInt32(rdr[0]),
-                            NummerPasje = Convert.ToInt32(rdr[1]),
+                            WerknemerNummer = Convert.ToInt32(rdr[1]),
                             Naam = Convert.ToString(rdr[2]),
                             TelefoonNummer = Convert.ToInt32(rdr[3])
                         };

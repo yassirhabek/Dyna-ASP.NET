@@ -16,7 +16,7 @@ namespace Logic.Containers
             _iRoute = (IRoute)iRouteContainer;
         }
 
-        public List<RouteRit> GetRoute(IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer)
+        public List<RouteRit> GetRoutes(IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer)
         {
             List<RouteRit> routes = new List<RouteRit>();
             try

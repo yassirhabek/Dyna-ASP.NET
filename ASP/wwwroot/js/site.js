@@ -1,8 +1,4 @@
-﻿//const { Alert } = require("../lib/bootstrap/dist/js/bootstrap");
-//const { data } = require("jquery");
-
-
-$("#buttonwerknemertoevoegen").click(() => {
+﻿$("#buttonwerknemertoevoegen").click(() => {
 
 })
 
@@ -16,6 +12,10 @@ $('#buttonwerknemerverwijderen').click(() => {
 
 $('#buttonroutetoevoegen').click(() => {
     RouteToevoegen();
+})
+
+$('#buttonrouteaanpassen').click(() => {
+    RouteAanpassenSelecteren();
 })
 
 $('#buttonrouteverwijderen').click(() => {
@@ -70,6 +70,15 @@ function RouteToevoegen() {
     $.post(target + "/Route/RouteToevoegen", { routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
         .done(data => { alert(data), window.location.href = target })
         .fail(data => { alert(data.responseText) })
+}
+
+function RouteAanpassenSelecteren() {
+    let target = window.location.protocol + "//" + window.location.host;
+
+    RouteID = $('#option-date-aanpassen').val();
+
+    $.post(target + "/Route/RouteAanpassenForm/" + RouteID, null)
+        .done()
 }
 
 function RouteVerwijderen() {

@@ -11,20 +11,17 @@ namespace Unit_Test.Tests
         public void SuccesfulWerknemerAdded()
         {
             // Arrange
-            string naam = "Yassir";
-            int werknemerNummer = 123123;
-            int telefoonNummer = 0612341234;
             WerknemerDalStub werknemerDalStub = new WerknemerDalStub();
+            Werknemer werknemer = new Werknemer("Yassir", 123123, 0612341234, werknemerDalStub);
 
             // Act
-            Werknemer werknemer = new Werknemer(naam, werknemerNummer, telefoonNummer, werknemerDalStub);
             int result = werknemer.AddWerknemer();
 
             // Assert
             Assert.AreEqual(1, result);
-            Assert.AreEqual(naam, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].Naam);
-            Assert.AreEqual(werknemerNummer, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].NummerPasje);
-            Assert.AreEqual(telefoonNummer, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].TelefoonNummer);
+            Assert.AreEqual(werknemer.Naam, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].Naam);
+            Assert.AreEqual(werknemer.WerknemerNummer, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].WerknemerNummer);
+            Assert.AreEqual(werknemer.TelefoonNummer, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].TelefoonNummer);
         }
 
         [TestMethod]
