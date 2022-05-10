@@ -6,6 +6,6 @@ namespace Interfaces.Interface
     {
         int AddNewWerknemer(WerknemerDTO werknemerNieuw);
         int UpdateWerknemer(WerknemerDTO changedWerknemer, int oldWerknemerID);
-        void DeleteWerknemer(WerknemerDTO werknemer);
+        int DeleteWerknemer(WerknemerDTO werknemer);
     }
 }

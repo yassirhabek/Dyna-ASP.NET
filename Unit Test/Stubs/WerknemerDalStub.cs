@@ -8,9 +8,36 @@ using System.Threading.Tasks;
 
 namespace Unit_Test.Stubs
 {
-    public class WerknemerDalStub : IWerknemer
+    public class WerknemerDalStub : IWerknemer, IWerknemerContainer
     {
         public List<WerknemerDTO> werknemerDTOs = new List<WerknemerDTO>();
+
+        public WerknemerDalStub()
+        {
+            werknemerDTOs.Add(new WerknemerDTO()
+            {
+                WerknemerID = 4,
+                Naam = "Daniel",
+                WerknemerNummer = 123321,
+                TelefoonNummer = 0619244212
+            });
+
+            werknemerDTOs.Add(new WerknemerDTO()
+            {
+                WerknemerID = 5,
+                Naam = "Matthijs",
+                WerknemerNummer = 097212,
+                TelefoonNummer = 0672249187
+            });
+
+            werknemerDTOs.Add(new WerknemerDTO()
+            {
+                WerknemerID = 6,
+                Naam = "Hugo",
+                WerknemerNummer = 344874,
+                TelefoonNummer = 0622000331
+            });
+        }
 
         public int AddNewWerknemer(WerknemerDTO werknemerDTO)
         {
@@ -20,12 +47,30 @@ namespace Unit_Test.Stubs
 
         public int UpdateWerknemer(WerknemerDTO werknemerDTO, int oldWerknemerID)
         {
-            throw new NotImplementedException();
+            WerknemerDTO newWerknemer = werknemerDTOs.FirstOrDefault(w => w.WerknemerID == oldWerknemerID);
+            newWerknemer.Naam = werknemerDTO.Naam;
+            newWerknemer.WerknemerNummer = werknemerDTO.WerknemerNummer;
+            newWerknemer.TelefoonNummer= werknemerDTO.TelefoonNummer;
+            werknemerDTOs.Add(newWerknemer);
+
+            return 1;
         }
 
-        public void DeleteWerknemer(WerknemerDTO werknemer)
+        public int DeleteWerknemer(WerknemerDTO werknemer)
         {
-            throw new NotImplementedException();
+            werknemerDTOs.RemoveAll(w => w.WerknemerID == werknemer.WerknemerID);
+            return 1;
+        }
+
+        public List<WerknemerDTO> GetAllWerknemers()
+        {
+            return werknemerDTOs;
+        }
+
+        public WerknemerDTO GetSingleWerknemer(int ID)
+        {
+            WerknemerDTO werknemerDTO = werknemerDTOs.FirstOrDefault(w => w.WerknemerID == ID);
+            return werknemerDTO;
         }
     }
 }

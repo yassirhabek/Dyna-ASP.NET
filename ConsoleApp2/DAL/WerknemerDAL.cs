@@ -76,7 +76,7 @@ namespace DAL.DAL
                 
         }
 
-        public void DeleteWerknemer(WerknemerDTO werknemer)
+        public int DeleteWerknemer(WerknemerDTO werknemer)
         {
             string query = "DELETE FROM werknemers WHERE WerknemerID = @werknemerID";
 
@@ -89,14 +89,20 @@ namespace DAL.DAL
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    return 1;
                 }
                 catch (MySqlException ex)
                 {
+                    return 0;
                     throw new Exception(ex.ToString());
                 }
             }
             else
+            {
+                return 0;
                 throw new DataException();
+            }
+
         }
 
         public List<WerknemerDTO> GetAllWerknemers()

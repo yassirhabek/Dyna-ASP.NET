@@ -112,17 +112,20 @@ namespace ASP.Controllers
         public IActionResult RouteAanpassenView()
         {
             return View();
-        }
+        }   
 
         [HttpPost]
-        public ViewResult RouteAanpassenForm(int id)
+        public ActionResult RouteAanpassenForm(int id)
         {
-            var viewData = new RouteViewModel()
-            {
-                RouteID = id
-            };
+            RouteViewModel route = GetRoutes().FirstOrDefault(r => r.RouteID == id);
 
-            return View(viewData);
+            ViewData["Werknemers"] = GetWerknemers();
+            return RedirectToAction("RouteAanpassenToForm", new { route = route });
+        }
+
+        public ActionResult RouteAanpassenToForm(RouteViewModel route)
+        {
+            return View(route);
         }
 
         [HttpGet]
