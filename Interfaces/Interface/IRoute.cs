@@ -4,8 +4,8 @@ namespace Interfaces.Interface
 {
     public interface IRoute
     {
-        void AddRoute(RouteDTO newRoute);
-        void DeleteRoute(RouteDTO deleteRoute);
-        void UpdateRoute(RouteDTO updateRoute, int oldRouteID);
+        int AddRoute(RouteDTO newRoute);
+        int DeleteRoute(RouteDTO deleteRoute);
+        int UpdateRoute(RouteDTO updateRoute, int oldRouteID);
     }
 }

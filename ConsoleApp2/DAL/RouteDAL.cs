@@ -12,7 +12,7 @@ namespace DAL.DAL
 {
     public class RouteDAL : DB, IRoute, IRouteContainer
     {
-        public void AddRoute(RouteDTO newRoute)
+        public int AddRoute(RouteDTO newRoute)
         {
             string query = "INSERT INTO route (RouteNummer, Datum, Chauffeur, Bijrijder, Starttijd, Eindtijd, AantalUur, Bijzonderheden, DatumToegevoegd) " +
                         "VALUES (@route, @date, @chauf, @bijr, @stijd, @etijd, @aanu, @bijz, @curdate)";
@@ -34,15 +34,21 @@ namespace DAL.DAL
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    return 1;
                 }
                 catch (MySqlException ex)
                 {
+                    return 0;
                     throw new Exception(ex.ToString());
                 }
                 closeConnection();
             }
             else
+            {
+                return 0;
                 throw new DataException();
+            }
+                
         }
 
         public List<RouteDTO> GetRouteFromDate(DateTime date, List<WerknemerDTO> lijstWerknemers)
@@ -127,7 +133,7 @@ namespace DAL.DAL
             else
                 throw new DataException();
         }
-        public void UpdateRoute(RouteDTO updateRoute, int oldRouteID)
+        public int UpdateRoute(RouteDTO updateRoute, int oldRouteID)
         {
 
             string query = "UPDATE route SET RouteNummer= @newroutenum, Datum= @datum, Chauffeur= @chauff, Bijrijder= @bijr," +
@@ -151,18 +157,24 @@ namespace DAL.DAL
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    return 1;
                 }
                 catch (MySqlException ex)
                 {
+                    return 0;
                     throw new Exception(ex.ToString());
                 }
                 closeConnection();
             }
             else
+            {
+                return 0;
                 throw new DataException();
+            }
+               
         }
 
-        public void DeleteRoute(RouteDTO deleteRoute)
+        public int DeleteRoute(RouteDTO deleteRoute)
         {
             string query = "DELETE FROM route WHERE RouteID = @routeid";
 
@@ -175,15 +187,20 @@ namespace DAL.DAL
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    return 1;
                 }
                 catch (MySqlException ex)
                 {
+                    return 0;
                     throw new Exception(ex.ToString());
                 }
                 closeConnection();
             }
             else
+            {
+                return 0;
                 throw new DataException();
+            }
         }
     }
 }

@@ -80,19 +80,19 @@ namespace Logic.Models
             AantalUur = totaalAantalUur(startTijd, eindTijd);
         }
 
-        public void AddRoute()
+        public int AddRoute()
         {
-            _iRoute.AddRoute(RouteToDTO());
+           return _iRoute.AddRoute(RouteToDTO());
         }
 
-        public void UpdateRoute(int oldRouteID)
+        public int UpdateRoute(int oldRouteID)
         {
-            _iRoute.UpdateRoute(RouteToDTO(), oldRouteID);
+            return _iRoute.UpdateRoute(RouteToDTO(), oldRouteID);
         }
 
-        public void DeleteRoute()
+        public int DeleteRoute()
         {
-            _iRoute.DeleteRoute(RouteToDTO());
+            return _iRoute.DeleteRoute(RouteToDTO());
         }
         private TimeSpan totaalAantalUur(TimeSpan startTijd, TimeSpan eindTijd)
         {
