@@ -3,12 +3,12 @@ using Interfaces.Interface;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Interfaces.DTO;
 
 namespace Logic.Containers
 {
     public class UserContainer
     {
-        public string ConnectionString { get; protected set; } = string.Empty;
         private IUserContainer _iUserContainer;
 
         public UserContainer(IUserContainer iUserContainer)
@@ -41,7 +41,8 @@ namespace Logic.Containers
             if (errors.Count == 0) // if all required fields are properly filled
             {
                 string hashedPw = ComputeSha256Hash(user.Password + user.Email);
-                return _iUserContainer.Login(ConnectionString, user.Email, hashedPw);
+                UserDTO userDTO = new UserDTO() { Email = user.Email, HashedPassword = hashedPw};
+                return _iUserContainer.Login(userDTO);
             }
             errors.Add("unexpected error");
             return false;
@@ -58,7 +59,7 @@ namespace Logic.Containers
         /// <param name="verifyPassword"></param>
         /// <param name="errors"></param>
         /// <returns></returns>
-        public int Register(User user, string verifyPassword, out List<string> errors)
+        public int Register(User user, out List<string> errors)
         {
             errors = new List<string>();
 
@@ -74,7 +75,7 @@ namespace Logic.Containers
             {
                 errors.Add("password is required");
             }
-            if (string.IsNullOrEmpty(verifyPassword))
+            if (string.IsNullOrEmpty(user.VerifiedPassword))
             {
                 errors.Add("password confirmation is required");
             }
@@ -88,7 +89,7 @@ namespace Logic.Containers
                 {
                     errors.Add("email must be valid");
                 }
-                if (_iUserContainer.checkIfEmailExists(user.Email, ConnectionString))
+                if (_iUserContainer.checkIfEmailExists(user.Email))
                 {
                     errors.Add("account already linked to this email");
                 }
@@ -108,7 +109,7 @@ namespace Logic.Containers
                 {
                     errors.Add("password must contain at least 1 symbol/digit");
                 }
-                if (user.Password != verifyPassword)
+                if (user.Password != user.VerifiedPassword)
                 {
                     errors.Add("two passwords must match");
                 }
@@ -117,7 +118,13 @@ namespace Logic.Containers
             if (errors.Count == 0) // if any errors occurred
             {
                 string passwordHash = ComputeSha256Hash(user.Password + user.Email);
-                return _iUserContainer.Register(ConnectionString, user.Email, user.UserName, passwordHash);
+                UserDTO userDTO = new UserDTO()
+                {
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    HashedPassword = passwordHash,
+                };
+                return _iUserContainer.Register(userDTO);
             }
             else
                 return 0;

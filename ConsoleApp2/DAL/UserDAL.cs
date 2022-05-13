@@ -1,82 +1,101 @@
-﻿using Interfaces.Interface;
+﻿using Interfaces.DTO;
+using Interfaces.Interface;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace DAL.DAL
 {
-    public class UserDAL : IUserContainer
+    public class UserDAL : DB, IUserContainer
     {
-        public bool Login(string connString, string email, string hashedPw)
+        public bool Login(UserDTO userDTO)
         {
             List<string> errors = new List<string>();
-            string queryString = "SELECT * FROM [users] WHERE email = @email AND password = @password;";
+            string queryString = "SELECT * FROM users WHERE Email = @email AND Password = @password;";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
+            using (connection)
             {
-                using (MySqlCommand cmd = new MySqlCommand(queryString, con))
+                using (MySqlCommand cmd = new MySqlCommand(queryString, connection))
                 {
-                    cmd.Parameters.Add(new MySqlParameter("@email", email));
-                    cmd.Parameters.Add(new MySqlParameter("@password", hashedPw));
+                    cmd.Parameters.Add(new MySqlParameter("@email", userDTO.Email));
+                    cmd.Parameters.Add(new MySqlParameter("@password", userDTO.HashedPassword));
 
 
-                    con.Open();
-
-                    var rdr = cmd.ExecuteReader();
-
-                    rdr.Read();
-
-                    if (rdr.HasRows)
+                    if (openConnection())
                     {
-                        return true;
+
+                        var rdr = cmd.ExecuteReader();
+
+                        rdr.Read();
+                        
+
+                        if (rdr.HasRows)
+                        {
+                            closeConnection();
+                            return true;
+                        }
+                        else
+                        {
+                            closeConnection();
+                            errors.Add("incorrect login credentials");
+                            return false;
+                        }
                     }
-                    else
-                    {
-                        errors.Add("incorrect login credentials");
-                        return false;
-                    }
+                    return false;
                 }
             }
         }
 
-        public int Register(string connString, string email, string username, string hashedPw)
+        public int Register(UserDTO userDTO)
         {
-            string queryString = "INSERT INTO [users] (email, username, password) VALUES (@email, @username, @password);";
+            string queryString = "INSERT INTO users (Email, UserName, Password) VALUES (@email, @username, @password);";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
+            using (connection)
             {
-                using (MySqlCommand cmd = new MySqlCommand(queryString, con))
+                using (MySqlCommand cmd = new MySqlCommand(queryString, connection))
                 {
-                    con.Open();
+                    if (openConnection())
+                    {
+                        cmd.Parameters.Add(new MySqlParameter("@email", userDTO.Email.ToLower()));
+                        cmd.Parameters.Add(new MySqlParameter("@username", userDTO.UserName));
+                        cmd.Parameters.Add(new MySqlParameter("@password", userDTO.HashedPassword));
 
-                    cmd.Parameters.Add(new MySqlParameter("@email", email.ToLower()));
-                    cmd.Parameters.Add(new MySqlParameter("@username", username));
-                    cmd.Parameters.Add(new MySqlParameter("@password", hashedPw));
-
-                    return cmd.ExecuteNonQuery();
+                        int result = cmd.ExecuteNonQuery();
+                        closeConnection();
+                        return result;
+                    }
+                    throw new DataException();
                 }
             }
         }
 
-        public bool checkIfEmailExists(string email, string connString)
+        public bool checkIfEmailExists(string email)
         {
-            string queryString = "SELECT TOP 1 id FROM [users] WHERE email = @email";
+            string queryString = "SELECT Email FROM users WHERE Email = @email LIMIT 1";
 
-            using (MySqlConnection con = new MySqlConnection(connString))
+            using (connection)
             {
-                using (MySqlCommand cmd = new MySqlCommand(queryString, con))
+                using (MySqlCommand cmd = new MySqlCommand(queryString, connection))
                 {
                     cmd.Parameters.Add(new MySqlParameter("@email", email));
 
-                    con.Open();
-
-                    int result = Convert.ToInt32(cmd.ExecuteScalar());
-
-                    if (result == 0)
+                    if (openConnection())
                     {
-                        return false;
+                        int result = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        closeConnection();
+
+                        if (result == 0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
                     }
                     else
                     {
-                        return true;
+                        throw new DataException();
                     }
                 }
             }

@@ -13,6 +13,7 @@ namespace Logic.Models
         public string Email { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string VerifiedPassword { get; set; }
 
         public User(UserDTO userDTO)
         {
@@ -22,17 +23,26 @@ namespace Logic.Models
             Password = userDTO.HashedPassword;
         }
 
-        public User(string userName, string pw)
+        public User(string email, string pw)
         {
-            UserName = userName;
+            Email = email;
             Password = pw;
         }
 
-        public User(string email, string userName, string pw)
+        public User(int id, string email, string username, string password)
+        {
+            UserID = id;
+            Email = email;
+            UserName = username;
+            Password = password;
+        }
+
+        public User(string email, string userName, string pw, string verPw)
         {
             Email = email;
             UserName = userName;
             Password = pw;
+            VerifiedPassword = verPw;
         }
     }
 }

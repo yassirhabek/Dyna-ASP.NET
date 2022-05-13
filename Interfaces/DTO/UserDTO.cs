@@ -12,5 +12,6 @@ namespace Interfaces.DTO
         public string Email;
         public string UserName;
         public string HashedPassword;
+        public string VerifiedPassword;
     }
 }

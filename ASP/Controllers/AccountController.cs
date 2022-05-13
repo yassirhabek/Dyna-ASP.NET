@@ -1,6 +1,6 @@
-﻿using BusinessLogicLayer.Containers;
-using BusinessLogicLayer.Models;
-using DataAccesLayer;
+﻿using Logic.Containers;
+using Logic.Models;
+using DAL.DAL;
 using Microsoft.AspNetCore.Mvc;
 using TicketApplication.Models;
 
