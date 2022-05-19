@@ -30,7 +30,7 @@ function WerknemerToevoegen() {
     TelefoonNum = $('#input-telefoonnum').val();
 
     $.post(target + "/Werknemer/WerknemerToevoegen", { naam: Naam, werknemerNum: WerknemerNum, telefoonNum: TelefoonNum })
-        .done(data => { alert(data), window.location.href = target })
+        .done(data => { alert(data), window.location.href = target + "/Home/Index" })
         .fail(data => { alert(data.responseText) })
 }
 
@@ -43,7 +43,7 @@ function WerknemerAanpassen() {
     TelefoonNum = $("#changed-telefoonnummer").val();
 
     $.post(target + "/Werknemer/WerknemerAanpassen", { newNaam: Naam, newWerknemerNum: WerknemerNum, newTelefoonNum: TelefoonNum, oldWerknemerID: WerknemerID })
-        .done(data => { alert(data), window.location.href = target })
+        .done(data => { alert(data), window.location.href = target + "/Home/Index" })
         .fail(data => { alert(data.responseText) })
 }
 
@@ -53,7 +53,7 @@ function WerknemerVerwijderen() {
     WerknemerID = $("#drop-verwijderen").val();
 
     $.post(target + "/Werknemer/WerknemerVerwijderen/" + WerknemerID, null)
-        .done(data => { alert(data), window.location.href = target })
+        .done(data => { alert(data), window.location.href = target + "/Home/Index" })
         .fail(data => { alert(data.responseText) })
 }
 
@@ -68,7 +68,7 @@ function RouteToevoegen() {
     Eindtijd = $("#input-eindtijd").val();
 
     $.post(target + "/Route/RouteToevoegen", { routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
-        .done(data => { alert(data), window.location.href = target })
+        .done(data => { alert(data), window.location.href = target + "/Home/Index" })
         .fail(data => { alert(data.responseText) })
 }
 
@@ -87,6 +87,6 @@ function RouteVerwijderen() {
     RouteID = $('#option-date').val();
 
     $.post(target + "/Route/RouteVerwijderen/" + RouteID, null)
-        .done(data => { alert(data), window.location.href = target })
+        .done(data => { alert(data), window.location.href = target + "/Home/Index" })
         .fail(data => { alert(data.responseText) })
 }

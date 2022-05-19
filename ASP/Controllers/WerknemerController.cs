@@ -25,7 +25,7 @@ namespace ASP.Controllers
                 {
                     WerknemerID = werknemer.WerknemerID,
                     Naam = werknemer.Naam,
-                    NummerPasje = werknemer.WerknemerNummer,
+                    WerknemerNummer = werknemer.WerknemerNummer,
                     TelefoonNummer = werknemer.TelefoonNummer
                 };
                 werknemerViewModels.Add(werknemerViewModel);
@@ -52,11 +52,11 @@ namespace ASP.Controllers
         }
 
         [HttpPost]
-        public ActionResult WerknemerToevoegen(string naam, int werknemerNum, int telefoonNum) 
+        public ActionResult WerknemerToevoegen(WerknemerViewModel werknemerViewModel) 
         {
             if (ModelState.IsValid)
             {
-                Werknemer werknemer = new Werknemer(naam, werknemerNum, telefoonNum, new WerknemerDAL());
+                Werknemer werknemer = new Werknemer(werknemerViewModel.Naam, werknemerViewModel.WerknemerNummer, werknemerViewModel.TelefoonNummer, new WerknemerDAL());
                 werknemer.AddWerknemer();
                 return RedirectToAction("Index", "Home");
             }

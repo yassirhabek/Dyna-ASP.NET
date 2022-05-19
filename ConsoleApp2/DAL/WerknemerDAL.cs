@@ -14,14 +14,14 @@ namespace DAL.DAL
     {
         public int AddNewWerknemer(WerknemerDTO werknemerNieuw)
         {
-            string query = "INSERT INTO werknemers(NummerPasje, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum)";
+            string query = "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum)";
 
             if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.WerknemerNummer;
-                cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = werknemerNieuw.Naam;
+                cmd.Parameters.Add("@naam", MySqlDbType.VarChar).Value = werknemerNieuw.Naam;
                 cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int64).Value = werknemerNieuw.TelefoonNummer;
 
                 try
@@ -45,14 +45,14 @@ namespace DAL.DAL
 
         public int UpdateWerknemer(WerknemerDTO changedWerknemer, int oldWerknemerID)
         {
-            string query = "UPDATE werknemers SET Naam = @naam, NummerPasje = @numpas, Telefoonnummer = @telefoonnum WHERE WerknemerID = @oldwerknemerid";
+            string query = "UPDATE werknemers SET Naam = @naam, WerknemerNummer = @werknum, Telefoonnummer = @telefoonnum WHERE WerknemerID = @oldwerknemerid";
 
             if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
-                cmd.Parameters.Add("@naam", MySqlDbType.Text).Value = changedWerknemer.Naam;
-                cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = changedWerknemer.WerknemerNummer;
+                cmd.Parameters.Add("@naam", MySqlDbType.VarChar).Value = changedWerknemer.Naam;
+                cmd.Parameters.Add("@werknum", MySqlDbType.Int32).Value = changedWerknemer.WerknemerNummer;
                 cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int32).Value = changedWerknemer.TelefoonNummer;
                 cmd.Parameters.Add("@oldwerknemerid", MySqlDbType.Int64).Value = oldWerknemerID;
 
@@ -84,7 +84,7 @@ namespace DAL.DAL
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
-                cmd.Parameters.Add("@werknemerID", MySqlDbType.Text).Value = werknemer.WerknemerID;
+                cmd.Parameters.Add("@werknemerID", MySqlDbType.VarChar).Value = werknemer.WerknemerID;
 
                 try
                 {
@@ -173,7 +173,6 @@ namespace DAL.DAL
                 {
                     throw new Exception(ex.ToString());
                 }
-
             }
             else
                 throw new DataException();
