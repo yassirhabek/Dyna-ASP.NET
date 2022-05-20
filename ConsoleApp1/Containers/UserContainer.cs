@@ -146,5 +146,17 @@ namespace Logic.Containers
                 return builder.ToString();
             }
         }
+
+        public User GetSingleUser(User user)
+        {
+            UserDTO userDTO = new UserDTO()
+            {
+                Email = user.Email
+            };
+            UserDTO completedUserDTO = _iUserContainer.GetSingleUser(userDTO);
+
+            User completedUser = new User(completedUserDTO);
+            return completedUser;
+        }
     }
 }

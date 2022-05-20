@@ -100,5 +100,33 @@ namespace DAL.DAL
                 }
             }
         }
+
+        public UserDTO GetSingleUser(UserDTO userDTO)
+        {
+            UserDTO fullUser = new UserDTO();
+            string query = "SELECT * FROM users Where Email = @email";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.Add(new MySqlParameter("@email", userDTO.Email));
+
+                if (openConnection())
+                {
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        fullUser.UserID = rdr.GetInt32(0);
+                        fullUser.UserName = rdr.GetString(1);
+                        fullUser.Email = rdr.GetString(2);
+                        fullUser.HashedPassword = rdr.GetString(3);
+                    }
+                    closeConnection();
+                    return fullUser;
+                }
+                else
+                    throw new DataException();
+            }
+        }
     }
 }

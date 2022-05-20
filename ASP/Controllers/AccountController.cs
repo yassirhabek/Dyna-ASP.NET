@@ -3,6 +3,7 @@ using Logic.Models;
 using DAL.DAL;
 using Microsoft.AspNetCore.Mvc;
 using TicketApplication.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace TicketApplication.Controllers
 {
@@ -23,6 +24,9 @@ namespace TicketApplication.Controllers
 
             if (userContainer.Login(user, out errors))
             {
+                User fullUser = userContainer.GetSingleUser(user);
+                HttpContext.Session.SetInt32("user-id", fullUser.UserID);
+                HttpContext.Session.SetString("user-name", fullUser.UserName);
                 return Ok();
             }
             else

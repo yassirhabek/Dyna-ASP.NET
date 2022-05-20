@@ -7,5 +7,6 @@ namespace Interfaces.Interface
         bool checkIfEmailExists(string email);
         bool Login(UserDTO userDTO);
         int Register(UserDTO userDTO);
+        UserDTO GetSingleUser(UserDTO userDTO);
     }
 }
