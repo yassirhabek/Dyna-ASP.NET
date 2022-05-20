@@ -19,7 +19,7 @@ namespace ASP.Controllers
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
             List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
-            foreach (var werknemer in werknemerContainer.GetWerknemers())
+            foreach (var werknemer in werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value))
             {
                 WerknemerViewModel werknemerViewModel = new WerknemerViewModel
                 {
@@ -57,7 +57,7 @@ namespace ASP.Controllers
             if (ModelState.IsValid)
             {
                 Werknemer werknemer = new Werknemer(werknemerViewModel.Naam, werknemerViewModel.WerknemerNummer, werknemerViewModel.TelefoonNummer, new WerknemerDAL());
-                werknemer.AddWerknemer();
+                werknemer.AddWerknemer(HttpContext.Session.GetInt32("user-id").Value);
                 return RedirectToAction("Index", "Home");
             }
             return View();

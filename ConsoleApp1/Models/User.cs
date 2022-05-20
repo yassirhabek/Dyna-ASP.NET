@@ -15,6 +15,11 @@ namespace Logic.Models
         public string Password { get; set; }
         public string VerifiedPassword { get; set; }
 
+        public User()
+        {
+
+        }
+
         public User(UserDTO userDTO)
         {
             UserID = userDTO.UserID;

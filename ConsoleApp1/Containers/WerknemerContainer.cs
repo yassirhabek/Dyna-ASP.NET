@@ -29,12 +29,12 @@ namespace Logic.Containers
             }
         }
 
-        public List<Werknemer> GetWerknemers()
+        public List<Werknemer> GetWerknemers(int userID)
         {
             List<Werknemer> werknemers = new List<Werknemer>();
             try
             {
-                foreach (var searchedWerknemer in _iWerknemerContainer.GetAllWerknemers())
+                foreach (var searchedWerknemer in _iWerknemerContainer.GetAllWerknemers(userID))
                 {
                     Werknemer werknemer = new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.Naam, searchedWerknemer.WerknemerNummer, searchedWerknemer.TelefoonNummer, _iWerknemer);
                     werknemers.Add(werknemer);

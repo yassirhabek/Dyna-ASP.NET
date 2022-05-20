@@ -42,9 +42,9 @@ namespace Logic.Models
             _iWerknemer = iWerknemer;
         }
 
-        public int AddWerknemer()
+        public int AddWerknemer(int userID)
         {   
-            return _iWerknemer.AddNewWerknemer(WerknemerToDTO());
+            return _iWerknemer.AddNewWerknemer(WerknemerToDTO(), userID);
         }
 
         public int UpdateWerknemer(int oldWerknemerID)

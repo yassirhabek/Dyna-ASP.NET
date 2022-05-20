@@ -19,41 +19,32 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                        </ul>
-                    <div class="row pull-right">
-                        <div class="mynav_dropdown">
+                            <li class="nav-item dropdown">
 
-                            <button class="mynav_dropbtn">
-
+                            <a class="nav-link dropdown-toggle" href="#" id="routedropdown" role="button" data-bs-toggle="dropdown">
                                 Werknemer
+                            </a>
 
-                                <i class="fa fa-caret-down"></i>
-
-                            </button>
-
-                            <div class="mynav_dropdown-content">
-                                 <a asp-area="" asp-controller="Werknemer" asp-action="WerknemerToevoegenView">Werknemer Toevoegen</a>
-                                 <a asp-area="" asp-controller="Werknemer" asp-action="WerknemerAanpassenView">Werknemer Aanpassen</a>
-                                 <a asp-area="" asp-controller="Werknemer" asp-action="WerknemerVerwijderenView">Werknemer Verwijderen</a>
+                            <div class="dropdown-menu" aria-labelledby="routedropdown">
+                                 <a class="dropdown-item" asp-controller="Werknemer" asp-action="WerknemerToevoegenView">Werknemer Toevoegen</a>
+                                 <a class="dropdown-item" asp-controller="Werknemer" asp-action="WerknemerAanpassenView">Werknemer Aanpassen</a>
+                                 <a class="dropdown-item" asp-controller="Werknemer" asp-action="WerknemerVerwijderenView">Werknemer Verwijderen</a>
                             </div>
-                        </div>
-                        <div class="mynav_dropdown">
+                        </li>
 
-                            <button class="mynav_dropbtn">
+                            <li class="nav-item dropdown">
 
+                            <a class="nav-link dropdown-toggle" href="#" id="routedropdown" role="button" data-bs-toggle="dropdown">
                                 Route
+                            </a>
 
-                                <i class="fa fa-caret-down"></i>
-
-                            </button>
-
-                            <div class="mynav_dropdown-content">
-                                 <a asp-area="" asp-controller="Route" asp-action="RouteToevoegenView">Route Toevoegen</a>
-                                 <a asp-area="" asp-controller="Route" asp-action="RouteAanpassenView">Route Aanpassen</a>
-                                 <a asp-area="" asp-controller="Route" asp-action="RouteVerwijderenView">Route Verwijderen</a>
+                            <div class="dropdown-menu" aria-labelledby="routedropdown">
+                                 <a class="dropdown-item" asp-controller="Route" asp-action="RouteToevoegenView">Route Toevoegen</a>
+                                 <a class="dropdown-item" asp-controller="Route" asp-action="RouteAanpassenView">Route Aanpassen</a>
+                                 <a class="dropdown-item" asp-controller="Route" asp-action="RouteVerwijderenView">Route Verwijderen</a>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                        </ul>
                 </div>
             </div>
         </nav>

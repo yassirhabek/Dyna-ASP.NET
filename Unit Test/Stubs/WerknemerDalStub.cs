@@ -39,7 +39,7 @@ namespace Unit_Test.Stubs
             });
         }
 
-        public int AddNewWerknemer(WerknemerDTO werknemerDTO)
+        public int AddNewWerknemer(WerknemerDTO werknemerDTO, int userID)
         {
             werknemerDTOs.Add(werknemerDTO);
             return 1;
@@ -48,9 +48,11 @@ namespace Unit_Test.Stubs
         public int UpdateWerknemer(WerknemerDTO werknemerDTO, int oldWerknemerID)
         {
             WerknemerDTO newWerknemer = werknemerDTOs.FirstOrDefault(w => w.WerknemerID == oldWerknemerID);
+            newWerknemer.WerknemerID = oldWerknemerID;
             newWerknemer.Naam = werknemerDTO.Naam;
             newWerknemer.WerknemerNummer = werknemerDTO.WerknemerNummer;
             newWerknemer.TelefoonNummer= werknemerDTO.TelefoonNummer;
+            werknemerDTOs.RemoveAll(w => w.WerknemerID == oldWerknemerID);
             werknemerDTOs.Add(newWerknemer);
 
             return 1;
@@ -62,7 +64,7 @@ namespace Unit_Test.Stubs
             return 1;
         }
 
-        public List<WerknemerDTO> GetAllWerknemers()
+        public List<WerknemerDTO> GetAllWerknemers(int userID)
         {
             return werknemerDTOs;
         }

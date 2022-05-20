@@ -13,11 +13,15 @@ namespace Unit_Test.Tests
         public void SuccesfulWerknemerAdded()
         {
             // Arrange
+            User user = new User()
+            {
+                UserID = 1
+            };
             WerknemerDalStub werknemerDalStub = new WerknemerDalStub();
             Werknemer werknemer = new Werknemer("Yassir", 123123, 0612341234, werknemerDalStub);
 
             // Act
-            int result = werknemer.AddWerknemer();
+            int result = werknemer.AddWerknemer(user.UserID);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -70,10 +74,14 @@ namespace Unit_Test.Tests
         public void SuccesfulGetWerknemers()
         {
             // Arrange
+            User user = new User()
+            {
+                UserID = 1
+            };
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDalStub());
 
             // Act
-            int count = werknemerContainer.GetWerknemers().Count;
+            int count = werknemerContainer.GetWerknemers(user.UserID).Count;
 
             // Assert 
             Assert.AreEqual(3, count);

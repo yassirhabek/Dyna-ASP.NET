@@ -19,7 +19,7 @@ namespace ASP.Controllers
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
             List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
-            foreach (var werknemer in werknemerContainer.GetWerknemers())
+            foreach (var werknemer in werknemerContainer.GetWerknemers(Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))))
             {
                 WerknemerViewModel werknemerViewModel = new WerknemerViewModel
                 {
@@ -37,7 +37,7 @@ namespace ASP.Controllers
         {
             RouteContainer routeContainer = new RouteContainer(new RouteDAL());
             List<RouteViewModel> routeViewModels = new List<RouteViewModel>();
-            foreach (var routes in routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL()))
+            foreach (var routes in routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL(), Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))))
             {
                 RouteViewModel routeViewModel = new RouteViewModel
                 {

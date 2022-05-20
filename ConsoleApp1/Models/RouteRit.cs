@@ -80,9 +80,9 @@ namespace Logic.Models
             AantalUur = totaalAantalUur(startTijd, eindTijd);
         }
 
-        public int AddRoute()
+        public int AddRoute(int userID)
         {
-           return _iRoute.AddRoute(RouteToDTO());
+           return _iRoute.AddRoute(RouteToDTO(), userID);
         }
 
         public int UpdateRoute(int oldRouteID)

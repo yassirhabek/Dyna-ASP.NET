@@ -36,11 +36,13 @@
 
     <script type="text/javascript">
     $("#drop-aanpassen").change(() => {
+        console.log("awdda");
        let selected = $("#drop-aanpassen").val();
 
        let target = window.location.protocol + "//" + window.location.host;
        $.post(target + "/Werknemer/LoadWerknemer/" + selected)
         .done(data => {
+            console.log(data);
             $("#changed-naam").val(data.naam);
             $("#changed-werknemernum").val(data.werknemerNummer);
             $("#changed-telefoonnummer").val(data.telefoonNummer);

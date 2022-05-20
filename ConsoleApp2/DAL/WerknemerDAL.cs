@@ -12,9 +12,9 @@ namespace DAL.DAL
 {
     public class WerknemerDAL : DB, IWerknemer, IWerknemerContainer
     {
-        public int AddNewWerknemer(WerknemerDTO werknemerNieuw)
+        public int AddNewWerknemer(WerknemerDTO werknemerNieuw, int userID)
         {
-            string query = "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum)";
+            string query = "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer, UserID) VALUES(@numpas, @naam, @telefoonnum, @userid)";
 
             if (openConnection())
             {
@@ -22,7 +22,8 @@ namespace DAL.DAL
 
                 cmd.Parameters.Add("@numpas", MySqlDbType.Int32).Value = werknemerNieuw.WerknemerNummer;
                 cmd.Parameters.Add("@naam", MySqlDbType.VarChar).Value = werknemerNieuw.Naam;
-                cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int64).Value = werknemerNieuw.TelefoonNummer;
+                cmd.Parameters.Add("@telefoonnum", MySqlDbType.Int32).Value = werknemerNieuw.TelefoonNummer;
+                cmd.Parameters.Add("@userid", MySqlDbType.Int32).Value = userID;
 
                 try
                 {
@@ -105,15 +106,17 @@ namespace DAL.DAL
 
         }
 
-        public List<WerknemerDTO> GetAllWerknemers()
+        public List<WerknemerDTO> GetAllWerknemers(int userID)
         {
             var output = new List<WerknemerDTO>();
             if (openConnection())
             {
                 try
                 {
-                    string query = "SELECT * FROM werknemers";
+                    string query = "SELECT * FROM werknemers WHERE UserID = @userid";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
+                    cmd.Parameters.Add("@userid", MySqlDbType.Int32).Value = userID;
+
                     MySqlDataReader rdr = cmd.ExecuteReader();
 
 

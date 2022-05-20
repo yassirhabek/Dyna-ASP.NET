@@ -38,8 +38,21 @@ namespace Unit_Test.Stubs
                 AantalUur = new TimeSpan(7, 0, 0),
                 Bijzonderheden = "assembly stop 4"
             });
+
+            RouteDTOs.Add(new RouteDTO()
+            {
+                RouteID = 3,
+                RouteNummer = 4141,
+                Datum = new DateTime(2022, 7, 30),
+                Chauffeur = new WerknemerDTO() { WerknemerID = 6, Naam = "Lester", WerknemerNummer = 74443, TelefoonNummer = 0647473927 },
+                BijRijder = new WerknemerDTO() { WerknemerID = 8, Naam = "Geert", WerknemerNummer = 53038, TelefoonNummer = 0684739209 },
+                StartTijd = new TimeSpan(9, 0, 0),
+                EindTijd = new TimeSpan(20, 30, 0),
+                AantalUur = new TimeSpan(11, 0, 0),
+                Bijzonderheden = "geen"
+            });
         }
-        public int AddRoute(RouteDTO newRoute)
+        public int AddRoute(RouteDTO newRoute, int userID)
         {
             RouteDTOs.Add(newRoute);
             return 1;
@@ -47,22 +60,42 @@ namespace Unit_Test.Stubs
 
         public int DeleteRoute(RouteDTO deleteRoute)
         {
-            throw new NotImplementedException();
+            RouteDTOs.RemoveAll(r => r.RouteID == deleteRoute.RouteID);
+            return 1;
         }
 
         public int UpdateRoute(RouteDTO updateRoute, int oldRouteID)
         {
-            throw new NotImplementedException();
+            RouteDTO newRoute = RouteDTOs.FirstOrDefault(r => r.RouteID == oldRouteID);
+            newRoute.RouteID = oldRouteID;
+            newRoute.RouteNummer = updateRoute.RouteNummer;
+            newRoute.Datum = updateRoute.Datum;
+            newRoute.Chauffeur = updateRoute.Chauffeur;
+            newRoute.BijRijder = updateRoute.BijRijder;
+            newRoute.StartTijd = updateRoute.StartTijd;
+            newRoute.EindTijd = updateRoute.EindTijd;
+            newRoute.AantalUur = updateRoute.AantalUur;
+            newRoute.Bijzonderheden = updateRoute.Bijzonderheden;
+            RouteDTOs.RemoveAll(r => r.RouteID == oldRouteID);
+            RouteDTOs.Add(newRoute);
+            return 1;
         }
 
-        public List<RouteDTO> GetAllRoute(List<WerknemerDTO> lijstWerknemers)
+        public List<RouteDTO> GetAllRoute(List<WerknemerDTO> lijstWerknemers, int userID)
         {
-            throw new NotImplementedException();
+            return RouteDTOs;
         }
 
-        public List<RouteDTO> GetRouteFromDate(DateTime date, List<WerknemerDTO> lijstWerknemers)
+        public List<RouteDTO> GetRouteByDate(DateTime date, List<WerknemerDTO> lijstWerknemers, int userID)
         {
-            throw new NotImplementedException();
+            List<RouteDTO> datumRoute = RouteDTOs.FindAll(r => r.Datum == date);
+            return datumRoute;
+        }
+        
+        public List<RouteDTO> GetRoutesByMonth(DateTime smalldate, DateTime bigdate, List<WerknemerDTO> lijstWerknemers, int userID)
+        {
+            List<RouteDTO> monthRoutes = RouteDTOs.FindAll(r => r.Datum >= smalldate && r.Datum < bigdate);
+            return monthRoutes;
         }
     }
 }
