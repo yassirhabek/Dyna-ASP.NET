@@ -1,4 +1,11 @@
-﻿@model List<ASP.Models.RouteViewModel>
+﻿@using ASP.Models
+@{
+    ViewData["Title"] = "Route Aanpassen";
+    IEnumerable<WerknemerViewModel> werknemers = ViewData["Werknemers"] as IEnumerable<WerknemerViewModel>;
+    RouteViewModel route = ViewData["ChangeRoute"] as RouteViewModel;
+}
+@model ASP.Models.RouteViewModel
+
 
     <div class="row justify-content-center">
         <form class="col-sm-12 col-md-8">
@@ -12,27 +19,108 @@
                 <select id="option-date-aanpassen" style="width: 200px; height: 25px">
                 </select>
             </div>
-
-            <div class="mb-3">
-            <button id="buttonrouteaanpassen" class="btn btn-primary" type="button" style="width: 120.5px;height: 41px;background: var(--bs-gray-800);">Aanpassen</button>
-            </div>
-
         </form>
     </div>
 
+    <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
+        <!-- Routenummer input -->
+        <div class="mb-3">
+            <label class="form-label">Routenummer</label>
+            <input type="text" class="form-control" id="input-routenummer" placeholder="Routenummer" value="" />
+        </div>
+
+        <!-- Date Select -->
+        <div class="mb-3">
+            <label asp-for="Datum" class="form-label">Datum</label>
+            <input asp-for="Datum" type="date" placeholder="dd-mm-yyyy" id="input-datum" value="" />   
+        </div>
+
+        <!-- Chauffeur select -->
+        <div class="mb-3 row">
+            <div class="col">
+                <label for="drop-chauffeur">Chauffeur</label>
+                <select asp-for="Chauffeur" class="form-select" id="drop-chauffeur">
+                    <optgroup label="Werknemers">
+                        <option value="" selected="selected"></option>
+                        @foreach (WerknemerViewModel werknemer in werknemers)
+                        {
+                            <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="drop-bijrijder">Bijrijder</label>
+                <select asp-for="BijRijder" class="form-select" id="drop-bijrijder">
+                    <optgroup label="Werknemers">
+                        <option value="" selected="selected"></option>
+                        @foreach (WerknemerViewModel werknemer in werknemers)
+                        {
+                            <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+
+        <!-- Starttijd & Eindtijd -->
+        <div class="mb-3 row">
+            <div class="col">
+                <label asp-for="StartTijd" class="form-label">Starttijd</label>
+                <input asp-for="StartTijd" type="time" class="form-control" id="input-starttijd" placeholder="Starttijd" value="" />
+            </div>
+
+            <div class="col">
+                <label asp-for="EindTijd" class="form-label">Eindtijd</label>
+                <input asp-for="EindTijd" type="time" class="form-control" id="input-eindtijd" placeholder="Eindtijd" value="" />
+            </div>
+        </div>
+
+        <!-- Bijzonderheden -->
+        <div class="mb-3">
+            <label asp-for="Bijzonderheden" class="form-label">Bijzonderheden</label>
+            <input asp-for="Bijzonderheden" type="text" class="form-control" id="bijzonderheden" placeholder="Bijzonderheden" value="" />
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-primary" id="buttonrouteaanpassen" style="color: var(--bs-gray-100);background: var(--bs-gray-900);">Aanpassen</button>
+        </div>
+    </div> 
+</div>
+
     @section Scripts {
     <script type="text/javascript">
+        var target = window.location.protocol + "//" + window.location.host;
         $('#choose-change-date').change(function(){
             var Date = $('#choose-change-date').val();
             $('#option-date-aanpassen').empty();
             
-            let target = window.location.protocol + "//" + window.location.host;
+            
             $.post(target + "/Route/GetRoutesFromDate", {date: Date} )
                 .done(data => {
                     for (var i = 0; i <= data.length; i++) {
                         $('#option-date-aanpassen').append('<option value="' + data[i].routeID + '">' + data[i].routeNummer + '</option>');
                     }   
                 })  
+                .fail(data => { alert(data.responseText) })
+        });
+
+        $('#option-date-aanpassen').change(function(){
+            var Id = $('#option-date-aanpassen').val();
+            
+            $.post(target + "/Route/GetSingleRouteByID/" + Id + null)
+                .done(data => {
+                    alert(data);
+                    $('#input-routenummer').val(data.routeNummer);
+                    $('#input-datum').val(data.datum);
+                    $('#drop-chauffeur').append('<option value="' + data[i].chauffeurID + '">' + data[i].chauffeur + '</option>');
+                    $('#drop-bijrijder').append('<option value="' + data[i].bijrijderID + '">' + data[i].bijrijder + '</option>');
+                    $('#input-starttijd').val(data.starttijd);
+                    $('#input-eindtijd').val(data.eindtijd);
+                    $('#bijzonderheden').val(data.bijzonderheden); 
+                })
                 .fail(data => { alert(data.responseText) })
         });
     </script>

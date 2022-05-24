@@ -62,5 +62,11 @@ namespace ASP.Controllers
             ViewData["Werknemers"] = GetWerknemers();
             return View();
         }
+
+        [HttpGet]
+        public ActionResult MonthConclusion()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Maand Conclusie";
+}
+<div class="text-center m-3">
+    <h3>Maand:</h3>
+    <input type="month" id="monthpicker" name="start" min="2015-01" data-date-format="mm-yyyy">  
+</div>   
+
+@section Scripts {
+    <script type="text/javascript">
+        var target = window.location.protocol + "//" + window.location.host;
+        $('#monthpicker').change(function(){
+            chosenMonth = $('#monthpicker').val();
+            $.post(target + "/Route/GetMonthConclusion", {month: chosenMonth})
+                .done(data => {
+
+                })
+                .fail(data => { alert(data.responseText)})
+        })
+    </script>
+}

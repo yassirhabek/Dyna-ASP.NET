@@ -56,31 +56,5 @@ namespace Logic.Containers
             }
             return routesFromDate;
         }
-
-        public List<RouteRit> GetRoutesByMonth(string monthYearRaw, IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer, int userID)
-        {
-            string[] monthYearRawSplitted = monthYearRaw.Split('-');
-            int[] monthYear = Array.ConvertAll(monthYearRawSplitted, int.Parse);
-            int year = monthYear[0];
-            int month = monthYear[1];
-            List<RouteRit> routeByMonth = new List<RouteRit>();
-            DateTime smalldate = new DateTime(year, month, 1);
-            DateTime bigdate = new DateTime(year, month++, 1);
-
-            try
-            {
-                foreach (RouteDTO routeDTO in _iRouteContainer.GetRoutesByMonth(smalldate, bigdate, iWerknemerContainer.GetAllWerknemers(userID), userID))
-                {
-                    RouteRit route = new RouteRit(routeDTO.RouteID, routeDTO.RouteNummer, routeDTO.Datum, new Werknemer(routeDTO.Chauffeur, iWerknemer),
-                            new Werknemer(routeDTO.BijRijder, iWerknemer), routeDTO.StartTijd, routeDTO.EindTijd, _iRoute);
-                    routeByMonth.Add(route);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return routeByMonth;
-        }
     }
 }

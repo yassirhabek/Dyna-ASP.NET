@@ -157,7 +157,6 @@ namespace Unit_Test.Tests
 
             //Assert
             Assert.AreEqual(2, count);
-
         }
     }
 }

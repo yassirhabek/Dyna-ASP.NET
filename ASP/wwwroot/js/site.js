@@ -78,7 +78,7 @@ function RouteAanpassenSelecteren() {
     RouteID = $('#option-date-aanpassen').val();
 
     $.post(target + "/Route/RouteAanpassenForm/" + RouteID, null)
-        .done()
+        .done(data => window.location.href = target + "/Route/RouteAanpassenForm/" + RouteID)
 }
 
 function RouteVerwijderen() {

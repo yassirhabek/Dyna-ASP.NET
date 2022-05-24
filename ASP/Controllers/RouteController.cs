@@ -18,7 +18,7 @@ namespace ASP.Controllers
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
             List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
-            foreach (var werknemer in werknemerContainer.GetWerknemers(Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))))
+            foreach (var werknemer in werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value))
             {
                 WerknemerViewModel werknemerViewModel = new WerknemerViewModel
                 {
@@ -36,7 +36,7 @@ namespace ASP.Controllers
         {
             RouteContainer routeContainer = new RouteContainer(new RouteDAL());
             List<RouteViewModel> routeViewModels = new List<RouteViewModel>();
-            foreach (var routes in routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL(), Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))))
+            foreach (var routes in routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL(), HttpContext.Session.GetInt32("user-id").Value))
             {
                 RouteViewModel routeViewModel = new RouteViewModel
                 {
@@ -60,7 +60,7 @@ namespace ASP.Controllers
         {
             RouteContainer routeContainer = new RouteContainer(new RouteDAL());
             List<RouteViewModel> routeViewModels = new List<RouteViewModel>();
-            foreach (var routes in routeContainer.GetRoutesFromDate(date, new WerknemerDAL(), new WerknemerDAL(), Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))))
+            foreach (var routes in routeContainer.GetRoutesFromDate(date, new WerknemerDAL(), new WerknemerDAL(), HttpContext.Session.GetInt32("user-id").Value))
             {
                 RouteViewModel routeViewModel = new RouteViewModel
                 {
@@ -95,8 +95,8 @@ namespace ASP.Controllers
             TimeSpan parsedEindTijd;
 
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
-            Werknemer chauffeur = werknemerContainer.GetWerknemers(Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))).FirstOrDefault(w => w.WerknemerID == chauffeurID);
-            Werknemer bijrijder = werknemerContainer.GetWerknemers(Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))).FirstOrDefault(w => w.WerknemerID == bijrijderID);
+            Werknemer chauffeur = werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == chauffeurID);
+            Werknemer bijrijder = werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == bijrijderID);
 
 
             DateTime.TryParse(rawDatum, out parsedDatum);
@@ -111,6 +111,7 @@ namespace ASP.Controllers
         [HttpGet]
         public IActionResult RouteAanpassenView()
         {
+            ViewData["Werknemers"] = GetWerknemers();
             return View();
         }   
 
@@ -120,12 +121,16 @@ namespace ASP.Controllers
             RouteViewModel route = GetRoutes().FirstOrDefault(r => r.RouteID == id);
 
             ViewData["Werknemers"] = GetWerknemers();
-            return RedirectToAction("RouteAanpassenToForm", new { route = route });
+            ViewData["ChangeRoute"] = route;
+            return View("RouteAanpassenForm");
         }
 
-        public ActionResult RouteAanpassenToForm(RouteViewModel route)
+        [HttpPost]
+        public ActionResult GetSingleRouteByID(int id)
         {
-            return View(route);
+            RouteViewModel route = GetRoutes().FirstOrDefault(r => r.RouteID == id);
+
+            return Ok(route);
         }
 
         [HttpGet]
@@ -138,12 +143,16 @@ namespace ASP.Controllers
         public ActionResult RouteVerwijderen(int id)
         {
             RouteContainer routeContainer = new RouteContainer(new RouteDAL());
-            RouteRit route = routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL(), Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))).FirstOrDefault(r => r.RouteID == id);
+            RouteRit route = routeContainer.GetRoutes(new WerknemerDAL(), new WerknemerDAL(),HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(r => r.RouteID == id);
 
             route.DeleteRoute();
             return Ok("Route Verwijderd");
         }
 
-
+        [HttpPost]
+        public ActionResult GetMonthConclusion(string chosenMonth)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

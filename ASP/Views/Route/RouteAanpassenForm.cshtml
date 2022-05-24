@@ -2,13 +2,12 @@
 @{
     ViewData["Title"] = "Route Aanpassen";
     IEnumerable<WerknemerViewModel> werknemers = ViewData["Werknemers"] as IEnumerable<WerknemerViewModel>;
-    RouteViewModel route = ViewBag.Message;
+    RouteViewModel route = ViewData["ChangeRoute"] as RouteViewModel;
 }
 @model ASP.Models.RouteViewModel
 
 <div class="row justify-content-center">
-    <form class="col-sm-12 col-md-8">
-        
+    <div class="col-sm-12 col-md-8">
         <!-- Routenummer input -->
         <div class="mb-3">
             <label asp-for="RouteNummer" class="form-label">Routenummer</label>
@@ -72,5 +71,5 @@
         <div class="mb-3">
             <button class="btn btn-primary" id="buttonroutetoevoegen" style="color: var(--bs-gray-100);background: var(--bs-gray-900);">Aanpassen</button>
         </div>
-    </form> 
+    </div> 
 </div>
