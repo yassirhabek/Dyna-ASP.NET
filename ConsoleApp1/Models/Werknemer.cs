@@ -57,6 +57,11 @@ namespace Logic.Models
            return _iWerknemer.DeleteWerknemer(WerknemerToDTO());
         }
 
+        public int LinkWerknemerToUser(int userID)
+        {
+            return _iWerknemer.LinkWerknemerToUser(WerknemerToDTO(), userID);
+        }
+
         public WerknemerDTO WerknemerToDTO()
         {
             WerknemerDTO werknemerDTO = new WerknemerDTO();

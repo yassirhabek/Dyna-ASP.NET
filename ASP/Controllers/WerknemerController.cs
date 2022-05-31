@@ -15,11 +15,29 @@ namespace ASP.Controllers
             _logger = logger;
         }
 
-        private List<WerknemerViewModel> GetWerknemers()
+        private List<WerknemerViewModel> GetUserWerknemers()
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
             List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
-            foreach (var werknemer in werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value))
+            foreach (Werknemer werknemer in werknemerContainer.GetUserWerknemers(HttpContext.Session.GetInt32("user-id").Value))
+            {
+                WerknemerViewModel werknemerViewModel = new WerknemerViewModel
+                {
+                    WerknemerID = werknemer.WerknemerID,
+                    Naam = werknemer.Naam,
+                    WerknemerNummer = werknemer.WerknemerNummer,
+                    TelefoonNummer = werknemer.TelefoonNummer
+                };
+                werknemerViewModels.Add(werknemerViewModel);
+            }
+            return werknemerViewModels;
+        }
+
+        private List<WerknemerViewModel> GetAllWerknemers()
+        {
+            WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
+            List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
+            foreach (Werknemer werknemer in werknemerContainer.GetAllWerknemers())
             {
                 WerknemerViewModel werknemerViewModel = new WerknemerViewModel
                 {
@@ -36,19 +54,20 @@ namespace ASP.Controllers
         [HttpGet]
         public IActionResult WerknemerToevoegenView()
         {
+            ViewData["Werknemers"] = GetAllWerknemers();
             return View();
         }
 
         [HttpGet]
         public IActionResult WerknemerAanpassenView()
         {
-            return View(GetWerknemers());
+            return View(GetUserWerknemers());
         }
 
         [HttpGet]
         public IActionResult WerknemerVerwijderenView()
         {
-            return View(GetWerknemers());
+            return View(GetUserWerknemers());
         }
 
         [HttpPost]
@@ -60,7 +79,8 @@ namespace ASP.Controllers
                 werknemer.AddWerknemer(HttpContext.Session.GetInt32("user-id").Value);
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+            else
+                return BadRequest();
         }
 
         [HttpPost]
@@ -92,6 +112,22 @@ namespace ASP.Controllers
             }
 
             return Ok(output);
+        }
+
+        [HttpPost]
+        public ActionResult LinkWerknemerToUser(int werknemerID)
+        {
+            Werknemer werknemer = new Werknemer(new WerknemerDAL())
+            {
+                WerknemerID = werknemerID
+            };
+
+            if (werknemer.LinkWerknemerToUser(HttpContext.Session.GetInt32("user-id").Value) == 1)
+            {
+                return Ok("Succesvol Gelinkt");
+            }
+
+            return BadRequest("Fout");
         }
     }
 }

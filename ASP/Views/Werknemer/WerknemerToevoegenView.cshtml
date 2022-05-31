@@ -1,23 +1,37 @@
 ﻿@{
     ViewData["Title"] = "Werknemer Toevoegen";
+    IEnumerable<WerknemerViewModel> werknemers = ViewData["Werknemers"] as IEnumerable<WerknemerViewModel>;
 }
 @model ASP.Models.WerknemerViewModel
 
-<div class="forms-div">
-    <form method="post" asp-controller="Werknemer" asp-action="WerknemerToevoegen">
-    <div class="input-group" style="width: 342px;margin-left: 23px;margin-top: 37px;">
-        <label asp-for="Naam" class="input-group-text">Naam</label>
-        <input asp-for="Naam" id="input-naam" class="form-control" type="text" />
+<div class="container">
+    <div class="forms-div row">
+        <form method="post" asp-controller="Werknemer" asp-action="WerknemerToevoegen">
+        <div class="input-group" style="width: 342px;margin-left: 23px;margin-top: 37px;">
+            <label asp-for="Naam" class="input-group-text">Naam</label>
+            <input asp-for="Naam" id="input-naam" class="form-control" type="text" />
+        </div>
+        <div class="input-group" style="width: 388px;margin-left: 23px;margin-top: 12px;">
+            <label asp-for="WerknemerNummer" class="input-group-text">Werknemer Nummer</label>
+            <input asp-for="WerknemerNummer" id="input-werknemernum" class="form-control" type="text" style="width: 19.766px;" />
+        </div>
+        <div class="input-group" style="padding: 0px;width: 388px;margin-left: 23px;margin-top: 12px;">
+            <label asp-for="TelefoonNummer" class="input-group-text">Telefoonnummer</label>
+            <input asp-for="TelefoonNummer" id="input-telefoonnum" class="form-control" type="text" />
+        </div>
+        <button class="btn btn-primary" type="submit" style="margin-top: 12px;margin-left: 23px;color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>
+        </form>
     </div>
-    <div class="input-group" style="width: 388px;margin-left: 23px;margin-top: 12px;">
-        <label asp-for="WerknemerNummer" class="input-group-text">Werknemer Nummer</label>
-        <input asp-for="WerknemerNummer" id="input-werknemernum" class="form-control" type="text" style="width: 19.766px;" />
-    </div>
-    <div class="input-group" style="padding: 0px;width: 388px;margin-left: 23px;margin-top: 12px;">
-        <label asp-for="TelefoonNummer" class="input-group-text">Telefoonnummer</label>
-        <input asp-for="TelefoonNummer" id="input-telefoonnum" class="form-control" type="text" />
-    </div>
-    <button class="btn btn-primary" type="submit" style="margin-top: 12px;margin-left: 23px;color: var(--bs-gray-100);background: var(--bs-gray-900);">Toevoegen</button>
-    </form>
-</div>
 
+    <div class="row">
+        <label>Neem een medewerker over:</label>
+        <select class="form-select" id="werknemerlinker">
+            <optgroup label="Werknemers">
+                @foreach (WerknemerViewModel werknemer in werknemers)
+                {
+                    <option value="@werknemer.WerknemerID">@werknemer.Naam, @werknemer.WerknemerNummer</option>
+                }
+            </optgroup>
+        </select>
+    </div>
+</div>

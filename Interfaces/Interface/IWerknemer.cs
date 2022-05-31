@@ -7,5 +7,6 @@ namespace Interfaces.Interface
         int AddNewWerknemer(WerknemerDTO werknemerNieuw, int UserID);
         int UpdateWerknemer(WerknemerDTO changedWerknemer, int oldWerknemerID);
         int DeleteWerknemer(WerknemerDTO werknemer);
+        int LinkWerknemerToUser(WerknemerDTO werknemer, int userID);
     }
 }

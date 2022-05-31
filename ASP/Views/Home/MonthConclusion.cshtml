@@ -6,14 +6,32 @@
     <input type="month" id="monthpicker" name="start" min="2015-01" data-date-format="mm-yyyy">  
 </div>   
 
+<div class="table-responsive" id="sailorTableArea">
+    <table id="sailorTable" class="table table-striped table-bordered" width="100%">
+        <thead>
+            <tr>
+                <th>Aantal Routes</th>
+                <th>Aantal Uur Gewerkt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="aantalroutes"></td>
+                <td id="aantaluur"></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
 @section Scripts {
     <script type="text/javascript">
         var target = window.location.protocol + "//" + window.location.host;
         $('#monthpicker').change(function(){
-            chosenMonth = $('#monthpicker').val();
-            $.post(target + "/Route/GetMonthConclusion", {month: chosenMonth})
+            Month = $('#monthpicker').val();
+            $.post(target + "/Route/GetMonthConclusion", {chosenMonth: Month})
                 .done(data => {
-
+                    $('#aantalroutes').html(data.aantalRoutesGereden);
+                    $('#aantaluur').html(data.aantalUren);
                 })
                 .fail(data => { alert(data.responseText)})
         })

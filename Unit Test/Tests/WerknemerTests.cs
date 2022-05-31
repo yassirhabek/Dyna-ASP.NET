@@ -81,7 +81,7 @@ namespace Unit_Test.Tests
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDalStub());
 
             // Act
-            int count = werknemerContainer.GetWerknemers(user.UserID).Count;
+            int count = werknemerContainer.GetUserWerknemers(user.UserID).Count;
 
             // Assert 
             Assert.AreEqual(3, count);

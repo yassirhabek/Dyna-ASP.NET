@@ -19,7 +19,7 @@ namespace ASP.Controllers
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
             List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
-            foreach (var werknemer in werknemerContainer.GetWerknemers(Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))))
+            foreach (var werknemer in werknemerContainer.GetUserWerknemers(Convert.ToInt32(HttpContext.Session.GetInt32("user-id"))))
             {
                 WerknemerViewModel werknemerViewModel = new WerknemerViewModel
                 {

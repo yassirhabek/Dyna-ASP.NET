@@ -64,7 +64,7 @@ namespace Unit_Test.Stubs
             return 1;
         }
 
-        public List<WerknemerDTO> GetAllWerknemers(int userID)
+        public List<WerknemerDTO> GetUserWerknemers(int userID)
         {
             return werknemerDTOs;
         }

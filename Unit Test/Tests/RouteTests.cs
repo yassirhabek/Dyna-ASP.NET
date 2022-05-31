@@ -140,23 +140,5 @@ namespace Unit_Test.Tests
             //Assert
             Assert.AreEqual(1, count);  
         }
-
-        [TestMethod]
-        public void SuccesfulGetRouteByMonth()
-        {
-            //Arrange
-            User user = new User()
-            {
-                UserID = 1
-            };
-            string rawDate = "2022-06";
-            RouteContainer routeContainer = new RouteContainer(new RouteDalStub());
-
-            //Act
-            int count = routeContainer.GetRoutesByMonth(rawDate, new WerknemerDalStub(), new WerknemerDalStub(), user.UserID).Count;
-
-            //Assert
-            Assert.AreEqual(2, count);
-        }
     }
 }

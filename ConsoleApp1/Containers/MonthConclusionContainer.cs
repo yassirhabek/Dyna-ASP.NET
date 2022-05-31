@@ -32,7 +32,7 @@ namespace Logic.Containers
 
             try
             {
-                foreach (RouteDTO routeDTO in _iMonthConclusionContainer.GetRoutesByMonth(smalldate, bigdate, iWerknemerContainer.GetAllWerknemers(userID), userID))
+                foreach (RouteDTO routeDTO in _iMonthConclusionContainer.GetRoutesByMonth(smalldate, bigdate, iWerknemerContainer.GetUserWerknemers(userID), userID))
                 {
                     RouteRit route = new RouteRit(routeDTO.RouteID, routeDTO.RouteNummer, routeDTO.Datum, new Werknemer(routeDTO.Chauffeur, iWerknemer),
                             new Werknemer(routeDTO.BijRijder, iWerknemer), routeDTO.StartTijd, routeDTO.EindTijd, iRoute);

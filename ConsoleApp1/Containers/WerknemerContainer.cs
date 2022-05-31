@@ -28,15 +28,32 @@ namespace Logic.Containers
                 throw;
             }
         }
-
-        public List<Werknemer> GetWerknemers(int userID)
+        public List<Werknemer> GetAllWerknemers()
         {
             List<Werknemer> werknemers = new List<Werknemer>();
             try
             {
-                foreach (var searchedWerknemer in _iWerknemerContainer.GetAllWerknemers(userID))
+                foreach (WerknemerDTO searchedWerknemer in _iWerknemerContainer.GetAllWerknemers())
                 {
-                    Werknemer werknemer = new Werknemer(searchedWerknemer.WerknemerID, searchedWerknemer.Naam, searchedWerknemer.WerknemerNummer, searchedWerknemer.TelefoonNummer, _iWerknemer);
+                    Werknemer werknemer = new Werknemer(searchedWerknemer, _iWerknemer);
+                    werknemers.Add(werknemer);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return werknemers;
+        }
+
+        public List<Werknemer> GetUserWerknemers(int userID)
+        {
+            List<Werknemer> werknemers = new List<Werknemer>();
+            try
+            {
+                foreach (WerknemerDTO searchedWerknemer in _iWerknemerContainer.GetUserWerknemers(userID))
+                {
+                    Werknemer werknemer = new Werknemer(searchedWerknemer, _iWerknemer);
                     werknemers.Add(werknemer);
                 }
             }

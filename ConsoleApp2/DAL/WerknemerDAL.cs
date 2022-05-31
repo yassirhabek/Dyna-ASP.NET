@@ -105,8 +105,43 @@ namespace DAL.DAL
             }
 
         }
+        public List<WerknemerDTO> GetAllWerknemers()
+        {
+            var output = new List<WerknemerDTO>();
+            if (openConnection())
+            {
+                try
+                {
+                    string query = "SELECT * FROM werknemers";
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
 
-        public List<WerknemerDTO> GetAllWerknemers(int userID)
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+
+                    while (rdr.Read())
+                    {
+                        output.Add(new WerknemerDTO()
+                        {
+                            WerknemerID = Convert.ToInt32(rdr[0]),
+                            WerknemerNummer = Convert.ToInt32(rdr[1]),
+                            Naam = Convert.ToString(rdr[2]),
+                            TelefoonNummer = Convert.ToInt32(rdr[3])
+                        });
+                    }
+                    rdr.Close();
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception(ex.ToString());
+                }
+                closeConnection();
+                return output;
+            }
+            else
+                throw new DataException();
+        }
+
+        public List<WerknemerDTO> GetUserWerknemers(int userID)
         {
             var output = new List<WerknemerDTO>();
             if (openConnection())
@@ -179,6 +214,33 @@ namespace DAL.DAL
             }
             else
                 throw new DataException();
+        }
+
+        public int LinkWerknemerToUser(WerknemerDTO werknemer, int userID)
+        {
+            if (openConnection())
+            {
+                string query = "INSERT INTO userWerknemerLink (UserID, WerknemerID) VALUES (@userid, @werknemerid)";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                cmd.Parameters.Add("@userid", MySqlDbType.Int32).Value = userID;
+                cmd.Parameters.Add("@werknemerid", MySqlDbType.Int32).Value = werknemer.WerknemerID;
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.ToString());
+                }
+                closeConnection();
+                return 1;
+            }
+            else
+            {
+                throw new DataException();
+            }
         }
     }
 }

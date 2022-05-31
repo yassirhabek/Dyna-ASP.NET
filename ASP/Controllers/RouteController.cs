@@ -18,7 +18,7 @@ namespace ASP.Controllers
         {
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
             List<WerknemerViewModel> werknemerViewModels = new List<WerknemerViewModel>();
-            foreach (var werknemer in werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value))
+            foreach (var werknemer in werknemerContainer.GetUserWerknemers(HttpContext.Session.GetInt32("user-id").Value))
             {
                 WerknemerViewModel werknemerViewModel = new WerknemerViewModel
                 {
@@ -95,8 +95,8 @@ namespace ASP.Controllers
             TimeSpan parsedEindTijd;
 
             WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
-            Werknemer chauffeur = werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == chauffeurID);
-            Werknemer bijrijder = werknemerContainer.GetWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == bijrijderID);
+            Werknemer chauffeur = werknemerContainer.GetUserWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == chauffeurID);
+            Werknemer bijrijder = werknemerContainer.GetUserWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == bijrijderID);
 
 
             DateTime.TryParse(rawDatum, out parsedDatum);
@@ -152,7 +152,11 @@ namespace ASP.Controllers
         [HttpPost]
         public ActionResult GetMonthConclusion(string chosenMonth)
         {
-            throw new NotImplementedException();
+            MonthConclusionContainer monthConclusionContainer = new MonthConclusionContainer(new MonthConclusionDAL());
+
+            MonthConclusion monthConclusion = monthConclusionContainer.CalcMonthConclusion(chosenMonth, new WerknemerDAL(), new WerknemerDAL(), HttpContext.Session.GetInt32("user-id").Value, new RouteDAL());
+
+            return Ok(monthConclusion);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Logic.Containers
             List<RouteRit> routes = new List<RouteRit>();
             try
             {
-                foreach (RouteDTO routeList in _iRouteContainer.GetAllRoute(iWerknemerContainer.GetAllWerknemers(userID), userID))
+                foreach (RouteDTO routeList in _iRouteContainer.GetAllRoute(iWerknemerContainer.GetUserWerknemers(userID), userID))
                 {
                     RouteRit route = new RouteRit(routeList.RouteID, routeList.RouteNummer, routeList.Datum, new Werknemer(routeList.Chauffeur, iWerknemer),
                         new Werknemer(routeList.BijRijder, iWerknemer), routeList.StartTijd, routeList.EindTijd, _iRoute);
@@ -43,7 +43,7 @@ namespace Logic.Containers
 
             try
             {
-                foreach (RouteDTO routeList in _iRouteContainer.GetRouteByDate(date, iWerknemerContainer.GetAllWerknemers(userID), userID))
+                foreach (RouteDTO routeList in _iRouteContainer.GetRouteByDate(date, iWerknemerContainer.GetUserWerknemers(userID), userID))
                 {
                     RouteRit route = new RouteRit(routeList.RouteID, routeList.RouteNummer, routeList.Datum, new Werknemer(routeList.Chauffeur, iWerknemer),
                         new Werknemer(routeList.BijRijder, iWerknemer), routeList.StartTijd, routeList.EindTijd, _iRoute);
