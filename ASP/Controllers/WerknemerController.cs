@@ -115,18 +115,17 @@ namespace ASP.Controllers
         }
 
         [HttpPost]
-        public ActionResult LinkWerknemerToUser(int werknemerID)
+        public ActionResult LinkWerknemerToUser(int ID)
         {
             Werknemer werknemer = new Werknemer(new WerknemerDAL())
             {
-                WerknemerID = werknemerID
+                WerknemerID = ID
             };
 
             if (werknemer.LinkWerknemerToUser(HttpContext.Session.GetInt32("user-id").Value) == 1)
             {
                 return Ok("Succesvol Gelinkt");
             }
-
             return BadRequest("Fout");
         }
     }

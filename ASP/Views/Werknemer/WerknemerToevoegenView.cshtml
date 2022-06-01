@@ -4,8 +4,8 @@
 }
 @model ASP.Models.WerknemerViewModel
 
-<div class="container">
-    <div class="forms-div row">
+<div class="row">
+    <div class="forms-div col-6">
         <form method="post" asp-controller="Werknemer" asp-action="WerknemerToevoegen">
         <div class="input-group" style="width: 342px;margin-left: 23px;margin-top: 37px;">
             <label asp-for="Naam" class="input-group-text">Naam</label>
@@ -23,9 +23,9 @@
         </form>
     </div>
 
-    <div class="row">
+    <div class="col-6" style="margin-top: 37px;">
         <label>Neem een medewerker over:</label>
-        <select class="form-select" id="werknemerlinker">
+        <select class="form-select" id="werknemer-linker" style="width: 300px;">
             <optgroup label="Werknemers">
                 @foreach (WerknemerViewModel werknemer in werknemers)
                 {
@@ -33,5 +33,20 @@
                 }
             </optgroup>
         </select>
+        <button class="btn btn-primary" id="werknemer-overnemen" style="color: var(--bs-gray-100);background: var(--bs-gray-900); margin-top: 12px;">Overnemen</button>
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('#werknemer-overnemen').click(() => {
+            console.log("COOOLLLLL")
+            let WerknemerID = $('#werknemer-linker').val();
+
+            let target = window.location.protocol + "//" + window.location.host;
+            $.post(target + "/Werknemer/LinkWerknemerToUser/" + WerknemerID)
+                .done(data => { alert(data),  window.location.href = target + "/Home/Index"})
+                .fail(data => { alert(data.responseText) })
+        })
+    </script>
+}

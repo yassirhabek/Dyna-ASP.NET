@@ -14,7 +14,10 @@ namespace DAL.DAL
     {
         public int AddNewWerknemer(WerknemerDTO werknemerNieuw, int userID)
         {
-            string query = "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer, UserID) VALUES(@numpas, @naam, @telefoonnum, @userid)";
+            string query = "START TRANSACTION;" +
+                "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum); " +
+                "INSERT INTO userwerknemerlink (UserID, WerknemerID) VALUES (@userid, (SELECT WerknemerID FROM werknemers WHERE Telefoonnummer = @telefoonnum)); " +
+                "COMMIT;";
 
             if (openConnection())
             {
@@ -31,8 +34,8 @@ namespace DAL.DAL
                 }
                 catch (MySqlException ex)
                 {                    
-                    return 0;
                     throw new Exception(ex.ToString());
+                    return 0;
                 }
                 closeConnection();
                 return 1;
@@ -148,7 +151,10 @@ namespace DAL.DAL
             {
                 try
                 {
-                    string query = "SELECT * FROM werknemers WHERE UserID = @userid";
+                    //string query = "SELECT * FROM werknemers WHERE UserID = @userid";
+                    string query = "SELECT DISTINCT werknemers.* " +
+                        "FROM userwerknemerlink JOIN users on userwerknemerlink.UserID = @userid " +
+                        "JOIN werknemers on userwerknemerlink.WerknemerID = werknemers.WerknemerID";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.Parameters.Add("@userid", MySqlDbType.Int32).Value = userID;
 
