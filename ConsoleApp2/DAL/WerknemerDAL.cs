@@ -14,9 +14,14 @@ namespace DAL.DAL
     {
         public int AddNewWerknemer(WerknemerDTO werknemerNieuw, int userID)
         {
+            //string query = "START TRANSACTION;" +
+            //    "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum); " +
+            //    "INSERT INTO userwerknemerlink (UserID, WerknemerID) VALUES (@userid, (SELECT WerknemerID FROM werknemers WHERE Telefoonnummer = @telefoonnum)); " +
+            //    "COMMIT;";
+
             string query = "START TRANSACTION;" +
-                "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum); " +
-                "INSERT INTO userwerknemerlink (UserID, WerknemerID) VALUES (@userid, (SELECT WerknemerID FROM werknemers WHERE Telefoonnummer = @telefoonnum)); " +
+                "INSERT INTO werknemers(WerknemerNummer, Naam, Telefoonnummer) VALUES(@numpas, @naam, @telefoonnum);" +
+                "SELECT LAST_INSERT_ID();" +
                 "COMMIT;";
 
             if (openConnection())
@@ -30,12 +35,16 @@ namespace DAL.DAL
 
                 try
                 {
-                    cmd.ExecuteNonQuery();
+                    int werknemerid = Convert.ToInt32(cmd.ExecuteScalar());
+                    WerknemerDTO werknemerDTO = new WerknemerDTO()
+                    {
+                        WerknemerID = werknemerid,
+                    };
+                    LinkWerknemerToUser(werknemerDTO, userID);
                 }
                 catch (MySqlException ex)
                 {                    
                     throw new Exception(ex.ToString());
-                    return 0;
                 }
                 closeConnection();
                 return 1;
@@ -155,6 +164,7 @@ namespace DAL.DAL
                     string query = "SELECT DISTINCT werknemers.* " +
                         "FROM userwerknemerlink JOIN users on userwerknemerlink.UserID = @userid " +
                         "JOIN werknemers on userwerknemerlink.WerknemerID = werknemers.WerknemerID";
+
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.Parameters.Add("@userid", MySqlDbType.Int32).Value = userID;
 

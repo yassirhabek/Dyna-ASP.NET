@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace DAL.DAL
 {
@@ -24,6 +25,9 @@ namespace DAL.DAL
 
         protected bool openConnection()
         {
+            if (connection.State == ConnectionState.Open)
+                return true;
+
             try
             {
                 connection.Open();
