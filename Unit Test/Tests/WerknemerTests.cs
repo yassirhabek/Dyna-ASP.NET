@@ -84,7 +84,7 @@ namespace Unit_Test.Tests
             int count = werknemerContainer.GetUserWerknemers(user.UserID).Count;
 
             // Assert 
-            Assert.AreEqual(3, count);
+            Assert.AreEqual(2, count);
         }
 
         [TestMethod]
@@ -106,6 +106,92 @@ namespace Unit_Test.Tests
             Assert.AreEqual(newWerknemer.Naam, searchedWerknemer.Naam);
             Assert.AreEqual(newWerknemer.WerknemerNummer, searchedWerknemer.WerknemerNummer);
             Assert.AreEqual(newWerknemer.TelefoonNummer, searchedWerknemer.TelefoonNummer);
+        }
+
+        [TestMethod]
+        public void LinkWerknemerToUser()
+        {
+            //Arrange 
+            int werknemerId = 6;
+            int userId = 3;
+            WerknemerDalStub werknemerDalStub = new WerknemerDalStub();
+            Werknemer werknemer = new Werknemer(werknemerDalStub)
+            {
+                WerknemerID = werknemerId
+            };
+
+            //Act
+            werknemer.LinkWerknemerToUser(userId);
+
+            //Assert
+            Assert.AreEqual(userId, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].UserID);
+            Assert.AreEqual("Hugo", werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].Naam);
+            Assert.AreEqual(344874, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].WerknemerNummer);
+            Assert.AreEqual(0622000331, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].TelefoonNummer);
+            Assert.AreEqual(werknemerId, werknemerDalStub.werknemerDTOs[werknemerDalStub.werknemerDTOs.Count - 1].WerknemerID);
+
+        }
+
+        [TestMethod]
+        public void ConstructorWerknemer()
+        {
+            //Arrange
+            string name = "Bob";
+            int werknemerNummer = 234585;
+            int telefoonNummer = 0682849291;
+            int werknemerId = 34;
+
+            //Act
+            Werknemer werknemer = new Werknemer(werknemerId, name, werknemerNummer, telefoonNummer, new WerknemerDalStub());
+
+            //Assert
+            Assert.AreEqual(werknemerId, werknemer.WerknemerID);
+            Assert.AreEqual(name, werknemer.Naam);
+            Assert.AreEqual(werknemerNummer, werknemer.WerknemerNummer);
+            Assert.AreEqual(telefoonNummer, werknemer.TelefoonNummer);
+        }
+
+        [TestMethod]
+        public void ConstructorCreateWerknemer()
+        {
+            //Arrange
+            string name = "Gerard";
+            int werknemerNummer = 573839;
+            int telefoonNummer = 0687238294;
+
+            //Act
+            Werknemer werknemer = new Werknemer(name, werknemerNummer, telefoonNummer, new WerknemerDalStub());
+
+            //Assert
+            Assert.AreEqual(name, werknemer.Naam);
+            Assert.AreEqual(werknemerNummer, werknemer.WerknemerNummer);
+            Assert.AreEqual(telefoonNummer, werknemer.TelefoonNummer);
+        }
+
+        [TestMethod]
+        public void ConstructorWerknemerDTO()
+        {
+            //Arrange
+            string name = "Will";
+            int werknemerNummer = 7542221;
+            int telefoonNummer = 067884921;
+            int werknemerId = 89;
+            WerknemerDTO werknemerDTO = new WerknemerDTO()
+            {
+                WerknemerID = werknemerId,
+                Naam = name,
+                WerknemerNummer = werknemerNummer,
+                TelefoonNummer = telefoonNummer
+            };
+
+            //Act
+            Werknemer werknemer = new Werknemer(werknemerDTO, new WerknemerDalStub());
+
+            //Assert
+            Assert.AreEqual(werknemerId, werknemer.WerknemerID);
+            Assert.AreEqual(name, werknemer.Naam);
+            Assert.AreEqual(werknemerNummer, werknemer.WerknemerNummer);
+            Assert.AreEqual(telefoonNummer, werknemer.TelefoonNummer);
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Logic.Models
             Email = userDTO.Email;
             UserName = userDTO.UserName;
             Password = userDTO.HashedPassword;
+            VerifiedPassword = userDTO.VerifiedPassword;
         }
 
         public User(string email, string pw)

@@ -16,14 +16,6 @@ namespace Logic.Containers
             _iUserContainer = iUserContainer;
         }
 
-        /// <summary>
-        /// Attempt to login with username and password(hashed) and map return data to object of T
-        /// </summary>
-        /// <typeparam name="T">UserDTO</typeparam>
-        /// <param name="email">userinput email</param>
-        /// <param name="password">userinput password</param>
-        /// <param name="errors">list of errors</param>
-        /// <returns>returns T when successful else returns null and list of errors</returns>
         public bool Login(User user, out List<string> errors)
         {
             errors = new List<string>();
@@ -42,23 +34,20 @@ namespace Logic.Containers
             {
                 string hashedPw = ComputeSha256Hash(user.Password + user.Email);
                 UserDTO userDTO = new UserDTO() { Email = user.Email, HashedPassword = hashedPw};
-                return _iUserContainer.Login(userDTO);
+                if (!_iUserContainer.Login(userDTO))
+                {
+                    errors.Add("wrong email/password");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
             errors.Add("unexpected error");
             return false;
         }
 
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        /// <param name="username"></param>
-        /// <param name="verifyPassword"></param>
-        /// <param name="errors"></param>
-        /// <returns></returns>
         public int Register(User user, out List<string> errors)
         {
             errors = new List<string>();

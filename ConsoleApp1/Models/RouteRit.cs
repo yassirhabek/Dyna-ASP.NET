@@ -34,7 +34,7 @@ namespace Logic.Models
             Bijzonderheden = bijzonderheden;
             _iRoute = iRoute;
 
-            AantalUur = this.totaalAantalUur(startTijd, eindTijd);
+            AantalUur = totaalAantalUur(startTijd, eindTijd);
         }
 
         public RouteRit(int routeID, int routeNummer, DateTime datum, Werknemer chauffeur, Werknemer bijRijder, TimeSpan startTijd, TimeSpan eindTijd, IRoute iRoute)

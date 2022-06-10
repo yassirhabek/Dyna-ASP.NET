@@ -12,5 +12,6 @@ namespace Interfaces.DTO
         public int WerknemerNummer;
         public string Naam;
         public int TelefoonNummer;
+        public int UserID;
     }
 }

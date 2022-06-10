@@ -140,5 +140,111 @@ namespace Unit_Test.Tests
             //Assert
             Assert.AreEqual(1, count);  
         }
+
+        [TestMethod]
+        public void ConstructorRouteFull()
+        {
+            //Arrange
+            int routeid = 521;
+            int routenummer = 3219;
+            DateTime datum = new DateTime(2022, 6, 4);
+            Werknemer chauffeur = new Werknemer("Rogier", 231233, 642818204, new WerknemerDalStub());
+            Werknemer bijrijder = new Werknemer("Patrick", 857284, 674722746, new WerknemerDalStub());
+            TimeSpan starttijd = new TimeSpan(8, 15, 0);
+            TimeSpan eindtijd = new TimeSpan(15, 15, 0);
+            string bijzonderheden = "geen";
+
+            //Act 
+            RouteRit route = new RouteRit(routeid, routenummer, datum, chauffeur, bijrijder, starttijd, eindtijd, bijzonderheden, new RouteDalStub());
+
+            //Assert
+            Assert.AreEqual(routeid, route.RouteID);
+            Assert.AreEqual(routenummer, route.RouteNummer);
+            Assert.AreEqual(datum, route.Datum);
+            Assert.AreEqual(chauffeur, route.Chauffeur);
+            Assert.AreEqual(bijrijder, route.BijRijder);
+            Assert.AreEqual(starttijd, route.StartTijd);
+            Assert.AreEqual(eindtijd, route.EindTijd);
+            Assert.AreEqual(new TimeSpan(6, 30, 0), route.AantalUur);
+            Assert.AreEqual(bijzonderheden, route.Bijzonderheden);
+        }
+
+        [TestMethod]
+        public void ConstructorRouteNoBijzonderheden()
+        {
+            //Arrange
+            int routeid = 521;
+            int routenummer = 3219;
+            DateTime datum = new DateTime(2022, 6, 4);
+            Werknemer chauffeur = new Werknemer("Rogier", 231233, 642818204, new WerknemerDalStub());
+            Werknemer bijrijder = new Werknemer("Patrick", 857284, 674722746, new WerknemerDalStub());
+            TimeSpan starttijd = new TimeSpan(8, 15, 0);
+            TimeSpan eindtijd = new TimeSpan(15, 15, 0);
+
+            //Act 
+            RouteRit route = new RouteRit(routeid, routenummer, datum, chauffeur, bijrijder, starttijd, eindtijd, new RouteDalStub());
+
+            //Assert
+            Assert.AreEqual(routeid, route.RouteID);
+            Assert.AreEqual(routenummer, route.RouteNummer);
+            Assert.AreEqual(datum, route.Datum);
+            Assert.AreEqual(chauffeur, route.Chauffeur);
+            Assert.AreEqual(bijrijder, route.BijRijder);
+            Assert.AreEqual(starttijd, route.StartTijd);
+            Assert.AreEqual(eindtijd, route.EindTijd);
+            Assert.AreEqual(new TimeSpan(6, 30, 0), route.AantalUur);
+            Assert.AreEqual("geen", route.Bijzonderheden);
+        }
+
+        [TestMethod]
+        public void ConstructorCreateRoute()
+        {
+            //Arrange
+            int routenummer = 3219;
+            DateTime datum = new DateTime(2022, 6, 4);
+            Werknemer chauffeur = new Werknemer("Rogier", 231233, 642818204, new WerknemerDalStub());
+            Werknemer bijrijder = new Werknemer("Patrick", 857284, 674722746, new WerknemerDalStub());
+            TimeSpan starttijd = new TimeSpan(8, 15, 0);
+            TimeSpan eindtijd = new TimeSpan(15, 15, 0);
+            string bijzonderheden = "geen";
+
+            //Act 
+            RouteRit route = new RouteRit(routenummer, datum, chauffeur, bijrijder, starttijd, eindtijd, bijzonderheden, new RouteDalStub());
+
+            //Assert
+            Assert.AreEqual(routenummer, route.RouteNummer);
+            Assert.AreEqual(datum, route.Datum);
+            Assert.AreEqual(chauffeur, route.Chauffeur);
+            Assert.AreEqual(bijrijder, route.BijRijder);
+            Assert.AreEqual(starttijd, route.StartTijd);
+            Assert.AreEqual(eindtijd, route.EindTijd);
+            Assert.AreEqual(new TimeSpan(6, 30, 0), route.AantalUur);
+            Assert.AreEqual(bijzonderheden, route.Bijzonderheden);
+        }
+
+        [TestMethod]
+        public void ConstructorCreateRouteNoBijzonderheden()
+        {
+            //Arrange
+            int routenummer = 3219;
+            DateTime datum = new DateTime(2022, 6, 4);
+            Werknemer chauffeur = new Werknemer("Rogier", 231233, 642818204, new WerknemerDalStub());
+            Werknemer bijrijder = new Werknemer("Patrick", 857284, 674722746, new WerknemerDalStub());
+            TimeSpan starttijd = new TimeSpan(8, 15, 0);
+            TimeSpan eindtijd = new TimeSpan(15, 15, 0);
+
+            //Act 
+            RouteRit route = new RouteRit(routenummer, datum, chauffeur, bijrijder, starttijd, eindtijd, new RouteDalStub());
+
+            //Assert
+            Assert.AreEqual(routenummer, route.RouteNummer);
+            Assert.AreEqual(datum, route.Datum);
+            Assert.AreEqual(chauffeur, route.Chauffeur);
+            Assert.AreEqual(bijrijder, route.BijRijder);
+            Assert.AreEqual(starttijd, route.StartTijd);
+            Assert.AreEqual(eindtijd, route.EindTijd);
+            Assert.AreEqual(new TimeSpan(6, 30, 0), route.AantalUur);
+            Assert.AreEqual("geen", route.Bijzonderheden);
+        }
     }
 }
