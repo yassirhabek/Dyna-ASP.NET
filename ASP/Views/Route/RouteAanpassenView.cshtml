@@ -100,6 +100,7 @@
             
             $.post(target + "/Route/GetRoutesFromDate", {date: Date} )
                 .done(data => {
+                    console.log(data)
                     for (var i = 0; i <= data.length; i++) {
                         $('#option-date-aanpassen').append('<option value="' + data[i].routeID + '">' + data[i].routeNummer + '</option>');
                     }   
@@ -108,9 +109,11 @@
         });
 
         $('#option-date-aanpassen').change(function(){
+            console.log("hhgooo");
             var Id = $('#option-date-aanpassen').val();
+            var ID = document.getElementById("option-date-aanpassen");
             
-            $.post(target + "/Route/GetSingleRouteByID/" + Id + null)
+            $.post(target + "/Route/GetSingleRouteByID/" + ID + null)
                 .done(data => {
                     alert(data);
                     $('#input-routenummer').val(data.routeNummer);

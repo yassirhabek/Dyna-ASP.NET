@@ -1,6 +1,4 @@
-html {
-  font-size: 14px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 @media (min-width: 768px) {
   html {
@@ -14,86 +12,22 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-}
-
-.mynav_navbar a {
-    float: left;
     font-size: 16px;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+    background-color: ghostwhite;
+    font-family: 'Poppins', sans-serif;
 }
 
-
-
-.mynav_dropdown {
-    float: left;
-    overflow: hidden;
+a {
+    color: ;
 }
 
-
-
-.mynav_dropdown .mynav_dropbtn {
-    font-size: 16px;
-    border: none;
-    outline: none;
-    color: black;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
+table {
+    border-bottom: 1px thin red !important;
 }
 
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
-
-.mynav_navbar a:hover, .mynav_dropdown:hover .mynav_dropbtn {
-    background-color: white;
+.navbar {
+    height: 60px;
+    background-color: dimgrey !important;
 }
-
-
-
-.mynav_dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-
-.mynav_dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-
-
-.mynav_dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-
-
-.mynav_dropdown:hover .mynav_dropdown-content {
-    display: block;
-}
-
-.custab {
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin: 5% 0;
-    box-shadow: 3px 3px 2px #ccc;
-    transition: 0.5s;
-}
-
-    .custab:hover {
-        box-shadow: 3px 3px 0px transparent;
-        transition: 0.5s;
-    }
