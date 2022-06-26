@@ -30,8 +30,9 @@
             Month = $('#monthpicker').val();
             $.post(target + "/Route/GetMonthConclusion", {chosenMonth: Month})
                 .done(data => {
+                    console.log(data);
                     $('#aantalroutes').html(data.aantalRoutesGereden);
-                    $('#aantaluur').html(data.aantalUren);
+                    $('#aantaluur').html(data.aantalUrenDisplay);
                 })
                 .fail(data => { alert(data.responseText)})
         })

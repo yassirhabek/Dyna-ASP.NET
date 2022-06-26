@@ -30,8 +30,8 @@
             let target = window.location.protocol + "//" + window.location.host;
             $.post(target + "/Route/GetRoutesFromDate", {date: Date} )
                 .done(data => {
-                      for (var index = 0; index <= data.length; index++) {
-                        $('#option-date').append('<option value="' + data[index].routeID + '">' + data[index].routeNummer + '</option>');
+                      for (const route of data) {
+                        $('#option-date').append('<option value="' + route.routeID + '">' + route.routeNummer + '</option>');
                       }
                 })  
                 .fail(data => { alert(data.responseText) })

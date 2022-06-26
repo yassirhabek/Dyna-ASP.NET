@@ -56,5 +56,22 @@ namespace Logic.Containers
             }
             return routesFromDate;
         }
+
+        public RouteRit GetSingleRoute(int userID, int routeID, IWerknemerContainer iWerknemerContainer, IWerknemer iWerknemer)
+        {
+            RouteRit routeRit;
+            try
+            {
+                RouteDTO routeDTO = _iRouteContainer.GetSingleRoute(userID, routeID, iWerknemerContainer.GetUserWerknemers(userID));
+                RouteRit route = new RouteRit(routeDTO.RouteID, routeDTO.RouteNummer, routeDTO.Datum, new Werknemer(routeDTO.Chauffeur, iWerknemer),
+                        new Werknemer(routeDTO.BijRijder, iWerknemer), routeDTO.StartTijd, routeDTO.EindTijd, _iRoute);
+                routeRit = route;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return routeRit;
+        }
     }
 }

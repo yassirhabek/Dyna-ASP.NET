@@ -41,13 +41,11 @@ namespace DAL.DAL
                 catch (MySqlException ex)
                 {
                     closeConnection();
-                    return 0;
                     throw new Exception(ex.ToString());
                 }
             }
             else
             {
-                return 0;
                 throw new DataException();
             }
                 
@@ -96,6 +94,47 @@ namespace DAL.DAL
             else
                 throw new DataException();
         }
+
+        public RouteDTO GetSingleRoute(int userID, int routeID, List<WerknemerDTO> lijstWerknemers)
+        {
+            RouteDTO output = new RouteDTO();
+
+            if (openConnection())
+            {
+                string query = "SELECT * FROM route WHERE RouteID = @routeid AND UserID = @userid";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                cmd.Parameters.Add("@routeid", MySqlDbType.Int32).Value = routeID;
+                cmd.Parameters.Add("@userid", MySqlDbType.Int32).Value = userID;
+
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                try
+                {
+                    while (rdr.Read())
+                    {
+                        output.RouteID = Convert.ToInt32(rdr[0]);
+                        output.RouteNummer = Convert.ToInt32(rdr[1]);
+                        output.Datum = Convert.ToDateTime(rdr[2]);
+                        output.Chauffeur = lijstWerknemers.FirstOrDefault(w => w.WerknemerID == Convert.ToInt32(rdr[3]));
+                        output.BijRijder = lijstWerknemers.FirstOrDefault(w => w.WerknemerID == Convert.ToInt32(rdr[4]));
+                        output.StartTijd = TimeSpan.Parse(Convert.ToString(rdr[5]));
+                        output.EindTijd = TimeSpan.Parse(Convert.ToString(rdr[6]));
+                        output.AantalUur = TimeSpan.Parse(Convert.ToString(rdr[7]));
+                        output.Bijzonderheden = Convert.ToString(rdr[8]);
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception(ex.ToString());
+                }
+                closeConnection();
+                return output;
+            }
+            else
+                throw new DataException();
+        }
+
         public List<RouteDTO> GetAllRoute(List<WerknemerDTO> lijstWerknemers, int userID)
         {
             List<RouteDTO> output = new List<RouteDTO>();
@@ -139,26 +178,25 @@ namespace DAL.DAL
                 throw new DataException();
         }
 
-        public int UpdateRoute(RouteDTO updateRoute, int oldRouteID)
+        public int UpdateRoute(RouteDTO updateRoute)
         {
-
             string query = "UPDATE route SET RouteNummer= @newroutenum, Datum= @datum, Chauffeur= @chauff, Bijrijder= @bijr," +
-                "Starttijd= @startt, Eindtijd= @eindt, AantalUur= @aantaluur, Bijzonderheden =@bijz, DatumToegevoegd= @datumtoeg WHERE routeID = @routeID";
+                "Starttijd= @startt, Eindtijd= @eindt, AantalUur= @aantaluur, Bijzonderheden =@bijz, DatumToegevoegd= @datumtoeg WHERE routeID = @routeID;";
 
             if (openConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 cmd.Parameters.Add("@newroutenum", MySqlDbType.Int32).Value = updateRoute.RouteNummer;
-                cmd.Parameters.Add("@datum", MySqlDbType.Text).Value = updateRoute.Datum;
-                cmd.Parameters.Add("@chauff", MySqlDbType.Text).Value = updateRoute.Chauffeur.Naam;
-                cmd.Parameters.Add("@bijr", MySqlDbType.Text).Value = updateRoute.BijRijder.Naam;
-                cmd.Parameters.Add("@startt", MySqlDbType.Time).Value = updateRoute.StartTijd;
-                cmd.Parameters.Add("@eindt", MySqlDbType.Time).Value = updateRoute.EindTijd;
-                cmd.Parameters.Add("@aantaluur", MySqlDbType.Time).Value = updateRoute.AantalUur;
-                cmd.Parameters.Add("@bijz", MySqlDbType.Text).Value = updateRoute.Bijzonderheden;
+                cmd.Parameters.Add("@datum", MySqlDbType.DateTime).Value = updateRoute.Datum;
+                cmd.Parameters.Add("@chauff", MySqlDbType.Int32).Value = updateRoute.Chauffeur.WerknemerID;
+                cmd.Parameters.Add("@bijr", MySqlDbType.Int32).Value = updateRoute.BijRijder.WerknemerID;
+                cmd.Parameters.Add("@startt", MySqlDbType.VarChar).Value = updateRoute.StartTijd;
+                cmd.Parameters.Add("@eindt", MySqlDbType.VarChar).Value = updateRoute.EindTijd;
+                cmd.Parameters.Add("@aantaluur", MySqlDbType.VarChar).Value = updateRoute.AantalUur;
+                cmd.Parameters.Add("@bijz", MySqlDbType.VarChar).Value = updateRoute.Bijzonderheden;
                 cmd.Parameters.Add("@datumtoeg", MySqlDbType.DateTime).Value = DateTime.Now;
-                cmd.Parameters.Add("@routeid", MySqlDbType.Int32).Value = oldRouteID;
+                cmd.Parameters.Add("@routeid", MySqlDbType.Int32).Value = updateRoute.RouteID;
 
                 try
                 {
@@ -169,13 +207,11 @@ namespace DAL.DAL
                 catch (MySqlException ex)
                 {
                     closeConnection();
-                    return 0;
                     throw new Exception(ex.ToString());
                 }
             }
             else
             {
-                return 0;
                 throw new DataException();
             }
                
@@ -200,13 +236,11 @@ namespace DAL.DAL
                 catch (MySqlException ex)
                 {
                     closeConnection();
-                    return 0;
                     throw new Exception(ex.ToString());
                 }
             }
             else
             {
-                return 0;
                 throw new DataException();
             }
         }

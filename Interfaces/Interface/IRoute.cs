@@ -6,6 +6,6 @@ namespace Interfaces.Interface
     {
         int AddRoute(RouteDTO newRoute, int userID);
         int DeleteRoute(RouteDTO deleteRoute);
-        int UpdateRoute(RouteDTO updateRoute, int oldRouteID);
+        int UpdateRoute(RouteDTO updateRoute);
     }
 }

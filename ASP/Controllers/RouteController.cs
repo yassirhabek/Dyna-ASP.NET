@@ -116,19 +116,43 @@ namespace ASP.Controllers
         }   
 
         [HttpPost]
-        public ActionResult RouteAanpassenForm(int id)
+        public ActionResult RouteAanpassen(int routeId, int routeNummer, string rawDatum, int chauffeurID, int bijrijderID, string rawStartTijd, string rawEindTijd)
         {
-            RouteViewModel route = GetRoutes().FirstOrDefault(r => r.RouteID == id);
+            DateTime parsedDatum;
+            TimeSpan parsedStartTijd;
+            TimeSpan parsedEindTijd;
 
-            ViewData["Werknemers"] = GetWerknemers();
-            ViewData["ChangeRoute"] = route;
-            return View("RouteAanpassenForm");
+            WerknemerContainer werknemerContainer = new WerknemerContainer(new WerknemerDAL());
+            Werknemer chauffeur = werknemerContainer.GetUserWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == chauffeurID);
+            Werknemer bijrijder = werknemerContainer.GetUserWerknemers(HttpContext.Session.GetInt32("user-id").Value).FirstOrDefault(w => w.WerknemerID == bijrijderID);
+
+
+            DateTime.TryParse(rawDatum, out parsedDatum);
+            TimeSpan.TryParse(rawStartTijd, out parsedStartTijd);
+            TimeSpan.TryParse(rawEindTijd, out parsedEindTijd);
+
+            RouteRit newRoute = new RouteRit(routeId, routeNummer, parsedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, new RouteDAL());
+            newRoute.UpdateRoute();
+            return Ok("Route Aangepast");
         }
 
         [HttpPost]
         public ActionResult GetSingleRouteByID(int id)
         {
-            RouteViewModel route = GetRoutes().FirstOrDefault(r => r.RouteID == id);
+            RouteContainer routeContainer = new RouteContainer(new RouteDAL());
+            RouteRit routeRit = routeContainer.GetSingleRoute(HttpContext.Session.GetInt32("user-id").Value, id, new WerknemerDAL(), new WerknemerDAL());
+            RouteViewModel route = new RouteViewModel()
+            {
+                RouteID = routeRit.RouteID,
+                RouteNummer = routeRit.RouteNummer,
+                Datum = routeRit.Datum,
+                Chauffeur = routeRit.Chauffeur,
+                BijRijder = routeRit.BijRijder,
+                StartTijd = routeRit.StartTijd,
+                EindTijd = routeRit.EindTijd,
+                AantalUur = routeRit.AantalUur,
+                Bijzonderheden = routeRit.Bijzonderheden
+            };
 
             return Ok(route);
         }

@@ -17,6 +17,9 @@
             <div class="mb-3">
                 <label class="form-label">Kies de Route</label>
                 <select id="option-date-aanpassen" style="width: 200px; height: 25px">
+                    <optgroup label="Routes" id="optgroup-routes" selected>
+
+                    </optgroup>
                 </select>
             </div>
         </form>
@@ -42,7 +45,6 @@
                 <label for="drop-chauffeur">Chauffeur</label>
                 <select asp-for="Chauffeur" class="form-select" id="drop-chauffeur">
                     <optgroup label="Werknemers">
-                        <option value="" selected="selected"></option>
                         @foreach (WerknemerViewModel werknemer in werknemers)
                         {
                             <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
@@ -55,7 +57,6 @@
                 <label for="drop-bijrijder">Bijrijder</label>
                 <select asp-for="BijRijder" class="form-select" id="drop-bijrijder">
                     <optgroup label="Werknemers">
-                        <option value="" selected="selected"></option>
                         @foreach (WerknemerViewModel werknemer in werknemers)
                         {
                             <option value="@werknemer.WerknemerID">@werknemer.Naam</option>
@@ -95,36 +96,40 @@
         var target = window.location.protocol + "//" + window.location.host;
         $('#choose-change-date').change(function(){
             var Date = $('#choose-change-date').val();
-            $('#option-date-aanpassen').empty();
+            $('#optgroup-routes').empty();
             
             
             $.post(target + "/Route/GetRoutesFromDate", {date: Date} )
                 .done(data => {
                     console.log(data)
-                    for (var i = 0; i <= data.length; i++) {
-                        $('#option-date-aanpassen').append('<option value="' + data[i].routeID + '">' + data[i].routeNummer + '</option>');
+                    $('#optgroup-routes').append('<option value="">Kies Een Route</option>');
+                    for (const route of data) {
+                        $('#optgroup-routes').append('<option value="' + route.routeID + '">' + route.routeNummer + '</option>');
                     }   
                 })  
                 .fail(data => { alert(data.responseText) })
         });
 
-        $('#option-date-aanpassen').change(function(){
-            console.log("hhgooo");
-            var Id = $('#option-date-aanpassen').val();
-            var ID = document.getElementById("option-date-aanpassen");
-            
-            $.post(target + "/Route/GetSingleRouteByID/" + ID + null)
-                .done(data => {
-                    alert(data);
-                    $('#input-routenummer').val(data.routeNummer);
-                    $('#input-datum').val(data.datum);
-                    $('#drop-chauffeur').append('<option value="' + data[i].chauffeurID + '">' + data[i].chauffeur + '</option>');
-                    $('#drop-bijrijder').append('<option value="' + data[i].bijrijderID + '">' + data[i].bijrijder + '</option>');
-                    $('#input-starttijd').val(data.starttijd);
-                    $('#input-eindtijd').val(data.eindtijd);
-                    $('#bijzonderheden').val(data.bijzonderheden); 
-                })
-                .fail(data => { alert(data.responseText) })
+        $('#option-date-aanpassen').on('input', function(){
+            var routeID = $('#option-date-aanpassen').val();
+            console.log(routeID);
+            if (routeID !== 0){
+                 $.post(target + "/Route/GetSingleRouteByID/" + routeID, null)
+                                .done(data => { 
+                                    $('#input-routenummer').val(data.routeNummer);
+                                    $('#input-datum').val(data.datum.slice(0, 10));
+                                    $('#drop-chauffeur').append('<option value="' + data.chauffeur.werknemerID + '" selected>' + data.chauffeur.naam + '</option>');
+                                    $('#drop-bijrijder').append('<option value="' + data.bijRijder.werknemerID + '" selected>' + data.bijRijder.naam + '</option>');
+                                    $('#input-starttijd').val(data.startTijd);
+                                    $('#input-eindtijd').val(data.eindTijd);
+                                    $('#bijzonderheden').val(data.bijzonderheden); 
+                                })
+                                .fail(data => { alert(data.responseText) })
+            }
+            else{
+                alert("9291");
+            }
+           
         });
     </script>
     }

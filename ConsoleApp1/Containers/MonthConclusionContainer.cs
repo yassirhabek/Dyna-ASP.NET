@@ -51,7 +51,8 @@ namespace Logic.Containers
                 monthConclusion.AantalRoutesGereden += 1;
                 monthConclusion.AantalUren += routeRit.AantalUur;
             }
-
+            string urenDisplay = Convert.ToString((int)monthConclusion.AantalUren.TotalHours) + ":" + monthConclusion.AantalUren.Minutes.ToString();
+            monthConclusion.AantalUrenDisplay = urenDisplay;
             return monthConclusion;
         }
 

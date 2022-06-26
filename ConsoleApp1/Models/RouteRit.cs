@@ -85,9 +85,9 @@ namespace Logic.Models
            return _iRoute.AddRoute(RouteToDTO(), userID);
         }
 
-        public int UpdateRoute(int oldRouteID)
+        public int UpdateRoute()
         {
-            return _iRoute.UpdateRoute(RouteToDTO(), oldRouteID);
+            return _iRoute.UpdateRoute(RouteToDTO());
         }
 
         public int DeleteRoute()

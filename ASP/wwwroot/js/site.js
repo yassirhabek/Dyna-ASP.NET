@@ -15,7 +15,7 @@ $('#buttonroutetoevoegen').click(() => {
 })
 
 $('#buttonrouteaanpassen').click(() => {
-    RouteAanpassenSelecteren();
+    RouteAanpassen();
 })
 
 $('#buttonrouteverwijderen').click(() => {
@@ -41,6 +41,7 @@ function WerknemerAanpassen() {
     Naam = $("#changed-naam").val(); 
     WerknemerNum = $("#changed-werknemernum").val();
     TelefoonNum = $("#changed-telefoonnummer").val();
+    console.log(TelefoonNum);
 
     $.post(target + "/Werknemer/WerknemerAanpassen", { newNaam: Naam, newWerknemerNum: WerknemerNum, newTelefoonNum: TelefoonNum, oldWerknemerID: WerknemerID })
         .done(data => { alert(data), window.location.href = target + "/Home/Index" })
@@ -66,25 +67,42 @@ function RouteToevoegen() {
     Bijrijder = $("#drop-bijrijder").val();
     Starttijd = $("#input-starttijd").val();
     Eindtijd = $("#input-eindtijd").val();
+    Bijzonderheden = $("#bijzonderheden").val();
 
     $.post(target + "/Route/RouteToevoegen", { routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
         .done(data => { alert(data), window.location.href = target + "/Home/Index" })
         .fail(data => { alert(data.responseText) })
 }
 
-function RouteAanpassenSelecteren() {
+function RouteAanpassen() {
     let target = window.location.protocol + "//" + window.location.host;
 
     RouteID = $('#option-date-aanpassen').val();
+    RouteNummer = $("#input-routenummer").val();
+    Datum = $("#input-datum").val();
+    Chauffeur = $("#drop-chauffeur").val();
+    Bijrijder = $("#drop-bijrijder").val();
+    Starttijd = $("#input-starttijd").val();
+    Eindtijd = $("#input-eindtijd").val();
+    Bijzonderheden = $("#bijzonderheden").val();
 
-    $.post(target + "/Route/RouteAanpassenForm/" + RouteID, null)
-        .done(data => window.location.href = target + "/Route/RouteAanpassenForm/" + RouteID)
+    if (Chauffeur !== "" || Bijrijder !== "") {
+        $.post(target + "/Route/RouteAanpassen", { routeId: RouteID, routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
+            .done(data => window.location.href = target + "/Home/Index")
+    }
+    else {
+        alert("Geen werknemer gekozen");
+    }
+
+
+    
 }
 
 function RouteVerwijderen() {
     let target = window.location.protocol + "//" + window.location.host;
 
     RouteID = $('#option-date').val();
+    
 
     $.post(target + "/Route/RouteVerwijderen/" + RouteID, null)
         .done(data => { alert(data), window.location.href = target + "/Home/Index" })
