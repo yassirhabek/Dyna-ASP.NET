@@ -21,7 +21,27 @@
             </tr>
         </tbody>
     </table>
-    </div>
+</div>
+
+<div class="table-responsive" id="sailorTableArea">
+    <table id="routeTable" class="table table-striped table-bordered" width="100%">
+        <thead>
+            <tr>
+                <th>RouteNummer</th>
+                <th>Datum</th>
+                <th>Aantal uur</th>
+                <th>Chauffeur</th>
+                <th>Bijrijder</th>
+                <th>Bijzonderheden</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+
 
 @section Scripts {
     <script type="text/javascript">
@@ -33,6 +53,20 @@
                     console.log(data);
                     $('#aantalroutes').html(data.aantalRoutesGereden);
                     $('#aantaluur').html(data.aantalUrenDisplay);
+
+                    $('#routeTable tbody').empty();
+
+                    for (const route of data.routeRits){
+                        var routeNummer = route.routeNummer;
+                        var datum = route.datum;
+                        var aantalUur = route.aantalUur;
+                        var chauffeur = route.chauffeur.naam;
+                        var bijrijder = route.bijRijder.naam;
+                        var bijzonderheden = route.bijzonderheden;
+
+                        $('#routeTable tbody').append("<tr> <td>"+ routeNummer +"</td> <td>"+ datum.slice(0, datum.length - 9) +
+                        "</td> <td>"+ aantalUur+"</td> <td>"+ chauffeur +"</td> <td>"+ bijrijder +"</td> <td>"+ bijzonderheden +"</td> </tr>");
+                    }
                 })
                 .fail(data => { alert(data.responseText)})
         })

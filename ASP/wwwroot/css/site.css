@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
 
 @media (min-width: 768px) {
   html {
@@ -13,21 +13,35 @@ html {
 
 body {
     font-size: 16px;
-    background-color: ghostwhite;
-    font-family: 'Poppins', sans-serif;
+    background: rgb(246,155,45);
+    background: linear-gradient(0deg, rgba(246,155,45,1) 0%, rgba(208,132,39,1) 71%, rgba(198,125,38,1) 87%);
+    font-family: 'Open Sans', sans-serif;
+    color: white;
 }
 
 a {
-    color: ;
+    color: white;
 }
 
 table {
     border-bottom: 1px thin red !important;
+}
+th {
+    font-weight: 700;
+}
+
+th, td{
+    color: white;
+}
+
+.routes{
+    height: 850px;
+    overflow-y: auto;
 }
 
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
 .navbar {
     height: 60px;
-    background-color: dimgrey !important;
+    background-color: #435f6d !important;
 }

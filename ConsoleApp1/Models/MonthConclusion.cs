@@ -11,5 +11,6 @@ namespace Logic.Models
         public int AantalRoutesGereden { get; set; }
         public TimeSpan AantalUren { get; set; }
         public string AantalUrenDisplay { get; set; }
+        public List<RouteRit> RouteRits { get; set; }
     }
 }

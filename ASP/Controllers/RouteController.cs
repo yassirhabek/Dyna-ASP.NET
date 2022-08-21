@@ -88,7 +88,7 @@ namespace ASP.Controllers
         }
 
         [HttpPost]
-        public ActionResult RouteToevoegen(int routeNummer, string rawDatum, int chauffeurID, int bijrijderID, string rawStartTijd, string rawEindTijd)
+        public ActionResult RouteToevoegen(int routeNummer, string rawDatum, int chauffeurID, int bijrijderID, string rawStartTijd, string rawEindTijd, string bijzonderheden)
         {
             DateTime parsedDatum;
             TimeSpan parsedStartTijd;
@@ -103,7 +103,7 @@ namespace ASP.Controllers
             TimeSpan.TryParse(rawStartTijd, out parsedStartTijd);
             TimeSpan.TryParse(rawEindTijd, out parsedEindTijd);
 
-            RouteRit newRoute = new RouteRit(routeNummer, parsedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, new RouteDAL());
+            RouteRit newRoute = new RouteRit(routeNummer, parsedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, bijzonderheden, new RouteDAL());
             newRoute.AddRoute(HttpContext.Session.GetInt32("user-id").Value);
             return Ok("Route Toegevoegd");
         }
@@ -116,7 +116,7 @@ namespace ASP.Controllers
         }   
 
         [HttpPost]
-        public ActionResult RouteAanpassen(int routeId, int routeNummer, string rawDatum, int chauffeurID, int bijrijderID, string rawStartTijd, string rawEindTijd)
+        public ActionResult RouteAanpassen(int routeId, int routeNummer, string rawDatum, int chauffeurID, int bijrijderID, string rawStartTijd, string rawEindTijd, string bijzonderheden)
         {
             DateTime parsedDatum;
             TimeSpan parsedStartTijd;
@@ -131,7 +131,7 @@ namespace ASP.Controllers
             TimeSpan.TryParse(rawStartTijd, out parsedStartTijd);
             TimeSpan.TryParse(rawEindTijd, out parsedEindTijd);
 
-            RouteRit newRoute = new RouteRit(routeId, routeNummer, parsedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, new RouteDAL());
+            RouteRit newRoute = new RouteRit(routeId, routeNummer, parsedDatum, chauffeur, bijrijder, parsedStartTijd, parsedEindTijd, bijzonderheden, new RouteDAL());
             newRoute.UpdateRoute();
             return Ok("Route Aangepast");
         }

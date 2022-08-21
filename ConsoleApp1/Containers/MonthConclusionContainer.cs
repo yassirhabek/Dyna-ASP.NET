@@ -35,7 +35,7 @@ namespace Logic.Containers
                 foreach (RouteDTO routeDTO in _iMonthConclusionContainer.GetRoutesByMonth(smalldate, bigdate, iWerknemerContainer.GetUserWerknemers(userID), userID))
                 {
                     RouteRit route = new RouteRit(routeDTO.RouteID, routeDTO.RouteNummer, routeDTO.Datum, new Werknemer(routeDTO.Chauffeur, iWerknemer),
-                            new Werknemer(routeDTO.BijRijder, iWerknemer), routeDTO.StartTijd, routeDTO.EindTijd, iRoute);
+                            new Werknemer(routeDTO.BijRijder, iWerknemer), routeDTO.StartTijd, routeDTO.EindTijd, routeDTO.Bijzonderheden, iRoute);
                     routeByMonth.Add(route);
                 }
             }
@@ -51,6 +51,8 @@ namespace Logic.Containers
                 monthConclusion.AantalRoutesGereden += 1;
                 monthConclusion.AantalUren += routeRit.AantalUur;
             }
+
+            monthConclusion.RouteRits = routeByMonth;
             string urenDisplay = Convert.ToString((int)monthConclusion.AantalUren.TotalHours) + ":" + monthConclusion.AantalUren.Minutes.ToString();
             monthConclusion.AantalUrenDisplay = urenDisplay;
             return monthConclusion;

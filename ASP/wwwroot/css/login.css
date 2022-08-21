@@ -1,8 +1,7 @@
-﻿h1 {
+﻿img {
     margin-top: 150px;
-    color: black;
+    margin-left: 39%;
     padding-bottom: 2rem;
-    font-weight: bold;
 }
 
 a {
@@ -42,8 +41,8 @@ body {
     --s: 15vmin;
     font-family: 'Muli', sans-serif;
     --p: calc(var(--s) / 2);
-    --c1: #F69B2D;
-    --c2: #547799;
+    --c1: #c47c24;
+    --c2: #2e424c;
     --c3: whitesmoke;
     --bg: var(--c3);
     --d: 8000ms;

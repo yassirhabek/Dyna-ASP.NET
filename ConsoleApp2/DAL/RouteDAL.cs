@@ -28,7 +28,7 @@ namespace DAL.DAL
                 cmd.Parameters.Add("@stijd", MySqlDbType.VarChar).Value = newRoute.StartTijd;
                 cmd.Parameters.Add("@etijd", MySqlDbType.VarChar).Value = newRoute.EindTijd;
                 cmd.Parameters.Add("@aanu", MySqlDbType.VarChar).Value = newRoute.AantalUur;
-                cmd.Parameters.Add("@bijz", MySqlDbType.Text).Value = newRoute.Bijzonderheden;
+                cmd.Parameters.Add("@bijz", MySqlDbType.VarChar).Value = newRoute.Bijzonderheden;
                 cmd.Parameters.Add("@userid", MySqlDbType.VarChar).Value = userID;
                 cmd.Parameters.Add("@curdate", MySqlDbType.DateTime).Value = DateTime.Now;
 
@@ -141,7 +141,7 @@ namespace DAL.DAL
 
             if (openConnection())
             {
-                string query = "SELECT * FROM route WHERE UserID= @userid";
+                string query = "SELECT * FROM route WHERE UserID= @userid ORDER BY Datum DESC";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 
                 cmd.Parameters.Add("@userid", MySqlDbType.Int32).Value = userID;
@@ -181,7 +181,7 @@ namespace DAL.DAL
         public int UpdateRoute(RouteDTO updateRoute)
         {
             string query = "UPDATE route SET RouteNummer= @newroutenum, Datum= @datum, Chauffeur= @chauff, Bijrijder= @bijr," +
-                "Starttijd= @startt, Eindtijd= @eindt, AantalUur= @aantaluur, Bijzonderheden =@bijz, DatumToegevoegd= @datumtoeg WHERE routeID = @routeID;";
+                "Starttijd= @startt, Eindtijd= @eindt, AantalUur= @aantaluur, Bijzonderheden= @bijz, DatumToegevoegd= @datumtoeg WHERE routeID = @routeID;";
 
             if (openConnection())
             {

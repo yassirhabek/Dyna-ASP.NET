@@ -18,7 +18,7 @@ namespace DAL.DAL
 
             if (openConnection())
             {
-                string query = "SELECT * FROM route WHERE Datum >= @smalldate AND Datum < @bigdate AND UserID= @usid";
+                string query = "SELECT * FROM route WHERE Datum >= @smalldate AND Datum < @bigdate AND UserID= @usid ORDER BY Datum DESC";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.Add("@smalldate", MySqlDbType.DateTime).Value = smalldate;
                 cmd.Parameters.Add("@bigdate", MySqlDbType.DateTime).Value = bigdate;

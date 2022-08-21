@@ -69,7 +69,7 @@ function RouteToevoegen() {
     Eindtijd = $("#input-eindtijd").val();
     Bijzonderheden = $("#bijzonderheden").val();
 
-    $.post(target + "/Route/RouteToevoegen", { routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
+    $.post(target + "/Route/RouteToevoegen", { routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd, bijzonderheden: Bijzonderheden })
         .done(data => { alert(data), window.location.href = target + "/Home/Index" })
         .fail(data => { alert(data.responseText) })
 }
@@ -87,15 +87,12 @@ function RouteAanpassen() {
     Bijzonderheden = $("#bijzonderheden").val();
 
     if (Chauffeur !== "" || Bijrijder !== "") {
-        $.post(target + "/Route/RouteAanpassen", { routeId: RouteID, routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd })
+        $.post(target + "/Route/RouteAanpassen", { routeId: RouteID, routeNummer: RouteNummer, rawDatum: Datum, chauffeurID: Chauffeur, bijrijderID: Bijrijder, rawStartTijd: Starttijd, rawEindTijd: Eindtijd, bijzonderheden: Bijzonderheden })
             .done(data => window.location.href = target + "/Home/Index")
     }
     else {
         alert("Geen werknemer gekozen");
     }
-
-
-    
 }
 
 function RouteVerwijderen() {
